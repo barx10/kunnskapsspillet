@@ -9,6 +9,9 @@ import { SpillOppsett } from './skjermer/SpillOppsett'
 import { Spill } from './skjermer/Spill'
 import { Resultat } from './skjermer/Resultat'
 import { KiInnstillinger } from './skjermer/KiInnstillinger'
+import { Bunntekst } from './komponenter/Bunntekst'
+import { Om } from './komponenter/Om'
+import { Hvordan } from './komponenter/Hvordan'
 
 type Skjerm =
   | { navn: 'start' }
@@ -22,6 +25,7 @@ type Skjerm =
 const tomtValg: Valg = { fag: '', trinn: '', tema: '', maal: [] }
 
 export default function App() {
+  const [modal, setModal] = useState<'om' | 'hvordan' | null>(null)
   const [skjerm, setSkjerm] = useState<Skjerm>({ navn: 'start' })
   const [brett, setBrett] = useState<Brett[]>(hentBrett)
   const [innstillinger, setInnstillinger] = useState<Innstillinger>(hentInnstillinger)
@@ -50,6 +54,16 @@ export default function App() {
     setSkjerm({ navn: 'spill' })
   }
 
+  return (
+    <>
+      {innhold()}
+      <Bunntekst onHvordan={() => setModal('hvordan')} onOm={() => setModal('om')} onKi={() => setSkjerm({ navn: 'ki' })} />
+      {modal === 'om' && <Om onLukk={() => setModal(null)} />}
+      {modal === 'hvordan' && <Hvordan onLukk={() => setModal(null)} />}
+    </>
+  )
+
+  function innhold() {
   switch (skjerm.navn) {
     case 'start':
       return (
@@ -58,7 +72,6 @@ export default function App() {
           onNytt={() => setSkjerm({ navn: 'oppsett' })}
           onMine={() => setSkjerm({ navn: 'mine' })}
           onFortsett={() => setSkjerm({ navn: 'spill' })}
-          onKi={() => setSkjerm({ navn: 'ki' })}
         />
       )
     case 'ki':
@@ -121,6 +134,7 @@ export default function App() {
           />
         )
       return <Spill spill={spill} setSpill={setSpill} onPause={() => setSkjerm({ navn: 'start' })} />
+  }
   }
 }
 
