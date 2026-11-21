@@ -32,9 +32,11 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   // spørsmålet i stedet for å forlate spillet. Ubesvarte spørsmål kan da åpnes igjen.
   const aapenRef = useRef<Aapen | null>(null)
   const markerBrukt = useRef(false)
-  aapenRef.current = aapen
   const spillRef = useRef(spill)
-  spillRef.current = spill
+  useEffect(() => {
+    aapenRef.current = aapen
+    spillRef.current = spill
+  })
 
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
   const gyldige = brett.kategorier.flatMap((k, ki) => k.sporsmal.map((s, ri) => (s.sporsmal.trim() ? `${ki}-${ri}` : null)).filter(Boolean)) as string[]
