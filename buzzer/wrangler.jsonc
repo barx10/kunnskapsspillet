@@ -3,10 +3,14 @@
   "name": "kunnskapsspillet-buzzer",
   "main": "src/index.ts",
   "compatibility_date": "2026-11-01",
-  "observability": { "enabled": true },
+  "workers_dev": true,
+  "preview_urls": false,
+  // Ingen lagrede logger: ingen spilldata blir liggende hos Cloudflare.
+  "observability": { "enabled": false },
   "vars": {
-    "TILLATTE_OPPRINNELSER": "https://kunnskapsspillet.laererliv.no,https://barx10.github.io"
+    "TILLATTE_OPPRINNELSER": "https://kunnskapsspillet.laererliv.no"
   },
+  "ratelimits": [{ "name": "BEGRENS", "namespace_id": "1001", "simple": { "limit": 60, "period": 60 } }],
   "durable_objects": {
     "bindings": [{ "name": "ROM", "class_name": "Rom" }]
   },

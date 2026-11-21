@@ -14,7 +14,7 @@ export type VertTilstand = {
   rekkefolge: number[]
 }
 
-const NOKKEL = 'ks.buzzerrom'
+const NOKKEL = 'ks.buzzerrom2'
 const TEGN = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 
 let tilstand: VertTilstand = { kode: null, status: 'av', tilkoblet: [], apen: false, runde: '', rekkefolge: [] }
@@ -42,7 +42,7 @@ function hentRom(): { kode: string; token: string } {
   } catch {
     // nytt rom
   }
-  const rom = { kode: tilfeldig(5, TEGN), token: tilfeldig(32, '0123456789abcdef') }
+  const rom = { kode: tilfeldig(6, TEGN), token: tilfeldig(32, '0123456789abcdef') }
   localStorage.setItem(NOKKEL, JSON.stringify(rom))
   return rom
 }

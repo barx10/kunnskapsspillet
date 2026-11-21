@@ -4,7 +4,7 @@
 
 import { DurableObject } from 'cloudflare:workers'
 
-type Env = { ROM: DurableObjectNamespace<Rom>; TILLATTE_OPPRINNELSER: string }
+type Env = { ROM: DurableObjectNamespace<Rom>; TILLATTE_OPPRINNELSER: string; BEGRENS: RateLimit }
 
 type LagInfo = { navn: string; farge: string }
 
@@ -24,6 +24,8 @@ type Vedlegg = { rolle: 'vert' | 'lag'; klient: string }
 
 const KODE = /^[A-Z2-9]{4,8}$/
 const LEVETID_MS = 8 * 60 * 60 * 1000
+const MAKS_TILKOBLINGER = 40
+const FARGE = /^#[0-9a-fA-F]{3,8}$/
 
 const tom = (): Tilstand => ({ token: null, lag: [], valgt: {}, apen: false, runde: '', tillatt: [], rekkefolge: [] })
 
@@ -31,14 +33,19 @@ export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url)
     const m = url.pathname.match(/^\/rom\/([A-Za-z0-9]+)$/)
-    if (!m) return new Response('Kunnskapsspillet buzzer', { status: url.pathname === '/' ? 200 : 404 })
+    if (!m) return new Response(null, { status: 404 })
 
     const opprinnelse = req.headers.get('Origin') ?? ''
     const tillatte = env.TILLATTE_OPPRINNELSER.split(',').map((s) => s.trim())
     if (!tillatte.includes(opprinnelse) && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(opprinnelse)) {
       return new Response('Ikke tillatt', { status: 403 })
     }
-    if (req.headers.get('Upgrade') !== 'websocket') return new Response('Forventet WebSocket', { status: 426 })
+    if (req.headers.get('Upgrade') !== 'websocket') return new Response(null, { status: 426 })
+
+    // Bremser gjetting av romkoder: maks antall tilkoblingsforsøk per IP-adresse og minutt.
+    const ip = req.headers.get('CF-Connecting-IP') ?? 'ukjent'
+    const { success } = await env.BEGRENS.limit({ key: ip })
+    if (!success) return new Response(null, { status: 429 })
 
     const kode = m[1].toUpperCase()
     if (!KODE.test(kode)) return new Response('Ugyldig romkode', { status: 400 })
@@ -67,12 +74,13 @@ export class Rom extends DurableObject<Env> {
     const [klientSide, serverSide] = Object.values(new WebSocketPair())
 
     let feil: [number, string] | null = null
-    if (rolle === 'vert') {
-      if (token.length < 16) feil = [4001, 'Mangler nøkkel']
+    if (this.ctx.getWebSockets().length >= MAKS_TILKOBLINGER) feil = [4029, 'Rommet er fullt']
+    else if (rolle === 'vert') {
+      if (!/^[0-9a-f]{32}$/.test(token)) feil = [4001, 'Mangler nøkkel']
       else if (this.s.token === null) {
         this.s.token = token
         await this.lagre()
-      } else if (this.s.token !== token) feil = [4003, 'Rommet er i bruk']
+      } else if (!likt(this.s.token, token)) feil = [4003, 'Rommet er i bruk']
     } else if (rolle === 'lag') {
       if (!klient) feil = [4001, 'Mangler klient-id']
       else if (this.s.token === null) feil = [4004, 'Fant ikke rommet. Sjekk koden.']
@@ -104,7 +112,7 @@ export class Rom extends DurableObject<Env> {
 
     if (rolle === 'vert') {
       if (msg.t === 'lag' && Array.isArray(msg.lag)) {
-        s.lag = msg.lag.slice(0, 8).map((l: Partial<LagInfo>) => ({ navn: String(l?.navn ?? '').slice(0, 24), farge: String(l?.farge ?? '').slice(0, 16) }))
+        s.lag = msg.lag.slice(0, 8).map((l: Partial<LagInfo>) => ({ navn: String(l?.navn ?? '').slice(0, 24), farge: FARGE.test(String(l?.farge)) ? String(l?.farge) : '#888888' }))
         for (const [k, n] of Object.entries(s.valgt)) if (n >= s.lag.length) delete s.valgt[k]
         s.tillatt = s.tillatt.filter((n) => n < s.lag.length)
       } else if (msg.t === 'apne' && typeof msg.runde === 'string' && Array.isArray(msg.tillatt)) {
@@ -218,4 +226,12 @@ export class Rom extends DurableObject<Env> {
 
 function same(a: number[], b: number[]) {
   return a.length === b.length && a.every((x, i) => x === b[i])
+}
+
+/** Sammenligning som tar like lang tid uansett hvor strengene er ulike. */
+function likt(a: string, b: string) {
+  if (a.length !== b.length) return false
+  let d = 0
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  return d === 0
 }

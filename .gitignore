@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Hemmeligheter og lokale filer fra Cloudflare
+.dev.vars*
+.wrangler
+*.pem
