@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Brett, Innstillinger, Lag, Poengskala, Spillmodus, Tema } from '../types'
 import { MODUSER } from '../lagring'
+import { buzzer } from '../buzzer/vert'
+import { RomPanel } from '../buzzer/RomPanel'
 import { Topplinje } from '../komponenter/Topplinje'
 import { poengFor } from '../poeng'
 
@@ -66,6 +68,15 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
   const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
+
+  // Buzzer gir mening når noen lag skal melde seg: alle med en gang, eller de andre etter feil svar.
+  const kanMelde = i.forstSvar === 'alle' || i.stjele !== 'av'
+  const brukerBuzzer = kanMelde && i.melding === 'buzzer'
+  useEffect(() => {
+    if (!brukerBuzzer) return
+    buzzer.start()
+    buzzer.settLag(lag.map((l, n) => ({ navn: l.navn.trim() || LAGNAVN[n], farge: l.farge })))
+  }, [brukerBuzzer, lag])
 
   const antallLag = (n: number) =>
     setLag((l) => (n < l.length ? l.slice(0, n) : [...l, ...LAGNAVN.slice(l.length, n).map((navn, k) => ({ navn, farge: LAGFARGER[l.length + k], poeng: 0 }))]))
@@ -160,19 +171,22 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
             ]}
           />
         </Rad>
+        {kanMelde && (
+          <Rad tittel={i.forstSvar === 'alle' ? 'Slik melder lagene seg' : 'Slik melder de andre lagene seg'} hjelp={i.melding === 'buzzer' ? 'Lærerskjermen viser hvilket lag som buzzet først.' : undefined}>
+            <Segment
+              etikett="Slik melder lagene seg"
+              verdi={i.melding}
+              onEndre={(v) => sett('melding', v)}
+              valg={[
+                { verdi: 'hand', tekst: 'Rekker opp hånda' },
+                { verdi: 'buzzer', tekst: 'Buzzer på egen enhet' },
+              ]}
+            />
+          </Rad>
+        )}
+        {kanMelde && i.melding === 'buzzer' && <RomPanel lag={lag} />}
         {i.stjele !== 'av' && (
           <>
-            <Rad tittel="Slik melder de andre lagene seg">
-              <Segment
-                etikett="Slik melder lagene seg"
-                verdi={i.melding}
-                onEndre={(v) => sett('melding', v)}
-                valg={[
-                  { verdi: 'hand', tekst: 'Rekker opp hånda' },
-                  { verdi: 'buzzer', tekst: 'Buzzer på egen enhet (kommer)', deaktivert: true },
-                ]}
-              />
-            </Rad>
             <Rad tittel="Tid for de andre lagene">
               <Segment
                 etikett="Tid for de andre lagene"

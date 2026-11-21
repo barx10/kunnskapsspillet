@@ -1510,3 +1510,175 @@ code {
     flex-wrap: wrap;
   }
 }
+
+/* Buzzer */
+.feilmelding {
+  color: var(--feil);
+  font-weight: 600;
+}
+.rom-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-top: 1px solid var(--kant);
+}
+.qr {
+  width: 220px;
+  height: 220px;
+  border-radius: var(--r);
+  flex: none;
+}
+.rom-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 14rem;
+}
+.rom-info p {
+  margin: 0;
+}
+.rom-lenke {
+  font-weight: 650;
+  word-break: break-all;
+}
+.rom-kode {
+  font-size: 2.6rem;
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: 0.12em;
+  color: var(--aksent);
+  line-height: 1.1;
+}
+.rom-lag {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.rom-lag li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.6rem;
+  border-left: 6px solid var(--lagfarge);
+  background: var(--flate);
+  border-radius: var(--r);
+  opacity: 0.6;
+}
+.rom-lag li.klar {
+  opacity: 1;
+}
+.rom-lag li .dempet {
+  margin-left: auto;
+}
+.rom-lag li.klar .dempet {
+  color: var(--riktig);
+}
+.rom-merke.frakoblet {
+  color: var(--feil);
+}
+.svar-rad.forst {
+  outline: 3px solid var(--lagfarge);
+  animation: buzz-puls 0.5s ease-out 2;
+}
+.buzz-plass {
+  margin-left: 0.6rem;
+  padding: 0.1em 0.5em;
+  border-radius: 999px;
+  background: var(--lagfarge);
+  color: #fff;
+  font-size: 0.8em;
+}
+@keyframes buzz-puls {
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* Lagenes egen side */
+.buzz-side {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+.buzz-kode {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(22rem, 100%);
+}
+.buzz-kode input {
+  font-size: 2.2rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.buzz-lagvalg {
+  display: grid;
+  gap: 0.75rem;
+  width: min(26rem, 100%);
+}
+.buzz-lagvalg .lag-knapp {
+  font-size: 1.4rem;
+  padding: 0.9em 1em;
+}
+.buzz-lagnavn {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--lagfarge);
+}
+.buzz-knapp {
+  width: min(75vw, 60vh, 22rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 0;
+  background: var(--flate-2);
+  color: var(--dempet);
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: 0.06em;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.08s;
+}
+.buzz-knapp.klar {
+  background: var(--lagfarge);
+  color: #fff;
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.buzz-knapp.klar:active {
+  transform: translateY(6px);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+.buzz-knapp.forst {
+  background: var(--lagfarge);
+  color: #fff;
+  outline: 8px solid var(--aksent);
+  outline-offset: 6px;
+}
+.buzz-knapp:disabled {
+  cursor: default;
+}
+.buzz-status {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  min-height: 1.5em;
+}
+.rom-info .lenkeknapp {
+  align-self: flex-start;
+}

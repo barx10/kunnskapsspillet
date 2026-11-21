@@ -35,7 +35,7 @@ export type Innstillinger = {
   /** Tid for de andre lagene, 0 = ingen tidtaker. */
   stjeleSekunder: number
   stjelePoeng: 'full' | 'halv'
-  /** Hvordan andre lag melder seg. Buzzer kommer senere. */
+  /** Hvordan lagene melder seg: rekke opp hånda eller buzzer på egen enhet. */
   melding: 'hand' | 'buzzer'
   antallDobbel: number
   /** Spilletid i minutter, 0 = til alle ruter er brukt. */

@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kunnskapsspillet-buzzer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "observability": { "enabled": true },
+  "vars": {
+    "TILLATTE_OPPRINNELSER": "https://kunnskapsspillet.laererliv.no,https://barx10.github.io"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ROM", "class_name": "Rom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Rom"] }]
+}

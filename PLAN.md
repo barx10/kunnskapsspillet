@@ -74,7 +74,7 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 - Anbefal lærere å sette et utgiftstak hos leverandøren.
 
 ## Åpne spørsmål
-- Hovedskjerm alene eller buzzer per lag? (Vi starter med bare hovedskjerm.)
+- Buzzer per lag er bygget (Cloudflare Worker + Durable Object, mappen buzzer/). Velges per spill.
 - Hvilke fag/trinn skal vi starte med?
 
 ## Teknisk

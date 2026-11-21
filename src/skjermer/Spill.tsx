@@ -4,6 +4,9 @@ import { poengFor } from '../poeng'
 import { lyd } from '../lyd'
 import { Tidtaker } from '../komponenter/Tidtaker'
 import { Finale } from './Finale'
+import { buzzer, useBuzzer } from '../buzzer/vert'
+import { RomPanel } from '../buzzer/RomPanel'
+import { Modal } from '../komponenter/Modal'
 
 type Props = { spill: Spilltilstand; setSpill: (s: Spilltilstand) => void; onPause: () => void }
 
@@ -39,6 +42,15 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   const [fullskjerm, setFullskjerm] = useState(!!document.fullscreenElement)
   const [na, setNa] = useState(() => Date.now())
   const spill_lyd = (f: () => void) => inn.lyd && f()
+  const medBuzzer = inn.melding === 'buzzer' && (inn.forstSvar === 'alle' || inn.stjele !== 'av')
+  const bz = useBuzzer()
+  const [visRom, setVisRom] = useState(false)
+  const lagNavn = JSON.stringify(lag.map(({ navn, farge }) => ({ navn, farge })))
+  useEffect(() => {
+    if (!medBuzzer) return
+    buzzer.start()
+    buzzer.settLag(JSON.parse(lagNavn))
+  }, [medBuzzer, lagNavn])
   // Et åpent spørsmål får sitt eget punkt i nettleserhistorikken, så tilbakeknappen lukker
   // spørsmålet i stedet for å forlate spillet. Ubesvarte spørsmål kan da åpnes igjen.
   const aapenRef = useRef<Aapen | null>(null)
@@ -190,6 +202,11 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           </span>
         )}
         <div className="spill-verktoy">
+          {medBuzzer && (
+            <button className={bz.status === 'tilkoblet' ? 'lenkeknapp rom-merke' : 'lenkeknapp rom-merke frakoblet'} onClick={() => setVisRom(true)}>
+              Buzzer {bz.kode} · {bz.tilkoblet.length}/{lag.length} lag
+            </button>
+          )}
           {igjenMs !== null && <span className={tidenErUte ? 'spilletid ute' : 'spilletid'}>{tidenErUte ? 'Spilletiden er ute' : `${Math.ceil(igjenMs / 60_000)} min igjen`}</span>}
           <button className="lenkeknapp" onClick={angre} disabled={historikk.length === 0}>
             Angre
@@ -259,6 +276,12 @@ export function Spill({ spill, setSpill, onPause }: Props) {
         ))}
       </footer>
 
+      {visRom && (
+        <Modal tittel="Buzzer" onLukk={() => setVisRom(false)} bred>
+          <RomPanel lag={lag} />
+        </Modal>
+      )}
+
       {aapen && sporsmal && (
         <Sporsmalsvisning
           key={aapen.id + aapen.steg}
@@ -274,6 +297,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           onForsteTidUte={forsteTidUte}
           onApenTidUte={apenTidUte}
           onSlippTilAndre={slippTilAndre}
+          medBuzzer={medBuzzer}
         />
       )}
     </div>
@@ -302,12 +326,32 @@ type VisningProps = {
   onForsteTidUte: () => void
   onApenTidUte: () => void
   onSlippTilAndre: () => void
+  medBuzzer: boolean
 }
 
-function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsats, verdi, onSvar, onLukk, onForsteTidUte, onApenTidUte, onSlippTilAndre }: VisningProps) {
+function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsats, verdi, onSvar, onLukk, onForsteTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
   const { innstillinger: inn, lag } = spill
   const ferdig = aapen.riktig !== null || aapen.visSvar
   const hovedknapp = useRef<HTMLButtonElement>(null)
+
+  const iForste = aapen.fase === 'forste' && aapen.forsteLag !== null
+  const aktuelleLag = iForste ? [aapen.forsteLag as number] : lag.map((_, n) => n).filter((n) => !aapen.feil.includes(n) && n !== aapen.forsteLag)
+
+  // Buzzer: åpne for lagene som kan svare nå, og steng når ingen kan det.
+  const bz = useBuzzer()
+  const buzzAktiv = medBuzzer && aapen.steg === 'sporsmal' && !ferdig && !iForste && aapen.riktig === null && aktuelleLag.length > 0
+  const runde = `${aapen.id}-${aapen.feil.length}`
+  const tillatt = aktuelleLag.join(',')
+  useEffect(() => {
+    if (buzzAktiv) buzzer.apne(runde, tillatt.split(',').map(Number))
+    else buzzer.steng()
+  }, [buzzAktiv, runde, tillatt])
+  useEffect(() => () => buzzer.steng(), [])
+  const rekkefolge = buzzAktiv && bz.runde === runde ? bz.rekkefolge.filter((n) => aktuelleLag.includes(n)) : []
+  const forstBuzz = rekkefolge.at(0)
+  useEffect(() => {
+    if (forstBuzz !== undefined && inn.lyd) lyd.buzz()
+  }, [forstBuzz, inn.lyd])
 
   useEffect(() => {
     hovedknapp.current?.focus()
@@ -362,17 +406,17 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
     )
   }
 
-  const iForste = aapen.fase === 'forste' && aapen.forsteLag !== null
-  const aktuelleLag = iForste ? [aapen.forsteLag as number] : lag.map((_, n) => n).filter((n) => !aapen.feil.includes(n) && n !== aapen.forsteLag)
   const kanSlippes = iForste && inn.stjele !== 'av' && !aapen.dobbel && lag.length > 1
 
   // Overskrift over lagene
   let melding: string
   if (iForste) melding = `${lag[aapen.forsteLag as number].navn} svarer`
+  else if (forstBuzz !== undefined) melding = `${lag[forstBuzz].navn} var først!`
+  else if (medBuzzer) melding = aapen.forsteLag === null && aapen.feil.length === 0 ? 'Laget som buzzer først, får svare' : 'De andre lagene kan buzze nå!'
   else if (aapen.forsteLag === null && aapen.feil.length === 0) melding = 'Laget som rekker opp hånda først, får svare'
   else melding = 'De andre lagene kan svare. Rekk opp hånda!'
 
-  const visTidtaker = !ferdig && (iForste ? inn.tidtaker : aapen.forsteLag === null && aapen.feil.length === 0 ? inn.tidtaker : inn.stjeleSekunder > 0)
+  const visTidtaker = !ferdig && forstBuzz === undefined && (iForste ? inn.tidtaker : aapen.forsteLag === null && aapen.feil.length === 0 ? inn.tidtaker : inn.stjeleSekunder > 0)
   const sekunder = iForste || (aapen.forsteLag === null && aapen.feil.length === 0) ? inn.sekunder : inn.stjeleSekunder
 
   return (
@@ -406,11 +450,15 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
                 {!iForste && aapen.forsteLag !== null && verdi !== aapen.verdi && <span className="dempet"> ({verdi} poeng)</span>}
               </p>
             )}
-            {aktuelleLag.map((n) => {
+            {[...rekkefolge, ...aktuelleLag.filter((n) => !rekkefolge.includes(n))].map((n) => {
               const l = lag[n]
+              const plass = rekkefolge.indexOf(n)
               return (
-                <div key={n} className="svar-rad" style={{ '--lagfarge': l.farge } as React.CSSProperties}>
-                  <span className="svar-lagnavn">{l.navn}</span>
+                <div key={n} className={plass === 0 ? 'svar-rad forst' : 'svar-rad'} style={{ '--lagfarge': l.farge } as React.CSSProperties}>
+                  <span className="svar-lagnavn">
+                    {l.navn}
+                    {plass >= 0 && <span className="buzz-plass">{plass === 0 ? 'Først' : `${plass + 1}.`}</span>}
+                  </span>
                   <span className="knapperad">
                     <button className="knapp knapp-feil" onClick={() => onSvar(n, false)}>
                       Feil

@@ -51,7 +51,7 @@ export function normaliserInnstillinger(raw: unknown): Innstillinger {
   if (!['riktig', 'rekke', 'fri'].includes(i.tur)) i.tur = 'riktig'
   if (i.tur === 'fri') i.forstSvar = 'alle'
   if (!['feilOgTid', 'feil', 'av'].includes(i.stjele)) i.stjele = 'feil'
-  i.melding = 'hand'
+  if (!['hand', 'buzzer'].includes(i.melding)) i.melding = 'hand'
   i.antallDobbel = Math.min(3, Math.max(0, Number(i.antallDobbel) || 0))
   delete i.dobbel
   return i
