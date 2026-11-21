@@ -28,6 +28,13 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   const [justerer, setJusterer] = useState<number | null>(null)
   const [fullskjerm, setFullskjerm] = useState(!!document.fullscreenElement)
   const spill_lyd = (f: () => void) => inn.lyd && f()
+  // Et åpent spørsmål får sitt eget punkt i nettleserhistorikken, så tilbakeknappen lukker
+  // spørsmålet i stedet for å forlate spillet. Ubesvarte spørsmål kan da åpnes igjen.
+  const aapenRef = useRef<Aapen | null>(null)
+  const markerBrukt = useRef(false)
+  aapenRef.current = aapen
+  const spillRef = useRef(spill)
+  spillRef.current = spill
 
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
   const gyldige = brett.kategorier.flatMap((k, ki) => k.sporsmal.map((s, ri) => (s.sporsmal.trim() ? `${ki}-${ri}` : null)).filter(Boolean)) as string[]
@@ -39,6 +46,23 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     document.addEventListener('fullscreenchange', f)
     return () => document.removeEventListener('fullscreenchange', f)
   }, [])
+
+  useEffect(() => {
+    const tilbake = () => {
+      const a = aapenRef.current
+      if (!a) return
+      const avgjort = a.riktig !== null || a.visSvar || a.feil.length > 0
+      if (markerBrukt.current || avgjort) {
+        const s = spillRef.current
+        setHistorikk((h) => [...h.slice(-30), s])
+        setSpill({ ...s, brukt: [...s.brukt, a.id] })
+      }
+      markerBrukt.current = false
+      setAapen(null)
+    }
+    window.addEventListener('popstate', tilbake)
+    return () => window.removeEventListener('popstate', tilbake)
+  }, [setSpill])
 
   const oppdater = (s: Spilltilstand) => {
     setHistorikk((h) => [...h.slice(-30), spill])
@@ -57,13 +81,14 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     const id = `${ki}-${ri}`
     const dobbel = spill.dobbel.includes(id)
     if (dobbel) spill_lyd(lyd.dobbel)
+    history.pushState({ ...history.state, sporsmal: id }, '')
     setAapen({ id, ki, ri, verdi: poengFor(ri, inn.poengskala), dobbel, steg: dobbel ? 'dobbel-innsats' : 'sporsmal', dobbelLag: null, innsats: 0, feil: [], riktig: null, visSvar: false })
   }
 
   const lukk = () => {
     if (!aapen) return
-    oppdater({ ...spill, brukt: [...spill.brukt, aapen.id] })
-    setAapen(null)
+    markerBrukt.current = true
+    history.back()
   }
 
   const svar = (n: number, riktig: boolean) => {

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import type { Brett, Valg } from '../types'
 import { fagListe, kilde } from '../laereplan'
 import { MaalVelger } from '../komponenter/MaalVelger'
@@ -8,6 +7,8 @@ type Props = {
   valg: Valg
   setValg: (v: Valg) => void
   brett: Brett[]
+  steg: number
+  onSteg: (steg: number) => void
   onTilbake: () => void
   onNyttBrett: () => void
   onRediger: (b: Brett) => void
@@ -16,8 +17,7 @@ type Props = {
 
 const STEG = ['Fag og tema', 'Kompetansemål', 'Brett']
 
-export function Oppsett({ valg, setValg, brett, onTilbake, onNyttBrett, onRediger, onVelg }: Props) {
-  const [steg, setSteg] = useState(valg.fag ? 2 : 0)
+export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake, onNyttBrett, onRediger, onVelg }: Props) {
   const fag = fagListe.find((f) => f.navn === valg.fag)
   const annet = valg.fag !== '' && !fag
 

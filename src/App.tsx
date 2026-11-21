@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Brett, Innstillinger, Lag, Spilltilstand, Valg } from './types'
 import { hentBrett, hentInnstillinger, hentSpill, lagreBrett, lagreInnstillinger, lagreSpill, tomtBrett } from './lagring'
 import { Start } from './skjermer/Start'
@@ -15,7 +15,7 @@ import { Hvordan } from './komponenter/Hvordan'
 
 type Skjerm =
   | { navn: 'start' }
-  | { navn: 'oppsett' }
+  | { navn: 'oppsett'; steg: number }
   | { navn: 'mine' }
   | { navn: 'rediger'; brett: Brett; tilbake: 'oppsett' | 'mine' }
   | { navn: 'spilloppsett'; brett: Brett; tilbake: 'oppsett' | 'mine' }
@@ -23,14 +23,66 @@ type Skjerm =
   | { navn: 'ki' }
 
 const tomtValg: Valg = { fag: '', trinn: '', tema: '', maal: [] }
+const START: Skjerm = { navn: 'start' }
+const ULAGRET = 'Du har endringer som ikke er lagret. Vil du forlate redigeringen uten å lagre?'
 
 export default function App() {
   const [modal, setModal] = useState<'om' | 'hvordan' | null>(null)
-  const [skjerm, setSkjerm] = useState<Skjerm>({ navn: 'start' })
+  const [skjerm, setSkjerm] = useState<Skjerm>(START)
+  // Skjermene ligger i en stabel som speiler nettleserhistorikken, så tilbakeknappen
+  // i nettleseren går til forrige skjerm i appen i stedet for å forlate siden.
+  const stabel = useRef<Skjerm[]>([START])
+  const dybde = useRef(0)
+  const ulagret = useRef(false)
   const [brett, setBrett] = useState<Brett[]>(hentBrett)
   const [innstillinger, setInnstillinger] = useState<Innstillinger>(hentInnstillinger)
   const [spill, setSpill] = useState<Spilltilstand | null>(hentSpill)
   const [valg, setValg] = useState<Valg>(tomtValg)
+
+  useEffect(() => {
+    history.replaceState({ ks: 0 }, '')
+    const tilbake = (e: PopStateEvent) => {
+      const d = typeof e.state?.ks === 'number' ? e.state.ks : 0
+      if (d === dybde.current) return // samme skjerm, f.eks. et spørsmål som lukkes
+      if (ulagret.current && !confirm(ULAGRET)) {
+        history.pushState({ ks: dybde.current }, '')
+        return
+      }
+      ulagret.current = false
+      dybde.current = d
+      setModal(null)
+      setSkjerm(stabel.current[d] ?? START)
+    }
+    const lukkFane = (e: BeforeUnloadEvent) => {
+      if (ulagret.current) e.preventDefault()
+    }
+    window.addEventListener('popstate', tilbake)
+    window.addEventListener('beforeunload', lukkFane)
+    return () => {
+      window.removeEventListener('popstate', tilbake)
+      window.removeEventListener('beforeunload', lukkFane)
+    }
+  }, [])
+
+  /** Gå til en ny skjerm (legges i historikken). */
+  const gaTil = (ny: Skjerm) => {
+    ulagret.current = false
+    const d = dybde.current + 1
+    stabel.current = [...stabel.current.slice(0, d), ny]
+    dybde.current = d
+    history.pushState({ ks: d }, '')
+    setModal(null)
+    setSkjerm(ny)
+  }
+
+  /** Tilbake til en skjerm: bruker nettleserhistorikken når forrige skjerm er den samme. */
+  const tilbakeTil = (mal: Skjerm) => {
+    const forrige = stabel.current[dybde.current - 1]
+    if (forrige && forrige.navn === mal.navn && JSON.stringify(forrige) === JSON.stringify(mal)) {
+      ulagret.current = false
+      history.back()
+    } else gaTil(mal)
+  }
 
   useEffect(() => lagreBrett(brett), [brett])
   useEffect(() => lagreInnstillinger(innstillinger), [innstillinger])
@@ -51,13 +103,13 @@ export default function App() {
   const startSpill = (b: Brett, i: Innstillinger, lag: Lag[]) => {
     setInnstillinger(i)
     setSpill({ brett: b, innstillinger: i, lag, brukt: [], dobbel: velgDobbel(b, i), fase: 'brett' })
-    setSkjerm({ navn: 'spill' })
+    gaTil({ navn: 'spill' })
   }
 
   return (
     <>
       {innhold()}
-      <Bunntekst onHvordan={() => setModal('hvordan')} onOm={() => setModal('om')} onKi={() => setSkjerm({ navn: 'ki' })} />
+      <Bunntekst onHvordan={() => setModal('hvordan')} onOm={() => setModal('om')} onKi={() => skjerm.navn !== 'ki' && (!ulagret.current || confirm(ULAGRET)) && gaTil({ navn: 'ki' })} />
       {modal === 'om' && <Om onLukk={() => setModal(null)} />}
       {modal === 'hvordan' && <Hvordan onLukk={() => setModal(null)} />}
     </>
@@ -69,23 +121,25 @@ export default function App() {
       return (
         <Start
           harSpill={!!spill && spill.fase !== 'slutt'}
-          onNytt={() => setSkjerm({ navn: 'oppsett' })}
-          onMine={() => setSkjerm({ navn: 'mine' })}
-          onFortsett={() => setSkjerm({ navn: 'spill' })}
+          onNytt={() => gaTil({ navn: 'oppsett', steg: valg.fag ? 2 : 0 })}
+          onMine={() => gaTil({ navn: 'mine' })}
+          onFortsett={() => gaTil({ navn: 'spill' })}
         />
       )
     case 'ki':
-      return <KiInnstillinger onTilbake={() => setSkjerm({ navn: 'start' })} />
+      return <KiInnstillinger onTilbake={() => tilbakeTil(START)} />
     case 'oppsett':
       return (
         <Oppsett
           valg={valg}
           setValg={setValg}
           brett={brett}
-          onTilbake={() => setSkjerm({ navn: 'start' })}
-          onNyttBrett={() => setSkjerm({ navn: 'rediger', brett: tomtBrett(valg.fag, valg.trinn, valg.tema, valg.maal), tilbake: 'oppsett' })}
-          onRediger={(b) => setSkjerm({ navn: 'rediger', brett: b, tilbake: 'oppsett' })}
-          onVelg={(b) => setSkjerm({ navn: 'spilloppsett', brett: b, tilbake: 'oppsett' })}
+          steg={skjerm.steg}
+          onSteg={(steg) => (steg < skjerm.steg ? tilbakeTil({ navn: 'oppsett', steg }) : gaTil({ navn: 'oppsett', steg }))}
+          onTilbake={() => tilbakeTil(START)}
+          onNyttBrett={() => gaTil({ navn: 'rediger', brett: tomtBrett(valg.fag, valg.trinn, valg.tema, valg.maal), tilbake: 'oppsett' })}
+          onRediger={(b) => gaTil({ navn: 'rediger', brett: b, tilbake: 'oppsett' })}
+          onVelg={(b) => gaTil({ navn: 'spilloppsett', brett: b, tilbake: 'oppsett' })}
         />
       )
     case 'mine':
@@ -93,20 +147,30 @@ export default function App() {
         <MineBrett
           brett={brett}
           setBrett={setBrett}
-          onTilbake={() => setSkjerm({ navn: 'start' })}
-          onNytt={() => setSkjerm({ navn: 'rediger', brett: tomtBrett(), tilbake: 'mine' })}
-          onRediger={(b) => setSkjerm({ navn: 'rediger', brett: b, tilbake: 'mine' })}
-          onSpill={(b) => setSkjerm({ navn: 'spilloppsett', brett: b, tilbake: 'mine' })}
+          onTilbake={() => tilbakeTil(START)}
+          onNytt={() => gaTil({ navn: 'rediger', brett: tomtBrett(), tilbake: 'mine' })}
+          onRediger={(b) => gaTil({ navn: 'rediger', brett: b, tilbake: 'mine' })}
+          onSpill={(b) => gaTil({ navn: 'spilloppsett', brett: b, tilbake: 'mine' })}
         />
       )
     case 'rediger':
       return (
         <Redigering
           start={skjerm.brett}
-          onAvbryt={() => setSkjerm({ navn: skjerm.tilbake })}
+          onEndret={(e) => {
+            ulagret.current = e
+          }}
+          onAvbryt={() => {
+            if (ulagret.current && !confirm(ULAGRET)) return
+            ulagret.current = false
+            history.back()
+          }}
           onLagre={(b) => {
-            lagre(b)
-            setSkjerm({ navn: skjerm.tilbake })
+            const lagret = lagre(b)
+            ulagret.current = false
+            // Oppdater brettet i skjermen vi går tilbake til, så «Spill» bruker den lagrede versjonen.
+            stabel.current = stabel.current.map((s) => ('brett' in s && s.brett.id === lagret.id ? { ...s, brett: lagret } : s))
+            history.back()
           }}
         />
       )
@@ -116,7 +180,7 @@ export default function App() {
           brett={skjerm.brett}
           innstillinger={innstillinger}
           setInnstillinger={setInnstillinger}
-          onTilbake={() => setSkjerm({ navn: skjerm.tilbake })}
+          onTilbake={() => history.back()}
           onStart={(i, lag) => startSpill(skjerm.brett, i, lag)}
         />
       )
@@ -129,11 +193,11 @@ export default function App() {
             onIgjen={() => startSpill(spill.brett, spill.innstillinger, spill.lag.map((l) => ({ ...l, poeng: 0 })))}
             onStart={() => {
               setSpill(null)
-              setSkjerm({ navn: 'start' })
+              tilbakeTil(START)
             }}
           />
         )
-      return <Spill spill={spill} setSpill={setSpill} onPause={() => setSkjerm({ navn: 'start' })} />
+      return <Spill spill={spill} setSpill={setSpill} onPause={() => tilbakeTil(START)} />
   }
   }
 }

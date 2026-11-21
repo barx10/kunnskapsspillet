@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Brett } from '../types'
 import { Topplinje } from '../komponenter/Topplinje'
 import { MaalVelger } from '../komponenter/MaalVelger'
 import { fagListe } from '../laereplan'
 import { KiDialog } from '../ki/KiDialog'
 
-type Props = { start: Brett; onAvbryt: () => void; onLagre: (b: Brett) => void }
+type Props = { start: Brett; onAvbryt: () => void; onLagre: (b: Brett) => void; onEndret: (ulagret: boolean) => void }
 
-export function Redigering({ start, onAvbryt, onLagre }: Props) {
+export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
   const [b, setB] = useState<Brett>(start)
   const [visMaal, setVisMaal] = useState(false)
   const [ki, setKi] = useState<{ kategori?: number } | null>(null)
   const [forKi, setForKi] = useState<Brett | null>(null)
   const rader = b.kategorier[0]?.sporsmal.length ?? 5
+  useEffect(() => {
+    onEndret(JSON.stringify(b) !== JSON.stringify(start))
+  }, [b, start, onEndret])
   const kjentFag = fagListe.find((f) => f.navn === b.fag)
 
   const settKategori = (ki: number, navn: string) => setB({ ...b, kategorier: b.kategorier.map((k, i) => (i === ki ? { ...k, navn } : k)) })
