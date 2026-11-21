@@ -8,6 +8,7 @@ import { MineBrett } from './skjermer/MineBrett'
 import { SpillOppsett } from './skjermer/SpillOppsett'
 import { Spill } from './skjermer/Spill'
 import { Resultat } from './skjermer/Resultat'
+import { KiInnstillinger } from './skjermer/KiInnstillinger'
 
 type Skjerm =
   | { navn: 'start' }
@@ -16,6 +17,7 @@ type Skjerm =
   | { navn: 'rediger'; brett: Brett; tilbake: 'oppsett' | 'mine' }
   | { navn: 'spilloppsett'; brett: Brett; tilbake: 'oppsett' | 'mine' }
   | { navn: 'spill' }
+  | { navn: 'ki' }
 
 const tomtValg: Valg = { fag: '', trinn: '', tema: '', maal: [] }
 
@@ -56,8 +58,11 @@ export default function App() {
           onNytt={() => setSkjerm({ navn: 'oppsett' })}
           onMine={() => setSkjerm({ navn: 'mine' })}
           onFortsett={() => setSkjerm({ navn: 'spill' })}
+          onKi={() => setSkjerm({ navn: 'ki' })}
         />
       )
+    case 'ki':
+      return <KiInnstillinger onTilbake={() => setSkjerm({ navn: 'start' })} />
     case 'oppsett':
       return (
         <Oppsett

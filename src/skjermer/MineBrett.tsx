@@ -23,7 +23,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
       if (f.size > 500_000) throw new Error('Filen er for stor. Et brett er vanligvis under 50 kB.')
       const b = importer(await f.text())
       setBrett((liste) => [b, ...liste])
-      setMelding({ type: 'ok', tekst: `Importerte «${b.tittel}».` })
+      setMelding({ type: 'ok', tekst: `Åpnet «${b.tittel}». Det ligger nå øverst i listen.` })
     } catch (e) {
       setMelding({ type: 'feil', tekst: e instanceof Error ? e.message : 'Kunne ikke lese filen.' })
     }
@@ -33,7 +33,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
     <main className="side">
       <Topplinje tittel="Mine brett" onTilbake={onTilbake} tilbakeTekst="Til start">
         <button className="knapp" onClick={() => fil.current?.click()}>
-          Importer fil
+          Åpne brett fra fil
         </button>
         <button className="knapp knapp-hoved" onClick={onNytt}>
           Lag nytt brett
@@ -43,7 +43,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
       {melding && <p className={`melding melding-${melding.type}`} role="status">{melding.tekst}</p>}
 
       <section className="panel">
-        {brett.length === 0 && <p className="dempet">Du har ingen brett. Lag et nytt, eller importer en fil fra en kollega.</p>}
+        {brett.length === 0 && <p className="dempet">Du har ingen brett. Lag et nytt, eller åpne en brettfil du har fått av en kollega.</p>}
         <ul className="brettliste">
           {brett.map((b) => {
             const n = antallSporsmal(b)
@@ -74,7 +74,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
                       Kopier
                     </button>
                     <button className="lenkeknapp" onClick={() => eksporter(b)}>
-                      Last ned
+                      Lagre som fil
                     </button>
                     <button className="knapp" onClick={() => onRediger(b)}>
                       Rediger
@@ -89,7 +89,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
           })}
         </ul>
       </section>
-      <p className="kilde">Brettene lagres bare i denne nettleseren. Last dem ned for å ta vare på dem eller dele dem med kolleger.</p>
+      <p className="kilde">Brettene lagres bare i denne nettleseren. Bruk «Lagre som fil» for å ta vare på et brett eller dele det med kolleger.</p>
     </main>
   )
 }

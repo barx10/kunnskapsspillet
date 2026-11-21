@@ -11,7 +11,9 @@ kategorier og poeng. Klassen deles i lag, og spillet vises på storskjermen.
 - 2–6 lag, poengtavle, angreknapp og manuell justering av poeng.
 - Innstillinger: minuspoeng eller 0 ved feil svar, tidtaker (15–90 s eller egen tid), andre lag kan
   svare, dobbel-ruter, finalerunde, lyd, fire visuelle temaer, poengskala og stor tekst.
-- Brett lagres i nettleseren og kan lastes ned og deles som filer.
+- «Foreslå spørsmål med KI» med egen API-nøkkel (Gemini eller Claude). Fyller tomme ruter, én
+  kategori eller hele brettet, og kan angres. Nøkkelen sendes bare direkte til leverandøren.
+- Brett lagres i nettleseren og kan lagres som fil og deles med kolleger.
 - Ingen innlogging, ingen elevdata, ingen sporing.
 
 ## Utvikling

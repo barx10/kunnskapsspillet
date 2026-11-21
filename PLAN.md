@@ -12,19 +12,19 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 
 ## Faser
 
-### Fase 1: Hovedskjerm (MVP)
+### Fase 1: Hovedskjerm (MVP) – ferdig
 - Alt på én skjerm, læreren styrer med mus eller tastatur.
 - Redigering av brett: fag, trinn, tema, kategorier, spørsmål/svar, valgfritt bilde.
 - Lagring i nettleseren (localStorage) + eksport/import som JSON-fil, så lærere kan dele brett.
 - Fullskjerm, tidtaker, lyder (kan skrus av), store fonter som er lesbare bakerst i klasserommet.
 - Ingen innlogging og ingen elevdata.
 
-### Fase 2: Kompetansemål
+### Fase 2: Kompetansemål – ferdig (snapshot av 10 fag)
 - Velg fag og trinn → velg kompetansemål fra LK20 (Udirs åpne læreplandata, Grep).
 - Starter med en lagret JSON-snapshot for utvalgte fag; henter fra Udir senere.
 - Brettet viser hvilke mål det dekker (nyttig for planlegging og dokumentasjon).
 
-### Fase 3: KI-hjelp (valgfritt, BYOK)
+### Fase 3: KI-hjelp (valgfritt, BYOK) – ferdig i første versjon
 - «Foreslå spørsmål» ut fra tema, trinn og kompetansemål. Læreren går gjennom og redigerer alt
   før bruk.
 - Læreren bruker sin egen API-nøkkel (Claude eller Gemini). Nøkkelen lagres bare i nettleseren,

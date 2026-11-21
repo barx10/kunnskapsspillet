@@ -1,8 +1,8 @@
-type Props = { harSpill: boolean; onNytt: () => void; onMine: () => void; onFortsett: () => void }
+type Props = { harSpill: boolean; onNytt: () => void; onMine: () => void; onFortsett: () => void; onKi: () => void }
 
 const POENG = [100, 200, 300, 400, 500]
 
-export function Start({ harSpill, onNytt, onMine, onFortsett }: Props) {
+export function Start({ harSpill, onNytt, onMine, onFortsett, onKi }: Props) {
   return (
     <main className="start">
       <div className="start-innhold">
@@ -29,6 +29,11 @@ export function Start({ harSpill, onNytt, onMine, onFortsett }: Props) {
           </button>
         </div>
       </div>
+      <footer className="start-fot">
+        <button className="lenkeknapp" onClick={onKi}>
+          KI-innstillinger
+        </button>
+      </footer>
     </main>
   )
 }

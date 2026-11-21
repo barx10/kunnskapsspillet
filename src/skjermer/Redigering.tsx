@@ -3,12 +3,15 @@ import type { Brett } from '../types'
 import { Topplinje } from '../komponenter/Topplinje'
 import { MaalVelger } from '../komponenter/MaalVelger'
 import { fagListe } from '../laereplan'
+import { KiDialog } from '../ki/KiDialog'
 
 type Props = { start: Brett; onAvbryt: () => void; onLagre: (b: Brett) => void }
 
 export function Redigering({ start, onAvbryt, onLagre }: Props) {
   const [b, setB] = useState<Brett>(start)
   const [visMaal, setVisMaal] = useState(false)
+  const [ki, setKi] = useState<{ kategori?: number } | null>(null)
+  const [forKi, setForKi] = useState<Brett | null>(null)
   const rader = b.kategorier[0]?.sporsmal.length ?? 5
   const kjentFag = fagListe.find((f) => f.navn === b.fag)
 
@@ -91,6 +94,9 @@ export function Redigering({ start, onAvbryt, onLagre }: Props) {
       <section className="panel">
         <div className="panel-topp">
           <h2>Spørsmål</h2>
+          <button className="knapp knapp-ki" onClick={() => setKi({})}>
+            Foreslå spørsmål med KI
+          </button>
           <div className="storrelse">
             <label>
               Kategorier
@@ -111,10 +117,21 @@ export function Redigering({ start, onAvbryt, onLagre }: Props) {
           </div>
         </div>
 
+        {forKi && (
+          <p className="melding" role="status">
+            Forslagene er lagt inn. Les gjennom og rett det som trengs før du lagrer.{' '}
+            <button className="lenkeknapp" onClick={() => (setB(forKi), setForKi(null))}>
+              Angre forslagene
+            </button>
+          </p>
+        )}
         <div className="redigering-kolonner" style={{ '--kolonner': b.kategorier.length } as React.CSSProperties}>
           {b.kategorier.map((k, ki) => (
             <div key={ki} className="redigering-kolonne">
               <input className="kategori-input" value={k.navn} placeholder={`Kategori ${ki + 1}`} aria-label={`Navn på kategori ${ki + 1}`} onChange={(e) => settKategori(ki, e.target.value)} />
+              <button className="lenkeknapp liten kolonne-ki" onClick={() => setKi({ kategori: ki })}>
+                Foreslå denne kategorien med KI
+              </button>
               {k.sporsmal.map((s, ri) => (
                 <div key={ri} className="sporsmal-felt">
                   <span className="sporsmal-nivaa">Nivå {ri + 1}</span>
@@ -145,6 +162,19 @@ export function Redigering({ start, onAvbryt, onLagre }: Props) {
           </label>
         </div>
       </section>
+
+      {ki && (
+        <KiDialog
+          brett={b}
+          startKategori={ki.kategori}
+          onLukk={() => setKi(null)}
+          onBruk={(ny) => {
+            setForKi(b)
+            setB(ny)
+            setKi(null)
+          }}
+        />
+      )}
 
       <div className="knapperad slutt">
         <button className="knapp" onClick={onAvbryt}>
