@@ -796,14 +796,16 @@ textarea::placeholder {
 .brett {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(var(--kolonner), 1fr);
+  grid-template-columns: repeat(var(--kolonner), minmax(0, 1fr));
+  /* Én felles rad for kategorinavnene, så alle ruter får samme høyde. */
+  grid-template-rows: minmax(3.5rem, auto) repeat(var(--rader), minmax(0, 1fr));
   gap: clamp(0.35rem, 0.8vw, 0.7rem);
   min-height: 0;
 }
 .brett-kolonne {
+  grid-row: 1 / -1;
   display: grid;
-  grid-template-rows: minmax(3.5rem, auto) repeat(var(--rader), minmax(0, 1fr));
-  gap: clamp(0.35rem, 0.8vw, 0.7rem);
+  grid-template-rows: subgrid;
 }
 .brett-kategori {
   display: grid;
