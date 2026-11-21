@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { Brett, Innstillinger, Lag, Poengskala, Tema } from '../types'
+import type { Brett, Innstillinger, Lag, Poengskala, Spillmodus, Tema } from '../types'
+import { MODUSER } from '../lagring'
 import { Topplinje } from '../komponenter/Topplinje'
 import { poengFor } from '../poeng'
 
@@ -28,11 +29,41 @@ const SKALAER: { id: Poengskala; navn: string }[] = [
 ]
 
 const TIDER = [15, 30, 45, 60, 90]
+const STJELETIDER = [0, 5, 10, 15, 20]
+const SPILLETIDER = [0, 15, 20, 30, 45]
+
+const MODUSKORT: { id: Spillmodus; navn: string; beskrivelse: string }[] = [
+  { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Svarer de feil eller tiden går ut, kan de andre lagene prøve.' },
+  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som rekker opp hånda først, får svare.' },
+  { id: 'rolig', navn: 'Rolig', beskrivelse: 'Ingen tidtaker og ingen minuspoeng. Lagene bytter på å velge og svare.' },
+  { id: 'egen', navn: 'Egne regler', beskrivelse: 'Sett sammen reglene selv nedenfor.' },
+]
+
+type SegmentValg<T> = { verdi: T; tekst: string; deaktivert?: boolean }
+
+function Segment<T extends string | number>({ valg, verdi, onEndre, etikett }: { valg: SegmentValg<T>[]; verdi: T; onEndre: (v: T) => void; etikett: string }) {
+  return (
+    <div className="segment" role="group" aria-label={etikett}>
+      {valg.map((v) => (
+        <button key={String(v.verdi)} className={verdi === v.verdi ? 'valgt' : ''} aria-pressed={verdi === v.verdi} disabled={v.deaktivert} onClick={() => onEndre(v.verdi)}>
+          {v.tekst}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake, onStart }: Props) {
   const [i, setI] = useState(innstillinger)
   const [lag, setLag] = useState<Lag[]>(() => LAGNAVN.slice(0, 3).map((navn, n) => ({ navn, farge: LAGFARGER[n], poeng: 0 })))
+  // Endrer du en regel, går modusen over til «Egne regler».
+  const regel = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => {
+    const ny = { ...i, [k]: v, modus: 'egen' as Spillmodus }
+    if (k === 'tur' && v === 'fri') ny.forstSvar = 'alle'
+    setI(ny)
+  }
   const sett = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => setI({ ...i, [k]: v })
+  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
 
@@ -63,39 +94,127 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
       </section>
 
       <section className="panel">
+        <h2>Spillmodus</h2>
+        <div className="modus-valg">
+          {MODUSKORT.map((m) => (
+            <button key={m.id} className={i.modus === m.id ? 'modus-kort valgt' : 'modus-kort'} aria-pressed={i.modus === m.id} onClick={() => velgModus(m.id)}>
+              <strong>{m.navn}</strong>
+              <span className="dempet liten">{m.beskrivelse}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
         <h2>Regler</h2>
-        <Rad tittel="Feil svar" hjelp="Med minuspoeng mister laget like mye som ruten er verdt.">
-          <div className="segment">
-            <button className={i.feilSvar === 'minus' ? 'valgt' : ''} aria-pressed={i.feilSvar === 'minus'} onClick={() => sett('feilSvar', 'minus')}>
-              Minuspoeng
-            </button>
-            <button className={i.feilSvar === 'null' ? 'valgt' : ''} aria-pressed={i.feilSvar === 'null'} onClick={() => sett('feilSvar', 'null')}>
-              0 poeng
-            </button>
-          </div>
+        <h3 className="regel-gruppe">Tur og svar</h3>
+        <Rad tittel="Hvem velger rute" hjelp="Brettet viser hvilket lag som har turen.">
+          <Segment
+            etikett="Hvem velger rute"
+            verdi={i.tur}
+            onEndre={(v) => regel('tur', v)}
+            valg={[
+              { verdi: 'riktig', tekst: 'Laget som svarte riktig' },
+              { verdi: 'rekke', tekst: 'Etter tur' },
+              { verdi: 'fri', tekst: 'Fritt' },
+            ]}
+          />
         </Rad>
-        <Rad tittel="Tidtaker" hjelp="Starter når spørsmålet vises.">
-          <div className="segment">
-            <button className={!i.tidtaker ? 'valgt' : ''} aria-pressed={!i.tidtaker} onClick={() => sett('tidtaker', false)}>
-              Av
-            </button>
-            {TIDER.map((t) => (
-              <button key={t} className={i.tidtaker && i.sekunder === t ? 'valgt' : ''} aria-pressed={i.tidtaker && i.sekunder === t} onClick={() => setI({ ...i, tidtaker: true, sekunder: t })}>
-                {t} s
-              </button>
-            ))}
-          </div>
-          {i.tidtaker && !TIDER.includes(i.sekunder) && <span className="dempet liten">Egen tid: {i.sekunder} s</span>}
+        <Rad tittel="Hvem svarer først" hjelp={i.tur === 'fri' ? 'Når ingen har turen, svarer laget som rekker opp hånda først.' : undefined}>
+          <Segment
+            etikett="Hvem svarer først"
+            verdi={i.forstSvar}
+            onEndre={(v) => regel('forstSvar', v)}
+            valg={[
+              { verdi: 'tur', tekst: 'Laget som valgte ruten', deaktivert: i.tur === 'fri' },
+              { verdi: 'alle', tekst: 'Raskeste hånd' },
+            ]}
+          />
+        </Rad>
+        <Rad tittel="Tidtaker" hjelp="Tiden laget har til å svare. Starter når spørsmålet vises.">
+          <Segment
+            etikett="Tidtaker"
+            verdi={i.tidtaker ? i.sekunder : 0}
+            onEndre={(v) => (v === 0 ? regel('tidtaker', false) : setI({ ...i, tidtaker: true, sekunder: v, modus: 'egen' }))}
+            valg={[{ verdi: 0, tekst: 'Av' }, ...TIDER.map((t) => ({ verdi: t, tekst: `${t} s` }))]}
+          />
           {i.tidtaker && (
             <label className="egen-tid">
               Egen tid
-              <input type="number" min={5} max={300} value={i.sekunder} onChange={(e) => sett('sekunder', Math.min(300, Math.max(5, +e.target.value || 30)))} />
+              <input type="number" min={5} max={300} value={i.sekunder} onChange={(e) => regel('sekunder', Math.min(300, Math.max(5, +e.target.value || 30)))} />
               sekunder
             </label>
           )}
         </Rad>
-        <Bryter tittel="Andre lag kan svare" hjelp="Svarer et lag feil, kan de andre lagene prøve." verdi={i.stjele} onEndre={(v) => sett('stjele', v)} />
-        <Bryter tittel="Dobbel-ruter" hjelp="En skjult rute der laget selv satser poeng." verdi={i.dobbel} onEndre={(v) => sett('dobbel', v)} />
+
+        <h3 className="regel-gruppe">Når et lag ikke klarer det</h3>
+        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? 'Svarer laget som rakk opp hånda feil, kan de andre prøve.' : undefined}>
+          <Segment
+            etikett="Andre lag kan svare"
+            verdi={i.stjele}
+            onEndre={(v) => regel('stjele', v)}
+            valg={[
+              { verdi: 'feilOgTid', tekst: 'Etter feil svar eller når tiden går ut', deaktivert: !i.tidtaker || i.forstSvar === 'alle' },
+              { verdi: 'feil', tekst: 'Etter feil svar' },
+              { verdi: 'av', tekst: 'Nei' },
+            ]}
+          />
+        </Rad>
+        {i.stjele !== 'av' && (
+          <>
+            <Rad tittel="Slik melder de andre lagene seg">
+              <Segment
+                etikett="Slik melder lagene seg"
+                verdi={i.melding}
+                onEndre={(v) => sett('melding', v)}
+                valg={[
+                  { verdi: 'hand', tekst: 'Rekker opp hånda' },
+                  { verdi: 'buzzer', tekst: 'Buzzer på egen enhet (kommer)', deaktivert: true },
+                ]}
+              />
+            </Rad>
+            <Rad tittel="Tid for de andre lagene">
+              <Segment
+                etikett="Tid for de andre lagene"
+                verdi={i.stjeleSekunder}
+                onEndre={(v) => regel('stjeleSekunder', v)}
+                valg={STJELETIDER.map((t) => ({ verdi: t, tekst: t === 0 ? 'Ingen' : `${t} s` }))}
+              />
+            </Rad>
+            {i.forstSvar === 'tur' && (
+              <Rad tittel="Poeng til de andre lagene" hjelp="Når et annet lag svarer riktig.">
+                <Segment
+                  etikett="Poeng til de andre lagene"
+                  verdi={i.stjelePoeng}
+                  onEndre={(v) => regel('stjelePoeng', v)}
+                  valg={[
+                    { verdi: 'full', tekst: 'Hele verdien' },
+                    { verdi: 'halv', tekst: 'Halve verdien' },
+                  ]}
+                />
+              </Rad>
+            )}
+          </>
+        )}
+        <Rad tittel="Feil svar" hjelp="Med minuspoeng mister laget like mye som det kunne vunnet.">
+          <Segment
+            etikett="Feil svar"
+            verdi={i.feilSvar}
+            onEndre={(v) => regel('feilSvar', v)}
+            valg={[
+              { verdi: 'minus', tekst: 'Minuspoeng' },
+              { verdi: 'null', tekst: '0 poeng' },
+            ]}
+          />
+        </Rad>
+
+        <h3 className="regel-gruppe">Spillet</h3>
+        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv.">
+          <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => regel('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
+        </Rad>
+        <Rad tittel="Spilletid" hjelp="Brettet viser hvor lang tid som er igjen. Når tiden er ute, går dere til finalen eller resultatet.">
+          <Segment etikett="Spilletid" verdi={i.spilletid} onEndre={(v) => sett('spilletid', v)} valg={SPILLETIDER.map((t) => ({ verdi: t, tekst: t === 0 ? 'Til brettet er tomt' : `${t} min` }))} />
+        </Rad>
         <Bryter
           tittel="Finalerunde"
           hjelp={harFinale ? 'Alle lag satser til slutt på ett spørsmål.' : 'Brettet har ikke noe finalespørsmål. Legg det inn under Rediger.'}

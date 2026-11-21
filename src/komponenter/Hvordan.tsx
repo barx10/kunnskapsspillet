@@ -15,14 +15,21 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
     ),
   },
   {
-    tittel: 'Del klassen i lag og velg regler',
-    tekst: 'Velg 2–6 lag og gi dem navn. Bestem om feil svar gir minuspoeng eller 0, hvor lenge tidtakeren går, og om andre lag får svare når et lag svarer feil. Velg også utseende og poengskala.',
+    tittel: 'Del klassen i lag og velg spillmodus',
+    tekst: (
+      <>
+        Velg 2–6 lag og gi dem navn. Velg så en spillmodus: <strong>Klassisk</strong> (lagene velger og svarer etter tur, de andre kan prøve hvis laget bommer eller tiden går
+        ut), <strong>Lynrunde</strong> (laget som rekker opp hånda først, svarer) eller <strong>Rolig</strong> (uten tidtaker og minuspoeng). Du kan justere reglene etterpå,
+        for eksempel tid, halve poeng til de andre lagene, antall dobbel-ruter og spilletid.
+      </>
+    ),
   },
   {
     tittel: 'Spill',
     tekst: (
       <>
-        Vis siden på storskjermen og trykk «Fullskjerm». Lagene bytter på å velge en rute. Les spørsmålet høyt, og trykk «Riktig» eller «Feil» ved laget som svarer.
+        Vis siden på storskjermen og trykk «Fullskjerm». Øverst står det hvilket lag som skal velge rute. Les spørsmålet høyt, og trykk «Riktig» eller «Feil» ved laget som
+        svarer. Bommer laget, eller tiden går ut, står det på skjermen at de andre lagene kan rekke opp hånda.
         Trykk «Vis svaret» når dere vil se fasiten, og «Tilbake til brettet» for å gå videre. Esc-tasten tar deg også tilbake når spørsmålet er avgjort.
       </>
     ),
@@ -50,7 +57,7 @@ export function Hvordan({ onLukk }: { onLukk: () => void }) {
       </ol>
       <h3 className="hvordan-tips">Greit å vite</h3>
       <ul className="hvordan-liste">
-        <li>Har du gitt feil poeng, trykker du «Angre». Du kan også trykke på et lags poengsum for å justere den.</li>
+        <li>Har du gitt feil poeng, trykker du «Angre». Du kan også trykke på et lags poengsum for å justere den eller gi laget turen.</li>
         <li>Trykker du «Pause», blir spillet husket. Du fortsetter fra startskjermen, også etter at nettleseren har vært lukket.</li>
         <li>Velg utseendet «Lys» hvis rommet er lyst og projektoren svak.</li>
         <li>KI kan ta feil. Les gjennom spørsmålene før du spiller.</li>

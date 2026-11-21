@@ -102,7 +102,7 @@ export default function App() {
 
   const startSpill = (b: Brett, i: Innstillinger, lag: Lag[]) => {
     setInnstillinger(i)
-    setSpill({ brett: b, innstillinger: i, lag, brukt: [], dobbel: velgDobbel(b, i), fase: 'brett' })
+    setSpill({ brett: b, innstillinger: i, lag, brukt: [], dobbel: velgDobbel(b, i), fase: 'brett', tur: 0, startet: Date.now() })
     gaTil({ navn: 'spill' })
   }
 
@@ -203,13 +203,12 @@ export default function App() {
 }
 
 function velgDobbel(b: Brett, i: Innstillinger): string[] {
-  if (!i.dobbel) return []
+  if (i.antallDobbel < 1) return []
   const kandidater: string[] = []
   b.kategorier.forEach((k, ki) =>
     k.sporsmal.forEach((s, ri) => {
       if (s.sporsmal.trim() && ri >= Math.floor(k.sporsmal.length / 2)) kandidater.push(`${ki}-${ri}`)
     }),
   )
-  const antall = kandidater.length >= 20 ? 2 : 1
-  return kandidater.sort(() => Math.random() - 0.5).slice(0, antall)
+  return kandidater.sort(() => Math.random() - 0.5).slice(0, i.antallDobbel)
 }

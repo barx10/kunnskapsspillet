@@ -13,12 +13,17 @@ function les<T>(nokkel: string, standard: T): T {
 }
 const skriv = (nokkel: string, verdi: unknown) => localStorage.setItem(nokkel, JSON.stringify(verdi))
 
+export const MODUSER: Record<Exclude<Innstillinger['modus'], 'egen'>, Pick<Innstillinger, 'forstSvar' | 'tur' | 'feilSvar' | 'tidtaker' | 'sekunder' | 'stjele' | 'stjeleSekunder' | 'stjelePoeng' | 'antallDobbel'>> = {
+  klassisk: { forstSvar: 'tur', tur: 'riktig', feilSvar: 'minus', tidtaker: true, sekunder: 30, stjele: 'feilOgTid', stjeleSekunder: 10, stjelePoeng: 'full', antallDobbel: 1 },
+  lynrunde: { forstSvar: 'alle', tur: 'rekke', feilSvar: 'minus', tidtaker: true, sekunder: 20, stjele: 'feil', stjeleSekunder: 10, stjelePoeng: 'full', antallDobbel: 0 },
+  rolig: { forstSvar: 'tur', tur: 'rekke', feilSvar: 'null', tidtaker: false, sekunder: 30, stjele: 'feil', stjeleSekunder: 0, stjelePoeng: 'full', antallDobbel: 1 },
+}
+
 export const standardInnstillinger: Innstillinger = {
-  feilSvar: 'minus',
-  tidtaker: true,
-  sekunder: 30,
-  stjele: true,
-  dobbel: true,
+  modus: 'klassisk',
+  ...MODUSER.klassisk,
+  melding: 'hand',
+  spilletid: 0,
   finale: true,
   lyd: true,
   tema: 'tavle',
@@ -35,10 +40,31 @@ export function hentBrett(): Brett[] {
 }
 export const lagreBrett = (brett: Brett[]) => skriv(NOKLER.brett, brett)
 
-export const hentInnstillinger = (): Innstillinger => ({ ...standardInnstillinger, ...les<Partial<Innstillinger>>(NOKLER.innstillinger, {}) })
+/** Fyller inn manglende felt og gjør om innstillinger fra eldre versjoner. */
+export function normaliserInnstillinger(raw: unknown): Innstillinger {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
+  const i = { ...standardInnstillinger, ...r } as Innstillinger & { dobbel?: unknown }
+  if (typeof r.stjele === 'boolean') i.stjele = r.stjele ? 'feil' : 'av'
+  if (typeof r.dobbel === 'boolean' && r.antallDobbel === undefined) i.antallDobbel = r.dobbel ? 1 : 0
+  if (r.modus === undefined && (typeof r.stjele === 'boolean' || typeof r.dobbel === 'boolean')) i.modus = 'egen'
+  if (!['tur', 'alle'].includes(i.forstSvar)) i.forstSvar = 'tur'
+  if (!['riktig', 'rekke', 'fri'].includes(i.tur)) i.tur = 'riktig'
+  if (i.tur === 'fri') i.forstSvar = 'alle'
+  if (!['feilOgTid', 'feil', 'av'].includes(i.stjele)) i.stjele = 'feil'
+  i.melding = 'hand'
+  i.antallDobbel = Math.min(3, Math.max(0, Number(i.antallDobbel) || 0))
+  delete i.dobbel
+  return i
+}
+
+export const hentInnstillinger = (): Innstillinger => normaliserInnstillinger(les<unknown>(NOKLER.innstillinger, {}))
 export const lagreInnstillinger = (i: Innstillinger) => skriv(NOKLER.innstillinger, i)
 
-export const hentSpill = () => les<Spilltilstand | null>(NOKLER.spill, null)
+export function hentSpill(): Spilltilstand | null {
+  const s = les<Spilltilstand | null>(NOKLER.spill, null)
+  if (!s?.brett || !Array.isArray(s.lag)) return null
+  return { ...s, innstillinger: normaliserInnstillinger(s.innstillinger), tur: s.tur ?? 0, startet: s.startet ?? Date.now() }
+}
 export const lagreSpill = (s: Spilltilstand | null) => (s ? skriv(NOKLER.spill, s) : localStorage.removeItem(NOKLER.spill))
 
 export const nyId = () => crypto.randomUUID()
