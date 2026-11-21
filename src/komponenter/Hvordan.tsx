@@ -10,7 +10,7 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
     tekst: (
       <>
         Velg et brett du har fra før, eller trykk «Lag nytt brett». Skriv inn kategorier, spørsmål og svar. Første spørsmål i hver kategori er det letteste. Har du en
-        API-nøkkel fra Google eller Anthropic, kan du trykke «Foreslå spørsmål med KI» og rette forslagene etterpå. Husk å trykke «Lagre brett».
+        API-nøkkel fra Google eller Anthropic, kan du trykke «Foreslå spørsmål med KI» og rette forslagene etterpå. Der kan du også laste opp en fagtekst (PDF, Word eller tekstfil), så lager KI-en spørsmål ut fra den. Husk å trykke «Lagre brett».
       </>
     ),
   },

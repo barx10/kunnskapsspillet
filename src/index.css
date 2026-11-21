@@ -1392,3 +1392,28 @@ code {
     gap: 0.7rem;
   }
 }
+
+.fagtekst {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 2px dashed var(--kant);
+  border-radius: var(--r);
+}
+.fagtekst-topp {
+  display: flex;
+  flex-direction: column;
+}
+.fagtekst-fil {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55em 0.8em;
+  border-radius: var(--r);
+  background: var(--bg);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

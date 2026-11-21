@@ -3,6 +3,7 @@ import type { Brett } from '../types'
 import { hentKiOppsett, LEVERANDORER, type KiOppsett } from './oppsett'
 import { genererForslag } from './generer'
 import { KiNokkelSkjema } from './KiNokkelSkjema'
+import { FILTYPER, beskrivelse, lesFagtekst, type Fagtekst } from './fagtekst'
 
 type Modus = 'tomme' | 'alt' | 'kategori'
 type Props = { brett: Brett; startKategori?: number; onBruk: (b: Brett) => void; onLukk: () => void }
@@ -15,6 +16,11 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
   const [modus, setModus] = useState<Modus>(startKategori !== undefined ? 'kategori' : harInnhold(brett) ? 'tomme' : 'alt')
   const [kategori, setKategori] = useState(startKategori ?? 0)
   const [onsker, setOnsker] = useState('')
+  const [fil, setFil] = useState<Fagtekst | null>(null)
+  const [limt, setLimt] = useState('')
+  const [visFagtekst, setVisFagtekst] = useState(false)
+  const [leser, setLeser] = useState(false)
+  const filfelt = useRef<HTMLInputElement>(null)
   const [jobber, setJobber] = useState(false)
   const [feil, setFeil] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
@@ -23,6 +29,22 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
   useEffect(() => {
     dialog.current?.showModal()
   }, [])
+
+  const fagtekst: Fagtekst | null = fil ?? (limt.trim() ? { type: 'tekst', navn: 'innlimt tekst', tekst: limt.trim().slice(0, 120_000) } : null)
+
+  const velgFil = async (f: File) => {
+    setLeser(true)
+    setFeil('')
+    try {
+      setFil(await lesFagtekst(f))
+      setLimt('')
+      if (!harInnhold(brett)) setModus('alt')
+    } catch (e) {
+      setFeil(e instanceof Error ? e.message : 'Klarte ikke å lese filen.')
+    } finally {
+      setLeser(false)
+    }
+  }
 
   const lag = async () => {
     if (!oppsett) return
@@ -33,13 +55,13 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
       if (modus === 'kategori') {
         const k = brett.kategorier[kategori]
         const andre = brett.kategorier.filter((_, i) => i !== kategori).flatMap((x) => x.sporsmal.map((s) => s.sporsmal.trim()).filter(Boolean))
-        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: [k.navn], rader, eksisterende: andre, onsker })
+        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: [k.navn], rader, eksisterende: andre, onsker, fagtekst })
         onBruk({ ...brett, kategorier: brett.kategorier.map((x, i) => (i === kategori ? f.kategorier[0] : x)) })
       } else if (modus === 'alt') {
-        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: brett.kategorier.map(() => ''), rader, eksisterende: [], onsker })
+        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: brett.kategorier.map(() => ''), rader, eksisterende: [], onsker, fagtekst })
         onBruk({ ...brett, kategorier: f.kategorier, finale: f.finale })
       } else {
-        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: brett.kategorier.map((k) => k.navn), rader, eksisterende: alleSporsmal, onsker })
+        const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: brett.kategorier.map((k) => k.navn), rader, eksisterende: alleSporsmal, onsker, fagtekst })
         onBruk({
           ...brett,
           kategorier: brett.kategorier.map((k, i) => ({
@@ -79,7 +101,7 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
             </button>
           </p>
           <p className="dempet">
-            Forslagene bygger på fag, trinn, tema og kompetansemålene du har valgt for brettet ({[brett.fag, brett.trinn, brett.tema].filter(Boolean).join(', ') || 'ikke fylt inn ennå'}).
+            Forslagene bygger på brettets fag, trinn og tema ({[brett.fag, brett.trinn, brett.tema].filter(Boolean).join(', ') || 'ikke fylt inn ennå'}), kompetansemålene og en eventuell fagtekst.
           </p>
 
           <fieldset className="valg-liste">
@@ -107,6 +129,35 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
             </label>
           </fieldset>
 
+          <div className="fagtekst">
+            <div className="fagtekst-topp">
+              <strong>Fagtekst (valgfritt)</strong>
+              <span className="dempet liten">Last opp eller lim inn en tekst, så lager KI-en spørsmål ut fra den.</span>
+            </div>
+            <input ref={filfelt} type="file" accept={FILTYPER} hidden onChange={(e) => e.target.files?.[0] && velgFil(e.target.files[0]).finally(() => (e.target.value = ''))} />
+            {fil ? (
+              <div className="fagtekst-fil">
+                <span>{beskrivelse(fil)}</span>
+                <button className="lenkeknapp" onClick={() => setFil(null)} disabled={jobber}>
+                  Fjern
+                </button>
+              </div>
+            ) : (
+              <div className="knapperad">
+                <button className="knapp" onClick={() => filfelt.current?.click()} disabled={leser || jobber}>
+                  {leser ? 'Leser filen …' : 'Last opp fil (PDF, Word, tekst)'}
+                </button>
+                <button className="lenkeknapp" onClick={() => setVisFagtekst(!visFagtekst)} aria-expanded={visFagtekst}>
+                  {visFagtekst ? 'Skjul tekstfeltet' : 'Lim inn tekst i stedet'}
+                </button>
+              </div>
+            )}
+            {!fil && visFagtekst && (
+              <textarea rows={6} value={limt} placeholder="Lim inn fagteksten her" aria-label="Fagtekst" onChange={(e) => setLimt(e.target.value)} />
+            )}
+            {fagtekst && <p className="dempet liten">Teksten sendes til {LEVERANDORER[oppsett.leverandor].navn}. Ikke bruk tekster med personopplysninger om elever.</p>}
+          </div>
+
           <label className="felt">
             <span>Ønsker (valgfritt)</span>
             <textarea rows={2} value={onsker} placeholder="For eksempel: Ta med spørsmål om nordlys. Unngå tall med desimaler." onChange={(e) => setOnsker(e.target.value)} />
@@ -119,7 +170,7 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
           )}
           {jobber && (
             <p className="melding" role="status">
-              Lager forslag. Dette kan ta opptil et minutt.
+              {fagtekst ? 'Leser fagteksten og lager forslag. Dette kan ta et par minutter.' : 'Lager forslag. Dette kan ta opptil et minutt.'}
             </p>
           )}
           <p className="dempet liten">KI kan ta feil. Les gjennom spørsmål og svar før du spiller.</p>
