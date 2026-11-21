@@ -36,7 +36,7 @@ const SPILLETIDER = [0, 15, 20, 30, 45]
 
 const MODUSKORT: { id: Spillmodus; navn: string; beskrivelse: string }[] = [
   { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Svarer de feil eller tiden går ut, kan de andre lagene prøve.' },
-  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som rekker opp hånda først, får svare.' },
+  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som buzzer først, får svare.' },
   { id: 'rolig', navn: 'Rolig', beskrivelse: 'Ingen tidtaker og ingen minuspoeng. Lagene bytter på å velge og svare.' },
   { id: 'egen', navn: 'Egne regler', beskrivelse: 'Sett sammen reglene selv nedenfor.' },
 ]
@@ -65,7 +65,8 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
     setI(ny)
   }
   const sett = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => setI({ ...i, [k]: v })
-  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m })
+  // Lynrunde bruker buzzer som standard. Læreren kan fortsatt bytte til hånd.
+  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m, ...(m === 'lynrunde' && { melding: 'buzzer' as const }) })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
 
