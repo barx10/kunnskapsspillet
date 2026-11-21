@@ -1,0 +1,3448 @@
+{
+ "hentet": "2026-11-21",
+ "kilde": "Utdanningsdirektoratet (data.udir.no), NLOD",
+ "fag": [
+  {
+   "navn": "Norsk",
+   "laereplan": "NOR01-08",
+   "sett": [
+    {
+     "kode": "KV1107",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM14139",
+       "tekst": "lytte til og samtale om skjønnlitteratur og sakprosa på bokmål og nynorsk"
+      },
+      {
+       "kode": "KM14151",
+       "tekst": "låne og lese bøker fra biblioteket"
+      },
+      {
+       "kode": "KM14141",
+       "tekst": "uttrykke tekstopplevelser gjennom lek, sang, tegning, skriving og andre kreative aktiviteter"
+      },
+      {
+       "kode": "KM14149",
+       "tekst": "samtale om og beskrive hvordan ord vi bruker, kan påvirke andre"
+      },
+      {
+       "kode": "KM14145",
+       "tekst": "leke med rim og rytme og lytte ut språklyder og stavelser i ord"
+      },
+      {
+       "kode": "KM14146",
+       "tekst": "trekke bokstavlyder sammen til ord under lesing og skriving"
+      },
+      {
+       "kode": "KM14140",
+       "tekst": "lese med sammenheng og forståelse på papir og digitalt og bruke enkle strategier for leseforståelse"
+      },
+      {
+       "kode": "KM14142",
+       "tekst": "lytte, ta ordet etter tur og begrunne egne meninger i samtaler"
+      },
+      {
+       "kode": "KM14143",
+       "tekst": "beskrive og fortelle muntlig og skriftlig"
+      },
+      {
+       "kode": "KM14147",
+       "tekst": "skrive tekster for hånd og med tastatur"
+      },
+      {
+       "kode": "KM14144",
+       "tekst": "bruke store og små bokstaver, punktum, spørsmålstegn og utropstegn i tekster og samtale om egne og andres tekster"
+      },
+      {
+       "kode": "KM14152",
+       "tekst": "lage tekster som kombinerer skrift med bilder"
+      },
+      {
+       "kode": "KM14148",
+       "tekst": "utforske og samtale om oppbygningen av og betydningen til ord og uttrykk"
+      },
+      {
+       "kode": "KM14150",
+       "tekst": "utforske eget talespråk og samtale om forskjeller og likheter mellom talespråk og skriftspråk"
+      }
+     ]
+    },
+    {
+     "kode": "KV1108",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM14153",
+       "tekst": "lese og lytte til fortellinger, eventyr, sangtekster, faktabøker og andre tekster på bokmål og nynorsk og i oversettelse fra samiske og andre språk, og samtale om hva tekstene betyr for eleven"
+      },
+      {
+       "kode": "KM14166",
+       "tekst": "velge bøker fra bibliotek ut fra egne interesser og leseferdigheter"
+      },
+      {
+       "kode": "KM14164",
+       "tekst": "lese tekster med flyt og forståelse og bruke lesestrategier målrettet for å lære"
+      },
+      {
+       "kode": "KM14158",
+       "tekst": "utforske og formidle tekster gjennom samtale, skriving, lek, bevegelse og andre kreative uttrykk"
+      },
+      {
+       "kode": "KM14163",
+       "tekst": "samtale om forskjellen mellom meninger og fakta i tekster"
+      },
+      {
+       "kode": "KM14154",
+       "tekst": "holde muntlige presentasjoner med og uten digitale ressurser"
+      },
+      {
+       "kode": "KM14155",
+       "tekst": "kombinere ulike uttrykksformer i sammensatte tekster"
+      },
+      {
+       "kode": "KM14167",
+       "tekst": "følge opp innspill fra andre i faglige samtaler og stille oppklarende og utdypende spørsmål"
+      },
+      {
+       "kode": "KM14162",
+       "tekst": "beskrive, fortelle og argumentere muntlig og skriftlig og bruke språket på kreative måter"
+      },
+      {
+       "kode": "KM14156",
+       "tekst": "skrive tekster med funksjonell håndskrift og med tastatur"
+      },
+      {
+       "kode": "KM14157",
+       "tekst": "bruke komma og andre skilletegn i tekster"
+      },
+      {
+       "kode": "KM14159",
+       "tekst": "bruke fagspråk om setningsoppbygning og bøying av verb, substantiv og adjektiv i samtaler om språk og om egne og andres tekster"
+      },
+      {
+       "kode": "KM14160",
+       "tekst": "reflektere over hvordan språkbruken vår påvirker andre, og hvordan vi tilpasser og endrer språket i ulike situasjoner"
+      },
+      {
+       "kode": "KM14168",
+       "tekst": "sammenligne ord og uttrykk i norsk og andre språk"
+      },
+      {
+       "kode": "KM14165",
+       "tekst": "utforske og samtale om språklig variasjon og mangfold i nærmiljøet"
+      },
+      {
+       "kode": "KM14161",
+       "tekst": "utforske forskjeller og likheter mellom skriving på hovedmål og sidemål"
+      }
+     ]
+    },
+    {
+     "kode": "KV1109",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM14176",
+       "tekst": "lese lyrikk, noveller, fagtekster og annen skjønnlitteratur og sakprosa på bokmål og nynorsk, svensk og dansk og samtale om formål, form og innhold"
+      },
+      {
+       "kode": "KM14184",
+       "tekst": "lese samiske tekster på norsk og samtale om verdiene som kommer til uttrykk, og hvordan stedsnavn og personnavn som inneholder de samiske bokstavene, uttales"
+      },
+      {
+       "kode": "KM14173",
+       "tekst": "orientere seg i faglige kilder på bibliotek og digitalt, vurdere hvor pålitelige kildene er, og vise til kilder i egne tekster"
+      },
+      {
+       "kode": "KM14185",
+       "tekst": "bruke lesestrategier tilpasset formålet med lesingen"
+      },
+      {
+       "kode": "KM14180",
+       "tekst": "skrive tekster med funksjonell håndskrift og med flyt på tastatur"
+      },
+      {
+       "kode": "KM14169",
+       "tekst": "lytte til og videreutvikle innspill fra andre og begrunne egne standpunkter i samtaler"
+      },
+      {
+       "kode": "KM14182",
+       "tekst": "reflektere etisk over hvordan eleven framstiller seg selv og andre i digitale medier"
+      },
+      {
+       "kode": "KM14170",
+       "tekst": "presentere faglige emner muntlig med og uten digitale ressurser"
+      },
+      {
+       "kode": "KM14171",
+       "tekst": "leke med språket og prøve ut ulike virkemidler og framstillingsmåter i muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM14181",
+       "tekst": "beskrive, fortelle, argumentere og reflektere i ulike muntlige og skriftlige sjangre og for ulike formål"
+      },
+      {
+       "kode": "KM14172",
+       "tekst": "skrive tekster med tydelig struktur og mestre sentrale regler for rettskriving, ordbøying og tegnsetting"
+      },
+      {
+       "kode": "KM14174",
+       "tekst": "gi tilbakemelding på medelevers tekster ut fra kriterier og bruke tilbakemeldinger i bearbeiding av egne tekster"
+      },
+      {
+       "kode": "KM14177",
+       "tekst": "bruke fagspråk og kunnskap om ordklasser og setningsoppbygning i samtale om egne og andres tekster"
+      },
+      {
+       "kode": "KM14183",
+       "tekst": "utforske og beskrive samspillet mellom skrift, bilder og andre uttrykksformer og lage egne sammensatte tekster"
+      },
+      {
+       "kode": "KM14175",
+       "tekst": "prøve ut skriving av tekster på sidemål"
+      },
+      {
+       "kode": "KM14178",
+       "tekst": "sammenligne talespråk i nærmiljøet med andre talespråkvarianter i Norge og med nabospråk"
+      },
+      {
+       "kode": "KM14179",
+       "tekst": "utforske og reflektere over sammenhengen mellom språk og identitet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1110",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM14193",
+       "tekst": "lese skjønnlitteratur og sakprosa på bokmål og nynorsk og i oversettelse fra samiske og andre språk, og reflektere over tekstenes formål, innhold, sjangertrekk og virkemidler"
+      },
+      {
+       "kode": "KM14197",
+       "tekst": "sammenligne og tolke romaner, noveller, lyrikk og andre tekster ut fra historisk kontekst og egen samtid"
+      },
+      {
+       "kode": "KM14201",
+       "tekst": "beskrive og reflektere over egen bruk av lesestrategier i lesing av skjønnlitteratur og sakprosa"
+      },
+      {
+       "kode": "KM14200",
+       "tekst": "lytte til og lese tekster på svensk og dansk og gjøre rede for innhold og språklige trekk"
+      },
+      {
+       "kode": "KM14198",
+       "tekst": "utforske og reflektere over hvordan tekster framstiller unges livssituasjon"
+      },
+      {
+       "kode": "KM14192",
+       "tekst": "gjenkjenne og bruke språklige virkemidler og retoriske appellformer"
+      },
+      {
+       "kode": "KM14190",
+       "tekst": "bruke kilder på en kritisk måte, markere sitater og vise til kilder på en etterrettelig måte i egne tekster"
+      },
+      {
+       "kode": "KM14199",
+       "tekst": "utforske og vurdere hvordan digitale medier påvirker og endrer språk og kommunikasjon"
+      },
+      {
+       "kode": "KM14186",
+       "tekst": "bruke fagspråk og argumentere saklig i diskusjoner, samtaler, muntlige presentasjoner og skriftlige framstillinger om norskfaglige og tverrfaglige temaer"
+      },
+      {
+       "kode": "KM14188",
+       "tekst": "informere, fortelle, argumentere og reflektere i ulike muntlige og skriftlige sjangre og for ulike formål tilpasset mottaker og medium"
+      },
+      {
+       "kode": "KM14191",
+       "tekst": "skrive tekster med funksjonell tekstbinding og riktig tegnsetting og mestre rettskriving og ordbøying på hovedmål og sidemål"
+      },
+      {
+       "kode": "KM14194",
+       "tekst": "bruke fagspråk og kunnskap om grammatikk, tekststruktur og sjanger i samtale om og bearbeiding av tekster"
+      },
+      {
+       "kode": "KM14187",
+       "tekst": "uttrykke seg i ulike sjangre og eksperimentere med sjangre på kreative måter"
+      },
+      {
+       "kode": "KM14189",
+       "tekst": "lage sammensatte tekster og begrunne valg av uttrykksformer"
+      },
+      {
+       "kode": "KM14195",
+       "tekst": "forklare den historiske bakgrunnen for bokmål og nynorsk og reflektere over statusen til de offisielle språkene i Norge i dag"
+      },
+      {
+       "kode": "KM14196",
+       "tekst": "utforske språklig variasjon og mangfold i Norge og reflektere over holdninger til ulike språk og talespråkvarianter"
+      }
+     ]
+    },
+    {
+     "kode": "KV1111",
+     "tittel": "vg2 yrkesfaglige utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM14211",
+       "tekst": "lese, analysere og tolke nyere skjønnlitteratur på bokmål og nynorsk og i oversettelse fra samiske og andre språk"
+      },
+      {
+       "kode": "KM14212",
+       "tekst": "reflektere over hvordan tekster framstiller møter mellom ulike kulturer"
+      },
+      {
+       "kode": "KM14205",
+       "tekst": "gjøre rede for og reflektere over bruken av retoriske appellformer og språklige virkemidler i sakprosatekster"
+      },
+      {
+       "kode": "KM14202",
+       "tekst": "lytte til andre, bygge opp saklig argumentasjon og bruke retoriske appellformer i diskusjoner"
+      },
+      {
+       "kode": "KM14209",
+       "tekst": "bruke ulike kilder på en kritisk, selvstendig og etterrettelig måte"
+      },
+      {
+       "kode": "KM14203",
+       "tekst": "kommunisere klart og forståelig muntlig og skriftlig i yrkesrelevante sjangre"
+      },
+      {
+       "kode": "KM14204",
+       "tekst": "bruke relevant fagspråk til å presentere, gjøre rede for og dokumentere faglige emner og arbeidsprosesser fra eget utdanningsprogram"
+      },
+      {
+       "kode": "KM14207",
+       "tekst": "orientere seg i faglitteratur fra eget yrkesfaglig område for å finne, kombinere og vurdere relevant informasjon"
+      },
+      {
+       "kode": "KM14213",
+       "tekst": "kombinere virkemidler og uttrykksformer kreativt i egen tekstskaping"
+      },
+      {
+       "kode": "KM14210",
+       "tekst": "vurdere og bearbeide egne tekster ut fra tilbakemeldinger og faglige kriterier"
+      },
+      {
+       "kode": "KM14208",
+       "tekst": "skrive tekster med god struktur og tekstbinding og mestre tegnsetting og rettskriving på hovedmål"
+      },
+      {
+       "kode": "KM14214",
+       "tekst": "sammenligne særtrekk ved norsk med andre språk og vise hvordan språklige møter kan skape språkendringer"
+      },
+      {
+       "kode": "KM14206",
+       "tekst": "gjøre rede for utbredelsen av de samiske språkene i Norge, fornorskingspolitikken og de språklige rettighetene samer har som urfolk"
+      }
+     ]
+    },
+    {
+     "kode": "KV1113",
+     "tittel": "vg1 studieforberedende utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM14229",
+       "tekst": "lese, analysere og tolke nyere skjønnlitteratur på bokmål og nynorsk og i oversettelse fra samiske og andre språk"
+      },
+      {
+       "kode": "KM14230",
+       "tekst": "reflektere over hvordan tekster framstiller møter mellom ulike kulturer"
+      },
+      {
+       "kode": "KM14226",
+       "tekst": "gjøre rede for og reflektere over bruken av retoriske appellformer og språklige virkemidler i sakprosatekster"
+      },
+      {
+       "kode": "KM14224",
+       "tekst": "lytte til andre, bygge opp saklig argumentasjon og bruke retoriske appellformer i diskusjoner"
+      },
+      {
+       "kode": "KM14227",
+       "tekst": "bruke ulike kilder på en kritisk, selvstendig og etterrettelig måte"
+      },
+      {
+       "kode": "KM14225",
+       "tekst": "greie ut om og drøfte norskfaglige eller tverrfaglige temaer muntlig"
+      },
+      {
+       "kode": "KM14234",
+       "tekst": "skrive fagartikler som greier ut om og drøfter norskfaglige eller tverrfaglige temaer"
+      },
+      {
+       "kode": "KM14232",
+       "tekst": "bruke fagspråk til å beskrive setningsoppbygningen og sammenhengen mellom setninger i arbeid med tekster"
+      },
+      {
+       "kode": "KM14235",
+       "tekst": "kombinere virkemidler og uttrykksformer kreativt i egen tekstskaping"
+      },
+      {
+       "kode": "KM14228",
+       "tekst": "vurdere og bearbeide egne tekster ut fra tilbakemeldinger og faglige kriterier"
+      },
+      {
+       "kode": "KM14233",
+       "tekst": "skrive tekster med god struktur og tekstbinding og mestre tegnsetting og rettskriving på hovedmål og sidemål"
+      },
+      {
+       "kode": "KM14236",
+       "tekst": "sammenligne særtrekk ved norsk med andre språk og vise hvordan språklige møter kan skape språkendringer"
+      },
+      {
+       "kode": "KM14231",
+       "tekst": "gjøre rede for utbredelsen av de samiske språkene i Norge, fornorskingspolitikken og de språklige rettighetene samer har som urfolk"
+      }
+     ]
+    },
+    {
+     "kode": "KV1112",
+     "tittel": "vg2 studieforberedende utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM14215",
+       "tekst": "lese norrøne tekster i oversettelse og sammenligne dem med tekster fra nyere tid"
+      },
+      {
+       "kode": "KM14216",
+       "tekst": "lese og tolke tekster fra 1500 til 1850 i kulturhistorisk kontekst og drøfte hvordan de er relevante i dag"
+      },
+      {
+       "kode": "KM14217",
+       "tekst": "utforske og reflektere over hvordan tekster fra romantikken og nasjonalromantikken framstiller menneske, natur og samfunn, og sammenligne med tekster fra nyere tid"
+      },
+      {
+       "kode": "KM14222",
+       "tekst": "reflektere over sakprosatekster og gjøre rede for den retoriske situasjonen de er blitt til i"
+      },
+      {
+       "kode": "KM14219",
+       "tekst": "skrive fagartikler som gjør rede for og drøfter tekster i kontekst"
+      },
+      {
+       "kode": "KM14221",
+       "tekst": "bruke tilbakemeldinger og kunnskap om språk, tekst og sjanger til å utvikle egne tekster"
+      },
+      {
+       "kode": "KM14218",
+       "tekst": "bruke fagkunnskap og retoriske ferdigheter i norskfaglige diskusjoner og presentasjoner"
+      },
+      {
+       "kode": "KM14220",
+       "tekst": "bruke fagspråk til å beskrive særtrekk ved norsk sammenlignet med svensk, dansk og norrønt"
+      },
+      {
+       "kode": "KM14223",
+       "tekst": "gjøre rede for den historiske bakgrunnen for språksituasjonen i Norge i dag"
+      }
+     ]
+    },
+    {
+     "kode": "KV1114",
+     "tittel": "vg3 studieforberedende utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM14237",
+       "tekst": "analysere og tolke romaner, noveller, drama, lyrikk og sakprosa på bokmål og nynorsk fra 1850 til i dag og reflektere over tekstene i lys av den kulturhistoriske konteksten og egen samtid"
+      },
+      {
+       "kode": "KM14238",
+       "tekst": "utforske og reflektere over hvordan tekster fra den realistiske og den modernistiske tradisjonen framstiller menneske, natur og samfunn"
+      },
+      {
+       "kode": "KM14246",
+       "tekst": "skrive essay som utforsker og reflekterer over innhold i tekster"
+      },
+      {
+       "kode": "KM14239",
+       "tekst": "skrive litterære tolkninger og sammenligninger"
+      },
+      {
+       "kode": "KM14240",
+       "tekst": "analysere uttrykksformer i sammensatte tekster i ulike medier og vurdere samspillet mellom dem"
+      },
+      {
+       "kode": "KM14243",
+       "tekst": "bruke fagkunnskap og presist fagspråk i utforskende samtaler, diskusjoner og muntlige presentasjoner om norskfaglige emner"
+      },
+      {
+       "kode": "KM14242",
+       "tekst": "skrive retoriske analyser og tolkninger av sakprosatekster"
+      },
+      {
+       "kode": "KM14244",
+       "tekst": "mestre språklige formkrav på hovedmål og sidemål og skrive tekster med etterrettelig kildebruk og et presist og nyansert språk"
+      },
+      {
+       "kode": "KM14245",
+       "tekst": "orientere seg i faglitteratur, vurdere kilder kritisk og skrive fagartikler som greier ut om og drøfter norskfaglige emner"
+      },
+      {
+       "kode": "KM14241",
+       "tekst": "gjøre rede for endringer i talespråk i Norge i dag og reflektere over sammenhenger mellom språk, kultur og identitet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1115",
+     "tittel": "vg3 påbygging til generell studiekompetanse",
+     "maal": [
+      {
+       "kode": "KM14247",
+       "tekst": "lese norrøne tekster i oversettelse og sammenligne dem med tekster fra nyere tid"
+      },
+      {
+       "kode": "KM14248",
+       "tekst": "lese og tolke tekster fra 1500 til 1850 i kulturhistorisk kontekst og drøfte hvordan de er relevante i dag"
+      },
+      {
+       "kode": "KM14249",
+       "tekst": "utforske og reflektere over hvordan tekster fra romantikken og nasjonalromantikken framstiller menneske, natur og samfunn, og sammenligne med tekster fra nyere tid"
+      },
+      {
+       "kode": "KM14250",
+       "tekst": "reflektere over sakprosatekster og gjøre rede for den retoriske situasjonen de er blitt til i"
+      },
+      {
+       "kode": "KM14251",
+       "tekst": "skrive fagartikler som gjør rede for og drøfter tekster i kontekst"
+      },
+      {
+       "kode": "KM14253",
+       "tekst": "bruke tilbakemeldinger og kunnskap om språk, tekst og sjanger til å utvikle egne tekster"
+      },
+      {
+       "kode": "KM14254",
+       "tekst": "bruke fagkunnskap og retoriske ferdigheter i norskfaglige diskusjoner og presentasjoner"
+      },
+      {
+       "kode": "KM14255",
+       "tekst": "bruke fagspråk til å beskrive særtrekk ved norsk sammenlignet med svensk, dansk og norrønt"
+      },
+      {
+       "kode": "KM14252",
+       "tekst": "gjøre rede for den historiske bakgrunnen for språksituasjonen i Norge i dag"
+      },
+      {
+       "kode": "KM14256",
+       "tekst": "analysere og tolke romaner, noveller, drama, lyrikk og sakprosa på bokmål og nynorsk fra 1850 til i dag og reflektere over tekstene i lys av den kulturhistoriske konteksten og elevens egen samtid"
+      },
+      {
+       "kode": "KM14257",
+       "tekst": "utforske og reflektere over hvordan tekster fra den realistiske og den modernistiske tradisjonen framstiller menneske, natur og samfunn"
+      },
+      {
+       "kode": "KM14264",
+       "tekst": "skrive essay som utforsker og reflekterer over innhold i tekster"
+      },
+      {
+       "kode": "KM14265",
+       "tekst": "skrive litterære tolkninger og sammenlikninger"
+      },
+      {
+       "kode": "KM14258",
+       "tekst": "analysere uttrykksformer i sammensatte tekster i ulike medier og vurdere samspillet mellom dem"
+      },
+      {
+       "kode": "KM14259",
+       "tekst": "bruke fagkunnskap og presist fagspråk i utforskende samtaler, diskusjoner og muntlige presentasjoner om norskfaglige emner"
+      },
+      {
+       "kode": "KM14260",
+       "tekst": "skrive retoriske analyser og tolkninger av sakprosatekster"
+      },
+      {
+       "kode": "KM14261",
+       "tekst": "mestre språklige formkrav på hovedmål og sidemål og skrive tekster med etterrettelig kildebruk og et presist og nyansert språk"
+      },
+      {
+       "kode": "KM14262",
+       "tekst": "orientere seg i faglitteratur, vurdere kilder kritisk og skrive fagartikler som greier ut om og drøfter norskfaglige emner"
+      },
+      {
+       "kode": "KM14263",
+       "tekst": "gjøre rede for endringer i talespråk i Norge i dag og reflektere over sammenhenger mellom språk, kultur og identitet"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Matematikk",
+   "laereplan": "MAT01-06",
+   "sett": [
+    {
+     "kode": "KV1021",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13228",
+       "tekst": "gruppere tal og mengder ut frå eigenskapar og reflektere over om dette kan gjerast på fleire måtar"
+      },
+      {
+       "kode": "KM13229",
+       "tekst": "utforske tal, mengder og teljing i leik, natur, biletkunst, musikk og barnelitteratur"
+      },
+      {
+       "kode": "KM13241",
+       "tekst": "bruke talsymbol, talord, teikning og konkret til å representere tal og mengder på ulike måtar og omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13230",
+       "tekst": "telje både framlengs og baklengs, velje ulike startpunkt og ulik differanse og forklare mønster i teljingar"
+      },
+      {
+       "kode": "KM13231",
+       "tekst": "beskrive og utforske eigenskapar ved partal og oddetal"
+      },
+      {
+       "kode": "KM13232",
+       "tekst": "bruke talsymbol, talord, teikning og konkret til å representere posisjonssystemet og omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13233",
+       "tekst": "plassere tal på tallinja og bruke tallinja i rekning og problemløysing"
+      },
+      {
+       "kode": "KM13234",
+       "tekst": "bruke addisjon og subtraksjon til å lage og løyse problem frå leik og kvardag"
+      },
+      {
+       "kode": "KM13235",
+       "tekst": "bruke kommutative og assosiative eigenskapar ved addisjon i hovudrekning og skriftleg rekning"
+      },
+      {
+       "kode": "KM13242",
+       "tekst": "bruke likskapsteiknet som eit relasjonelt symbol som viser at to uttrykk har same verdi"
+      },
+      {
+       "kode": "KM13236",
+       "tekst": "kjenne att og beskrive repeterande einingar i mønster og lage eigne mønster"
+      },
+      {
+       "kode": "KM13237",
+       "tekst": "utforske, teikne og beskrive geometriske figurar frå sitt eige nærmiljø og argumentere for måtar å sortere dei på etter eigenskapar"
+      },
+      {
+       "kode": "KM13240",
+       "tekst": "måle lengd og masse i praktiske situasjonar med ikkje-standardiserte og standardiserte måleiningar og samtale om resultata"
+      },
+      {
+       "kode": "KM13238",
+       "tekst": "beskrive tid ved hjelp av kalender og analog og digital klokke"
+      },
+      {
+       "kode": "KM13239",
+       "tekst": "lage og følgje reglar og trinnvise instruksjonar i leik og spel"
+      }
+     ]
+    },
+    {
+     "kode": "KV1022",
+     "tittel": "3. trinn",
+     "maal": [
+      {
+       "kode": "KM13243",
+       "tekst": "bruke formålstenlege strategiar for addisjon og subtraksjon til å lage og løyse problem frå leik og kvardag"
+      },
+      {
+       "kode": "KM13244",
+       "tekst": "forklare og utforske samanhengar mellom addisjon og subtraksjon i hovudrekning og skriftleg rekning"
+      },
+      {
+       "kode": "KM13245",
+       "tekst": "beskrive og utforske multiplikasjon ved teljing og gruppering"
+      },
+      {
+       "kode": "KM13254",
+       "tekst": "bruke dobling og halvering i hovudrekning og skriftleg rekning"
+      },
+      {
+       "kode": "KM13246",
+       "tekst": "bruke multiplikasjon og divisjon til å lage og løyse problem frå leik og kvardag"
+      },
+      {
+       "kode": "KM13247",
+       "tekst": "bruke talsymbol, tekst, tabellar, teikning og konkret til å representere multiplikasjon på ulike måtar og omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13248",
+       "tekst": "bruke kommutative, assosiative og distributive eigenskapar ved multiplikasjon i hovudrekning og skriftleg rekning"
+      },
+      {
+       "kode": "KM13249",
+       "tekst": "bruke likskaps- og ulikskapsteikn som relasjonelle symbol for å samanlikne storleikar, mengder, uttrykk og tal"
+      },
+      {
+       "kode": "KM13250",
+       "tekst": "bruke talsymbol, teikning og konkret for å utforske likevekt og omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13253",
+       "tekst": "måle areal i praktiske situasjonar med ikkje-standardiserte og standardiserte måleiningar"
+      },
+      {
+       "kode": "KM13251",
+       "tekst": "eksperimentere med, namngi og plassere punkt i koordinatsystemet"
+      },
+      {
+       "kode": "KM13252",
+       "tekst": "lage og følgje reglar og trinnvise instruksjonar i leik og spel knytte til koordinatsystemet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1023",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13255",
+       "tekst": "utforske og bruke målings- og delingsdivisjon i praktiske situasjonar"
+      },
+      {
+       "kode": "KM13256",
+       "tekst": "bruke tal, tekst, teikning og konkret for å utforske divisjon på ulike måtar og omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13257",
+       "tekst": "bruke og forklare ulike divisjonsstrategiar"
+      },
+      {
+       "kode": "KM13258",
+       "tekst": "bruke hovudrekning og skriftleg rekning til å utforske og forklare samanhengar mellom dei fire rekneartane"
+      },
+      {
+       "kode": "KM13259",
+       "tekst": "estimere, gjere overslag, forklare tenkjemåtar og vurdere kritisk eigne og andre sine modellar og løysingar i arbeid med praktiske situasjonar"
+      },
+      {
+       "kode": "KM13260",
+       "tekst": "lage rekneuttrykk til praktiske situasjonar og finne praktiske situasjonar som passar til oppgitte rekneuttrykk"
+      },
+      {
+       "kode": "KM13261",
+       "tekst": "beskrive og utforske eigenskapar ved to- og tredimensjonale figurar ved å bruke vinklar, kantar, hjørne og flater"
+      },
+      {
+       "kode": "KM13264",
+       "tekst": "måle volum i praktiske situasjonar med ikkje-standardiserte og standardiserte måleiningar og samtale om resultata"
+      },
+      {
+       "kode": "KM13262",
+       "tekst": "beskrive og utforske strukturar og mønster i leik og spel"
+      },
+      {
+       "kode": "KM13263",
+       "tekst": "lage algoritmar og uttrykkje dei ved bruk av variablar, vilkår og lykkjer"
+      }
+     ]
+    },
+    {
+     "kode": "KV1024",
+     "tittel": "5. trinn",
+     "maal": [
+      {
+       "kode": "KM13265",
+       "tekst": "bruke tal, teikning og konkret til å beskrive og utforske samanhengar mellom brøkar, desimaltal og prosent"
+      },
+      {
+       "kode": "KM13266",
+       "tekst": "beskrive brøk som del av ein heil, som del av ei mengd, som ein divisjon og som tal på tallinja"
+      },
+      {
+       "kode": "KM13267",
+       "tekst": "bruke tal, tekst, teikning, konkret og praktiske situasjonar for å representere brøkar og kunne omsetje mellom dei ulike representasjonane"
+      },
+      {
+       "kode": "KM13268",
+       "tekst": "utvikle og bruke ulike strategiar for rekning med positive tal og brøk og forklare tenkjemåtane sine"
+      },
+      {
+       "kode": "KM13269",
+       "tekst": "formulere og løyse problem som har med brøk å gjere"
+      },
+      {
+       "kode": "KM13270",
+       "tekst": "utforske og beskrive tilfeldigheit og sannsyn i spel og praktiske situasjonar, og knyte det til brøk"
+      },
+      {
+       "kode": "KM13274",
+       "tekst": "bruke tal, tekst, teikning og konkret til å løyse likningar og teste og forklare løysingar"
+      },
+      {
+       "kode": "KM13271",
+       "tekst": "bruke rekneark for å lage og løyse oppgåver som handlar om personleg økonomi"
+      },
+      {
+       "kode": "KM13273",
+       "tekst": "lage og løyse oppgåver som handlar om tid"
+      },
+      {
+       "kode": "KM13272",
+       "tekst": "lage og programmere algoritmar med bruk av variablar, vilkår og lykkjer"
+      }
+     ]
+    },
+    {
+     "kode": "KV1025",
+     "tittel": "6. trinn",
+     "maal": [
+      {
+       "kode": "KM13275",
+       "tekst": "beskrive og plassere desimaltal på tallinja og samanlikne tal med ulikt antal desimalar som ein del av posisjonssystemet"
+      },
+      {
+       "kode": "KM13276",
+       "tekst": "utvikle og bruke ulike strategiar for rekning med desimaltal og samanlikne med reknestrategiar for heile tal"
+      },
+      {
+       "kode": "KM13277",
+       "tekst": "lage og løyse problem med desimaltal, brøk og prosent og argumentere for eigne løysingar"
+      },
+      {
+       "kode": "KM13278",
+       "tekst": "beskrive og utforske eigenskapar ved to- og tredimensjonale figurar og forklare kva for eigenskapar figurane har til felles, og kva for eigenskapar som skil figurane frå kvarandre"
+      },
+      {
+       "kode": "KM13283",
+       "tekst": "utforske og beskrive symmetri i mønster"
+      },
+      {
+       "kode": "KM13284",
+       "tekst": "lage kongruensavbildingar med og utan koordinatsystem"
+      },
+      {
+       "kode": "KM13279",
+       "tekst": "måle radius, diameter og omkrins i sirklar og utforske og forklare samanhengen mellom pi og diameteren i ein sirkel"
+      },
+      {
+       "kode": "KM13280",
+       "tekst": "utforske areal og volum i praktiske situasjonar og bruke formålstjenlege måleiningar"
+      },
+      {
+       "kode": "KM13285",
+       "tekst": "utforske praktiske problem med areal ved å bruke oppdeling og distributivitet"
+      },
+      {
+       "kode": "KM13281",
+       "tekst": "bruke og utforske strategiar for å måle og rekne ut areal og omkrins"
+      },
+      {
+       "kode": "KM13282",
+       "tekst": "bruke variablar, lykkjer, vilkår og funksjonar i programmering til å utforske geometriske figurar og mønster"
+      }
+     ]
+    },
+    {
+     "kode": "KV1026",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13286",
+       "tekst": "bruke tal, tekst, tabellar, teikning og konkret for å representere prosent og kunne omsetje mellom brøk, desimaltal og prosent"
+      },
+      {
+       "kode": "KM13288",
+       "tekst": "bruke formålstjenlege strategiar i hovudrekning og skriftleg rekning med brøk, desimaltal og prosent og forklare strategiar"
+      },
+      {
+       "kode": "KM13292",
+       "tekst": "bruke og utforske negative tal både praktisk og teoretisk"
+      },
+      {
+       "kode": "KM13287",
+       "tekst": "bruke reglar for reknerekkefølgje i problemløysing og til å lage og løyse samansette rekneuttrykk"
+      },
+      {
+       "kode": "KM13291",
+       "tekst": "bruke ulike strategiar for å løyse likningar og vurdere om løysingar er gyldige"
+      },
+      {
+       "kode": "KM13294",
+       "tekst": "formulere og løyse problem som har med likningar å gjere"
+      },
+      {
+       "kode": "KM13296",
+       "tekst": "bruke tal, tekst, teikning og konkret til å løyse ulikskapar og teste og forklare løysingar"
+      },
+      {
+       "kode": "KM13289",
+       "tekst": "rekne sentralmål i eigne og andre sine datasett og velje formålstenleg sentralmål"
+      },
+      {
+       "kode": "KM13290",
+       "tekst": "logge, sortere, lese av og presentere data i tabellar og diagram og forklare valet av framstilling"
+      },
+      {
+       "kode": "KM13295",
+       "tekst": "estimere, gjere overslag, forklare tenkjemåtar og vurdere kritisk eigne og andre sine modellar og løysingar knytte til praktiske situasjonar i arbeid med økonomi"
+      },
+      {
+       "kode": "KM13293",
+       "tekst": "bruke programmering til å utforske data i tabellar og datasett"
+      }
+     ]
+    },
+    {
+     "kode": "KV1027",
+     "tittel": "8. trinn",
+     "maal": [
+      {
+       "kode": "KM13297",
+       "tekst": "rekne med potensar og kvadratrøter og forklare framgangsmåtar og resultat"
+      },
+      {
+       "kode": "KM13303",
+       "tekst": "bruke kommutative, assosiative og distributive eigenskapar til å utvikle og kommunisere strategiar for hovudrekning og skriftleg rekning"
+      },
+      {
+       "kode": "KM13298",
+       "tekst": "beskrive og utforske faktorisering og primtalsfaktorisering og bruke det i brøkrekning"
+      },
+      {
+       "kode": "KM13299",
+       "tekst": "utforske og generalisere geometriske mønster og tallmønster med eigne ord og algebraisk"
+      },
+      {
+       "kode": "KM13301",
+       "tekst": "lage og forklare rekneuttrykk med tal, variablar og konstantar knytte til praktiske situasjonar"
+      },
+      {
+       "kode": "KM13304",
+       "tekst": "lage og løyse likningar knytte til praktiske situasjonar og kritisk vurdere løysingar"
+      },
+      {
+       "kode": "KM13305",
+       "tekst": "bruke ulike strategiar for å løyse ulikskapar og vurdere om løysingar er gyldige"
+      },
+      {
+       "kode": "KM13302",
+       "tekst": "beskrive, samanlikne og utforske funksjonar knytte til praktiske situasjonar"
+      },
+      {
+       "kode": "KM13306",
+       "tekst": "bruke situasjonar, tabellar, grafar og uttrykk til å representere funksjonar og vise samanhengar mellom representasjonane"
+      },
+      {
+       "kode": "KM13300",
+       "tekst": "utforske korleis algoritmar kan skapast, testast og forbetrast ved hjelp av programmering"
+      }
+     ]
+    },
+    {
+     "kode": "KV1028",
+     "tittel": "9. trinn",
+     "maal": [
+      {
+       "kode": "KM13316",
+       "tekst": "lage og løyse problem som handlar om samansette måleiningar"
+      },
+      {
+       "kode": "KM13308",
+       "tekst": "utforske eigenskapane ved ulike todimensjonale figurar og forklare omgrepa formlikskap og kongruens"
+      },
+      {
+       "kode": "KM13317",
+       "tekst": "bruke formlikskap og læresetninga til Pytagoras til utforsking av praktiske situasjonar"
+      },
+      {
+       "kode": "KM13307",
+       "tekst": "utforske, beskrive og argumentere for samanhengar mellom sidelengdene i trekantar"
+      },
+      {
+       "kode": "KM13309",
+       "tekst": "utforske og argumentere for korleis det å endre føresetnader i geometriske problemstillingar påverkar løysingar både praktisk og algebraisk"
+      },
+      {
+       "kode": "KM13310",
+       "tekst": "bruke og argumentere for formlar for overflateareal og volum av tredimensjonale figurar"
+      },
+      {
+       "kode": "KM13312",
+       "tekst": "tolke og kritisk vurdere statistiske framstillingar frå media og lokalsamfunnet"
+      },
+      {
+       "kode": "KM13313",
+       "tekst": "rekne på sentralmål og spreiingsmål i eigne og reelle datasett og bruke resultata til å beskrive dataa"
+      },
+      {
+       "kode": "KM13314",
+       "tekst": "samanlikne og argumentere for korleis framstillingar av tal og data kan brukast for å fremje ulike synspunkt"
+      },
+      {
+       "kode": "KM13315",
+       "tekst": "berekne og vurdere sannsyn i statistikk og spel"
+      },
+      {
+       "kode": "KM13311",
+       "tekst": "simulere utfall i tilfeldige forsøk og berekne sannsynet for at noko skal inntreffe, ved å bruke programmering"
+      }
+     ]
+    },
+    {
+     "kode": "KV1029",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13328",
+       "tekst": "bruke reknereglar og generalisere samanhengar algebraisk"
+      },
+      {
+       "kode": "KM13318",
+       "tekst": "utforske kvadratsetningane geometrisk og algebraisk og bruke kvadratsetningane som reknestrategiar"
+      },
+      {
+       "kode": "KM13324",
+       "tekst": "lage, løyse og forklare likningssett knytte til praktiske situasjonar"
+      },
+      {
+       "kode": "KM13319",
+       "tekst": "utforske og samanlikne eigenskapar ved lineære funksjonar, eksponentialfunksjonar, brøkfunksjonar og andregradsfunksjonar ved å bruke digitale verktøy"
+      },
+      {
+       "kode": "KM13320",
+       "tekst": "forklare omgrepet endring per eining og rekne ut stigningstalet til lineære funksjonar"
+      },
+      {
+       "kode": "KM13322",
+       "tekst": "utforske og forklare samanhengen mellom konstant prosentvis endring, vekstfaktor og eksponentialfunksjonar"
+      },
+      {
+       "kode": "KM13321",
+       "tekst": "hente ut og tolke relevant informasjon og reflektere over moglege konsekvensar ved kjøp og sal, renter på sparing, lån og kredittkjøp"
+      },
+      {
+       "kode": "KM13325",
+       "tekst": "planleggje, utføre og presentere eit utforskande arbeid knytt til personleg økonomi"
+      },
+      {
+       "kode": "KM13323",
+       "tekst": "modellere situasjonar, presentere resultata og vurdere kor gyldige modellane er"
+      },
+      {
+       "kode": "KM13326",
+       "tekst": "utforske matematiske eigenskapar og samanhengar ved å bruke programmering"
+      },
+      {
+       "kode": "KM13327",
+       "tekst": "lese og forklare tekstbasert programkode i Python"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Naturfag",
+   "laereplan": "NAT01-05",
+   "sett": [
+    {
+     "kode": "KV1075",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13806",
+       "tekst": "undre seg, utforske og lage spørsmål, og knytte dette til egne eller andres erfaringer"
+      },
+      {
+       "kode": "KM13807",
+       "tekst": "presentere funnene sine og beskrive hvordan eleven har kommet fram til dem"
+      },
+      {
+       "kode": "KM13808",
+       "tekst": "presentere egne ideer til teknologiske oppfinnelser"
+      },
+      {
+       "kode": "KM13809",
+       "tekst": "utforske og beskrive observerbare egenskaper til ulike objekter, materialer og stoffer og sortere etter egenskaper"
+      },
+      {
+       "kode": "KM13815",
+       "tekst": "samtale om hvordan vi kan ta miljøbevisste valg og gjennomføre lokale miljøtiltak"
+      },
+      {
+       "kode": "KM13810",
+       "tekst": "utforske et naturområde i nærmiljøet og beskrive hvordan noen organismer er tilpasset området og hverandre"
+      },
+      {
+       "kode": "KM13811",
+       "tekst": "oppleve naturen til ulike årstider, reflektere over hvordan naturen er i endring, og hvorfor året deles inn på ulike måter i norsk og samisk tradisjon"
+      },
+      {
+       "kode": "KM13812",
+       "tekst": "planlegge og gjennomføre undersøkelser av vær og himmelfenomener og sammenligne målinger, observasjoner og værtegn gjennom året"
+      },
+      {
+       "kode": "KM13813",
+       "tekst": "utforske sansene gjennom lek ute og inne og samtale om hvordan sansene brukes til å samle informasjon"
+      },
+      {
+       "kode": "KM13814",
+       "tekst": "gi eksempler på noen vanlige sykdommer og samtale om hva man kan gjøre for å verne kroppen mot smittsomme sykdommer"
+      }
+     ]
+    },
+    {
+     "kode": "KV1076",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13816",
+       "tekst": "undre seg, stille spørsmål og lage hypoteser og utforske disse for å finne svar"
+      },
+      {
+       "kode": "KM13817",
+       "tekst": "bruke tabeller og figurer til å organisere data, lage forklaringer basert på data og presentere funn"
+      },
+      {
+       "kode": "KM13818",
+       "tekst": "sammenligne modeller med observasjoner og samtale om hvorfor vi bruker modeller i naturfag"
+      },
+      {
+       "kode": "KM13820",
+       "tekst": "utforske teknologiske systemer som er satt sammen av ulike deler, og beskrive hvordan delene fungerer og virker sammen"
+      },
+      {
+       "kode": "KM13821",
+       "tekst": "designe og lage et produkt basert på en kravspesifikasjon"
+      },
+      {
+       "kode": "KM13822",
+       "tekst": "utforske og beskrive hvordan noen stoffer kan endre seg når de blandes med andre stoffer"
+      },
+      {
+       "kode": "KM13823",
+       "tekst": "utforske observerbare størrelser som fart og temperatur og knytte dem til energi"
+      },
+      {
+       "kode": "KM13824",
+       "tekst": "samtale om hva energi er, og utforske ulike energikjeder"
+      },
+      {
+       "kode": "KM13819",
+       "tekst": "utforske et naturområde og drøfte bærekraftig bruk av området"
+      },
+      {
+       "kode": "KM13825",
+       "tekst": "utforske og sammenligne ulike dyre- og plantearters tilpasninger til miljø og levesteder og drøfte hvorfor noen arter dør ut"
+      },
+      {
+       "kode": "KM13827",
+       "tekst": "delta i høsting og bruk av naturressurser og drøfte hvordan naturressurser kan brukes på en bærekraftig måte"
+      },
+      {
+       "kode": "KM13826",
+       "tekst": "gi eksempler på god dyrevelferd og reflektere over hvordan dyrs behov kan ivaretas"
+      },
+      {
+       "kode": "KM13828",
+       "tekst": "utforske og beskrive vannets kretsløp og gjøre rede for hvorfor vann er viktig for livet på jorda"
+      },
+      {
+       "kode": "KM13832",
+       "tekst": "samtale om hva fysisk og psykisk helse er, og drøfte hvordan livsstil og trivsel påvirker helse"
+      },
+      {
+       "kode": "KM13829",
+       "tekst": "samtale om likheter og ulikheter mellom kjønnene, om kjønnsidentitet og om menneskets reproduksjon"
+      },
+      {
+       "kode": "KM13831",
+       "tekst": "beskrive hvordan muskler og skjelett fungerer, og knytte dette til bevegelse"
+      },
+      {
+       "kode": "KM13830",
+       "tekst": "beskrive funksjoner i kroppens ytre forsvar og samtale om hvordan dette verner mot sykdom"
+      }
+     ]
+    },
+    {
+     "kode": "KV1077",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13833",
+       "tekst": "stille spørsmål og lage hypoteser om naturfaglige fenomener, identifisere variabler og samle data for å finne svar"
+      },
+      {
+       "kode": "KM13834",
+       "tekst": "skille mellom observasjoner og slutninger, organisere data, bruke årsak-virkning-argumenter, trekke slutninger, vurdere feilkilder og presentere funn"
+      },
+      {
+       "kode": "KM13835",
+       "tekst": "bruke og vurdere modeller som representerer fenomener man ikke kan observere direkte, og gjøre rede for hvorfor det brukes modeller i naturfag"
+      },
+      {
+       "kode": "KM13836",
+       "tekst": "lese og forstå faremerking og reflektere over hensikten med disse"
+      },
+      {
+       "kode": "KM13837",
+       "tekst": "gi eksempler på hvordan naturvitenskapelig kunnskap er utviklet og utvikler seg"
+      },
+      {
+       "kode": "KM13851",
+       "tekst": "gi eksempler på hvordan tradisjonell kunnskap har bidratt og bidrar til naturvitenskapelig kunnskap"
+      },
+      {
+       "kode": "KM13838",
+       "tekst": "utforske, lage og programmere teknologiske systemer som består av deler som virker sammen"
+      },
+      {
+       "kode": "KM13839",
+       "tekst": "designe og lage et produkt basert på brukerbehov"
+      },
+      {
+       "kode": "KM13840",
+       "tekst": "reflektere over hvordan teknologi kan løse utfordringer, skape muligheter og føre til nye dilemmaer"
+      },
+      {
+       "kode": "KM13841",
+       "tekst": "utforske faseoverganger og kjemiske reaksjoner og beskrive hva som kjennetegner dem"
+      },
+      {
+       "kode": "KM13852",
+       "tekst": "bruke partikkelmodellen til å forklare faseoverganger og egenskapene til faste stoffer, væsker og gasser"
+      },
+      {
+       "kode": "KM13842",
+       "tekst": "utforske elektriske og magnetiske krefter gjennom forsøk og samtale om hvordan vi utnytter elektrisk energi i dagliglivet"
+      },
+      {
+       "kode": "KM13843",
+       "tekst": "gjøre rede for hvordan organismer kan deles inn i hovedgrupper, og gi eksempler på ulike organismers særtrekk"
+      },
+      {
+       "kode": "KM13853",
+       "tekst": "gjøre rede for betydningen av biologisk mangfold og gjennomføre tiltak for å bevare det biologiske mangfoldet i nærmiljøet"
+      },
+      {
+       "kode": "KM13844",
+       "tekst": "foreslå tiltak for å bevare det biologiske mangfoldet i nordområdene og gi eksempler på betydningen av tradisjonell kunnskap i naturforvaltning"
+      },
+      {
+       "kode": "KM13845",
+       "tekst": "utforske og beskrive ulike næringsnett og bruke dette til å diskutere samspill i naturen"
+      },
+      {
+       "kode": "KM13846",
+       "tekst": "beskrive og visualisere hvordan døgn, månefaser og årstider oppstår, og samtale om hvordan dette påvirker livet på jorda"
+      },
+      {
+       "kode": "KM13847",
+       "tekst": "gjøre rede for jordas forutsetninger for liv og sammenligne med andre himmellegemer i universet"
+      },
+      {
+       "kode": "KM13848",
+       "tekst": "gjøre rede for hvordan det geologiske kretsløpet, platetektonikk og ytre krefter er med på å forme og endre ulike landskap"
+      },
+      {
+       "kode": "KM13849",
+       "tekst": "gjøre rede for fysiske og psykiske forandringer i puberteten og samtale om hvordan dette kan påvirke følelser, handlinger og seksualitet"
+      },
+      {
+       "kode": "KM13850",
+       "tekst": "gjøre rede for noen av kroppens organsystemer og beskrive hvordan systemene virker sammen"
+      }
+     ]
+    },
+    {
+     "kode": "KV1078",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13854",
+       "tekst": "stille spørsmål og lage hypoteser om naturfaglige fenomener, identifisere avhengige og uavhengige variabler og samle data for å finne svar"
+      },
+      {
+       "kode": "KM13855",
+       "tekst": "analysere og bruke innsamlede data til å lage forklaringer, drøfte forklaringene i lys av relevant teori og vurdere kvaliteten på egne og andres utforskinger"
+      },
+      {
+       "kode": "KM13856",
+       "tekst": "bruke og lage modeller for å forutsi eller beskrive naturfaglige prosesser og systemer og gjøre rede for modellenes styrker og begrensninger"
+      },
+      {
+       "kode": "KM13857",
+       "tekst": "delta i risikovurderinger knyttet til forsøk og følge sikkerhetstiltakene"
+      },
+      {
+       "kode": "KM13858",
+       "tekst": "gi eksempler på dagsaktuell forskning og drøfte hvordan ny kunnskap genereres gjennom samarbeid og kritisk tilnærming til eksisterende kunnskap"
+      },
+      {
+       "kode": "KM13859",
+       "tekst": "utforske, forstå og lage teknologiske systemer som består av en sender og en mottaker"
+      },
+      {
+       "kode": "KM13860",
+       "tekst": "bruke programmering til å utforske naturfaglige fenomener"
+      },
+      {
+       "kode": "KM13861",
+       "tekst": "utforske kjemiske reaksjoner, forklare massebevaring og gjøre rede for betydninger av noen forbrenningsreaksjoner"
+      },
+      {
+       "kode": "KM13862",
+       "tekst": "bruke atommodeller og periodesystemet til å gjøre rede for egenskaper til grunnstoffer og kjemiske forbindelser"
+      },
+      {
+       "kode": "KM13863",
+       "tekst": "beskrive drivhuseffekten og gjøre rede for faktorer som kan forårsake globale klimaendringer"
+      },
+      {
+       "kode": "KM13864",
+       "tekst": "gjøre rede for energibevaring og energikvalitet og utforske ulike måter å omdanne, transportere og lagre energi på"
+      },
+      {
+       "kode": "KM13865",
+       "tekst": "drøfte hvordan energiproduksjon og energibruk kan påvirke miljøet lokalt og globalt"
+      },
+      {
+       "kode": "KM13866",
+       "tekst": "beskrive hvordan forskere har kommet fram til evolusjonsteorien og bruke denne til å forklare utvikling av biologisk mangfold"
+      },
+      {
+       "kode": "KM13867",
+       "tekst": "sammenligne celler hos ulike organismer og beskrive sammenhenger mellom oppbygning og funksjon"
+      },
+      {
+       "kode": "KM13868",
+       "tekst": "utforske sammenhenger mellom abiotiske og biotiske faktorer i et økosystem og diskutere hvordan energi og materie omdannes i kretsløp"
+      },
+      {
+       "kode": "KM13875",
+       "tekst": "gi eksempler på og drøfte aktuelle dilemmaer knyttet til utnyttelse av naturressurser og tap av biologisk mangfold"
+      },
+      {
+       "kode": "KM13869",
+       "tekst": "gi eksempler på samers tradisjonelle kunnskap om naturen og diskutere hvordan denne kunnskapen kan bidra til bærekraftig forvaltning av naturen"
+      },
+      {
+       "kode": "KM13870",
+       "tekst": "gjøre rede for hvordan fotosyntese og celleånding gir energi til alt levende gjennom karbonkretsløpet"
+      },
+      {
+       "kode": "KM13871",
+       "tekst": "bruke platetektonikkteorien til å forklare jordas utvikling over tid og gi eksempler på observasjoner som støtter teorien"
+      },
+      {
+       "kode": "KM13872",
+       "tekst": "drøfte spørsmål knyttet til seksuell og reproduktiv helse"
+      },
+      {
+       "kode": "KM13873",
+       "tekst": "sammenligne nervesystemet og hormonsystemet og beskrive hvordan rusmidler, legemidler, miljøgifter og doping påvirker signalsystemene"
+      },
+      {
+       "kode": "KM13874",
+       "tekst": "beskrive kroppens immunforsvar og hvordan vaksiner virker, og gjøre rede for hva vaksiner betyr for folkehelsen"
+      }
+     ]
+    },
+    {
+     "kode": "KV1079",
+     "tittel": "vg1 studieforberedende utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM13876",
+       "tekst": "utforske en selvvalgt naturfaglig problemstilling, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13877",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13878",
+       "tekst": "drøfte hvordan utvikling av naturvitenskapelige hypoteser, modeller og teorier bidrar til at vi kan forstå og forklare verden"
+      },
+      {
+       "kode": "KM13879",
+       "tekst": "vurdere og lage programmer som modellerer naturfaglige fenomener"
+      },
+      {
+       "kode": "KM13883",
+       "tekst": "utforske og beskrive noen sentrale bølgefenomener"
+      },
+      {
+       "kode": "KM13890",
+       "tekst": "forklare hovedprinsippene for trådløs kommunikasjon og gi eksempler på hva slik teknologi brukes til"
+      },
+      {
+       "kode": "KM13882",
+       "tekst": "utforske og beskrive elektromagnetisk og ioniserende stråling, og vurdere informasjon om stråling og helseeffekter av ulike strålingstyper"
+      },
+      {
+       "kode": "KM13887",
+       "tekst": "beskrive big bang-teorien om hvordan universet har oppstått og utviklet seg, og gjøre rede for observasjoner som støtter denne teorien"
+      },
+      {
+       "kode": "KM13880",
+       "tekst": "utforske og gjøre rede for sammenhenger mellom kjemiske bindinger og egenskaper til ulike stoffer"
+      },
+      {
+       "kode": "KM13881",
+       "tekst": "utforske egenskaper og reaksjoner til noen organiske og uorganiske karbonforbindelser, gi eksempler på anvendelser og gjøre rede for karbonets betydning for livet på jorda"
+      },
+      {
+       "kode": "KM13886",
+       "tekst": "gjøre rede for hvordan noen miljøgifter kan akkumuleres i næringskjeder, og vurdere tiltak for å ta vare på helse og miljø"
+      },
+      {
+       "kode": "KM13888",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13889",
+       "tekst": "drøfte aktuelle helse- og livsstilsspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13884",
+       "tekst": "beskrive DNA og hvordan egenskaper arves, og gjøre rede for hvordan arv er en forutsetning for evolusjon"
+      },
+      {
+       "kode": "KM13891",
+       "tekst": "gjøre rede for hvordan klimaendringer påvirker evolusjon, utbredelse av arter og biologisk mangfold"
+      },
+      {
+       "kode": "KM13885",
+       "tekst": "gi eksempler på bruk av bioteknologi og drøfte etiske spørsmål knyttet til bioteknologi"
+      }
+     ]
+    },
+    {
+     "kode": "KV1080",
+     "tittel": "vg1 bygg- og anleggsteknikk",
+     "maal": [
+      {
+       "kode": "KM13892",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13893",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13896",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13894",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13895",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13897",
+       "tekst": "undersøke egenskapene til ulike materialer og overflatebehandlinger og vurdere bruk av disse i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13898",
+       "tekst": "bruke begrepene energiovergang, energibevaring og virkningsgrad til å vurdere energiøkonomisering i bygg"
+      }
+     ]
+    },
+    {
+     "kode": "KV1081",
+     "tittel": "vg1 elektro og datateknologi",
+     "maal": [
+      {
+       "kode": "KM13899",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13900",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13903",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13901",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13902",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13904",
+       "tekst": "gjøre rede for sammenhenger mellom elektrisk energi og effekt og presentere noen energieffektive løsninger i bygg"
+      },
+      {
+       "kode": "KM13905",
+       "tekst": "bruke begrepene vekselstrømteknologi, likestrømsteknologi, energilagring og virkningsgrad for å beskrive og drøfte metoder for bærekraftig energiproduksjon"
+      }
+     ]
+    },
+    {
+     "kode": "KV1089",
+     "tittel": "vg1 frisør, blomster, interiør og eksponeringsdesign",
+     "maal": [
+      {
+       "kode": "KM13955",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13956",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13957",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13958",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13959",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13960",
+       "tekst": "undersøke og vurdere livsløpet til ulike produkter i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13961",
+       "tekst": "utforske egenskaper og reaksjoner til noen stoffer og stoffblandinger som er relevante for eget utdanningsprogram"
+      }
+     ]
+    },
+    {
+     "kode": "KV1082",
+     "tittel": "vg1 helse- og oppvekstfag",
+     "maal": [
+      {
+       "kode": "KM13906",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13907",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13908",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13911",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13912",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13910",
+       "tekst": "utforske egenskaper og reaksjoner til noen stoffer og stoffblandinger som er relevante for eget utdanningsprogram"
+      },
+      {
+       "kode": "KM13909",
+       "tekst": "drøfte hvilken betydning mikroorganismer har for kropp og helse"
+      }
+     ]
+    },
+    {
+     "kode": "KV1086",
+     "tittel": "vg1 håndverk, design og produktutvikling",
+     "maal": [
+      {
+       "kode": "KM13934",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13935",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13936",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13937",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13938",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13940",
+       "tekst": "undersøke og vurdere livsløpet til ulike produkter i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13939",
+       "tekst": "undersøke egenskapene til ulike materialer og overflatebehandlinger og vurdere bruk av disse i et bærekraftsperspektiv"
+      }
+     ]
+    },
+    {
+     "kode": "KV1087",
+     "tittel": "vg1 informasjonsteknologi og medieproduksjon",
+     "maal": [
+      {
+       "kode": "KM13941",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13942",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13943",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13944",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13945",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13946",
+       "tekst": "beskrive ulike typer elektromagnetisk stråling og gi eksempler på hvordan stråling benyttes i trådløs kommunikasjon"
+      },
+      {
+       "kode": "KM13947",
+       "tekst": "utforske bølgefenomener knyttet til lyd og akustikk"
+      }
+     ]
+    },
+    {
+     "kode": "KV1083",
+     "tittel": "vg1 naturbruk",
+     "maal": [
+      {
+       "kode": "KM13913",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13914",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13915",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13916",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13917",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13918",
+       "tekst": "undersøke problemstillinger knyttet til arealbruk, gjøre rede for hvordan endringer kan påvirke økosystemer, og foreslå bærekraftige løsninger"
+      },
+      {
+       "kode": "KM13919",
+       "tekst": "gjøre rede for hvorfor noen grunnstoffer er viktige for liv, og vurdere hvordan menneskelig aktivitet kan påvirke kretsløpene til disse stoffene"
+      }
+     ]
+    },
+    {
+     "kode": "KV1084",
+     "tittel": "vg1 restaurant- og matfag",
+     "maal": [
+      {
+       "kode": "KM13920",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13921",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13922",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13923",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13924",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13925",
+       "tekst": "utforske egenskaper og reaksjoner til noen stoffer og stoffblandinger som er relevante for eget utdanningsprogram"
+      },
+      {
+       "kode": "KM13926",
+       "tekst": "gjøre rede for mattrygghet og betydningen av mikroorganismer i matproduksjon, for driftshygiene og ved håndtering av mat"
+      }
+     ]
+    },
+    {
+     "kode": "KV1088",
+     "tittel": "vg1 salg, service og reiseliv",
+     "maal": [
+      {
+       "kode": "KM13948",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13949",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13950",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13951",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13952",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13953",
+       "tekst": "undersøke ulike materialers og produkters livsløp og vurdere disse i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13954",
+       "tekst": "gjøre rede for aktuelle miljøutfordringer knyttet til handel og reiseliv og drøfte disse i et bærekraftsperspektiv"
+      }
+     ]
+    },
+    {
+     "kode": "KV1085",
+     "tittel": "vg1 teknologi- og industrifag",
+     "maal": [
+      {
+       "kode": "KM13927",
+       "tekst": "utforske en selvvalgt problemstilling knyttet til eget utdanningsprogram, presentere funn og argumentere for valg av metoder"
+      },
+      {
+       "kode": "KM13928",
+       "tekst": "risikovurdere egne forsøk og håndtere avfallet fra disse på en forsvarlig måte"
+      },
+      {
+       "kode": "KM13929",
+       "tekst": "utforske og presentere teknologi knyttet til eget utdanningsprogram og vurdere den i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13930",
+       "tekst": "drøfte aktuelle helse- og livsstilspørsmål og vurdere pålitelighet i informasjon fra ulike kilder"
+      },
+      {
+       "kode": "KM13931",
+       "tekst": "gjøre rede for funksjonene til noen næringsstoffer og diskutere hvorfor et variert kosthold er viktig i et helse- og bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13932",
+       "tekst": "undersøke egenskapene til ulike materialer og overflatebehandlinger og vurdere bruk av disse i et bærekraftsperspektiv"
+      },
+      {
+       "kode": "KM13933",
+       "tekst": "undersøke og vurdere ulike metoder for lagring og overføring av energi"
+      }
+     ]
+    },
+    {
+     "kode": "KV1090",
+     "tittel": "vg3 påbygging til generell studiekompetanse",
+     "maal": [
+      {
+       "kode": "KM13962",
+       "tekst": "drøfte hvordan utvikling av naturvitenskapelige hypoteser, modeller og teorier bidrar til at vi kan forstå og forklare verden"
+      },
+      {
+       "kode": "KM13963",
+       "tekst": "vurdere og lage programmer som modellerer naturfaglige fenomener"
+      },
+      {
+       "kode": "KM13964",
+       "tekst": "beskrive big bang-teorien om hvordan universet har oppstått og utviklet seg, og gjøre rede for observasjoner som støtter denne teorien"
+      },
+      {
+       "kode": "KM13965",
+       "tekst": "utforske og beskrive elektromagnetisk og ioniserende stråling, og vurdere informasjon om stråling og helseeffekter av ulike strålingstyper"
+      },
+      {
+       "kode": "KM13966",
+       "tekst": "utforske og beskrive noen sentrale bølgefenomener"
+      },
+      {
+       "kode": "KM13970",
+       "tekst": "forklare hovedprinsippene for trådløs kommunikasjon og gi eksempler på hva slik teknologi brukes til"
+      },
+      {
+       "kode": "KM13967",
+       "tekst": "beskrive DNA og hvordan egenskaper arves, og gjøre rede for hvordan arv er en forutsetning for evolusjon"
+      },
+      {
+       "kode": "KM13971",
+       "tekst": "gjøre rede for hvordan klimaendringer påvirker evolusjon, utbredelse av arter og biologisk mangfold"
+      },
+      {
+       "kode": "KM13968",
+       "tekst": "gi eksempler på bruk av bioteknologi og drøfte etiske spørsmål knyttet til bioteknologi"
+      },
+      {
+       "kode": "KM13969",
+       "tekst": "gjøre rede for hvordan noen miljøgifter kan akkumuleres i næringskjeder, og vurdere tiltak for å ta vare på helse og miljø"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Samfunnsfag",
+   "laereplan": "SAF01-05",
+   "sett": [
+    {
+     "kode": "KV1152",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM14717",
+       "tekst": "utvikle og presentere samfunnsfaglege spørsmål"
+      },
+      {
+       "kode": "KM14718",
+       "tekst": "samtale om korleis ulike kjelder, inkludert kart, kan gi informasjon om samfunnsfaglege spørsmål"
+      },
+      {
+       "kode": "KM14719",
+       "tekst": "utforske og beskrive kulturminne og kultur- og naturlandskapet i nærmiljøet"
+      },
+      {
+       "kode": "KM14720",
+       "tekst": "utforske og presentere korleis menneska levde for éin til to menneskealdrar sidan"
+      },
+      {
+       "kode": "KM14721",
+       "tekst": "reflektere over kvifor menneske har ulike meiningar og tek ulike val"
+      },
+      {
+       "kode": "KM14722",
+       "tekst": "samtale om vennskap og tilhøyrsle og kva som påverkar relasjonar"
+      },
+      {
+       "kode": "KM14728",
+       "tekst": "beskrive og gi døme på mangfald i Noreg, med vekt på ulike familieformer og folkegrupper, inkludert det samiske urfolket"
+      },
+      {
+       "kode": "KM14723",
+       "tekst": "utforske og gi døme på korleis menneska påverkar klimaet og miljøet, og dokumentere korleis påverknadene kjem til syne i nærmiljøet"
+      },
+      {
+       "kode": "KM14724",
+       "tekst": "presentere og gi døme på rettar barn har i Noreg og verda, og kva barn kan gjere ved brot på desse rettane"
+      },
+      {
+       "kode": "KM14725",
+       "tekst": "utforske og gi døme på korleis barn kan påverke avgjerder og samarbeide om demokratiske prosessar"
+      },
+      {
+       "kode": "KM14726",
+       "tekst": "samtale om moglegheiter og utfordringar ved digital samhandling"
+      },
+      {
+       "kode": "KM14727",
+       "tekst": "samtale om kjensler, kropp, kjønn og seksualitet og korleis eigne og andre sine grenser kan uttrykkjast og respekterast"
+      },
+      {
+       "kode": "KM14729",
+       "tekst": "utforske og gi døme på korleis menneske i ulike delar av verda påverkar livet til kvarandre"
+      }
+     ]
+    },
+    {
+     "kode": "KV1149",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM14673",
+       "tekst": "utforske og presentere samfunnsfaglege spørsmål, søkje etter informasjon i ulike kjelder og vurdere kor nyttig informasjonen er til å belyse spørsmåla"
+      },
+      {
+       "kode": "KM14669",
+       "tekst": "utforske kulturminne og korleis menneska levde i den tida kulturminna er frå, og samanlikne med korleis vi lever i dag"
+      },
+      {
+       "kode": "KM14672",
+       "tekst": "beskrive kultur- og naturlandskap i Noreg og samtale om korleis historiske og geografiske kjelder, inkludert kart, kan gi informasjon om landskap"
+      },
+      {
+       "kode": "KM14674",
+       "tekst": "samtale om kvifor det oppstår konfliktar i skule- og nærmiljøet, lytte til andre si meining og samarbeide med andre om å finne konstruktive løysingar"
+      },
+      {
+       "kode": "KM14670",
+       "tekst": "presentere menneskerettar og rettar barn har, og reflektere over kvifor desse rettane finst"
+      },
+      {
+       "kode": "KM14671",
+       "tekst": "presentere årsaker til at samane har urfolksstatus i Noreg, og beskrive forskjellige former for samisk kultur- og samfunnsliv før og no"
+      },
+      {
+       "kode": "KM14679",
+       "tekst": "utforske og gi døme på nokre sider ved berekraftig utvikling"
+      },
+      {
+       "kode": "KM14680",
+       "tekst": "reflektere over samanhengen mellom personleg økonomi og forbruk hos den enkelte"
+      },
+      {
+       "kode": "KM14668",
+       "tekst": "samtale om identitet, mangfald og fellesskap og reflektere over korleis det kan opplevast ikkje å vere ein del av fellesskapet"
+      },
+      {
+       "kode": "KM14675",
+       "tekst": "samtale om reglar og normer for personvern, deling og beskyttelse av informasjon og om kva det vil seie å bruke dømmekraft i digital samhandling"
+      },
+      {
+       "kode": "KM14676",
+       "tekst": "samtale om grenser knytte til kropp, kva vald og seksuelle overgrep er, og kvar ein kan få hjelp dersom ein blir utsett for vald og seksuelle overgrep"
+      },
+      {
+       "kode": "KM14677",
+       "tekst": "reflektere over kven som har makt, og kva eit demokrati er, og utvikle forslag til korleis ein kan vere med på å påverke avgjerder"
+      },
+      {
+       "kode": "KM14678",
+       "tekst": "samtale om nokre viktige offentlege institusjonar og verksemder i Noreg og reflektere over kva dei betyr i livet til menneska"
+      }
+     ]
+    },
+    {
+     "kode": "KV1150",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM14681",
+       "tekst": "gjennomføre ei samfunnsfagleg undersøking og presentere resultata ved hjelp av eigna digitale verktøy"
+      },
+      {
+       "kode": "KM14687",
+       "tekst": "presentere ei aktuell nyheitssak og reflektere over forskjellar mellom fakta, meiningar og kommersiell bodskap i mediebiletet"
+      },
+      {
+       "kode": "KM14686",
+       "tekst": "samanlikne korleis ulike kjelder kan gi ulik informasjon om same tema, og reflektere over korleis kjelder kan brukast til å påverke og fremje bestemte syn"
+      },
+      {
+       "kode": "KM14685",
+       "tekst": "utforske korleis menneske i fortida livnærte seg, og samtale om korleis sentrale endringar i livsgrunnlag og teknologi har påverka og påverkar demografi, levekår og busetjingsmønster"
+      },
+      {
+       "kode": "KM14688",
+       "tekst": "beskrive geografiske hovudtrekk i ulike delar av verda og reflektere over korleis desse hovudtrekka påverkar menneska som bur der"
+      },
+      {
+       "kode": "KM14682",
+       "tekst": "reflektere over kvifor konfliktar oppstår, og drøfte korleis den enkelte og samfunn kan handtere konfliktar"
+      },
+      {
+       "kode": "KM14683",
+       "tekst": "utforske ulike sider ved mangfald i Noreg og reflektere over menneska sine behov for å vere seg sjølve og for å høyre til i fellesskap"
+      },
+      {
+       "kode": "KM14684",
+       "tekst": "drøfte kva likeverd og likestilling har å seie for eit demokrati, og utvikle forslag til korleis ein kan motarbeide fordommar, rasisme og diskriminering"
+      },
+      {
+       "kode": "KM14689",
+       "tekst": "samtale om menneske- og likeverd og samanlikne korleis menneskerettane er blitt og blir varetekne i ulike land"
+      },
+      {
+       "kode": "KM14690",
+       "tekst": "utforske hovudtrekk ved historia til samane og dei nasjonale minoritetane i Noreg og presentere rettar samane og dei nasjonale minoritetane i Noreg har i dag"
+      },
+      {
+       "kode": "KM14691",
+       "tekst": "reflektere over korleis kommersiell påverknad kan verke inn på forbruk, personleg økonomi og sjølvbilete"
+      },
+      {
+       "kode": "KM14692",
+       "tekst": "utforske og presentere ei global utfordring ved berekraftig utvikling og kva for konsekvensar ho kan ha, og utvikle forslag til korleis ein kan vere med på å motverke utfordringa og korleis samarbeid mellom land kan bidra"
+      },
+      {
+       "kode": "KM14693",
+       "tekst": "reflektere over korleis ein sjølv og andre deltek i digital samhandling, og drøfte kva det vil seie å bruke dømmekraft sett i lys av reglar, normer og grenser"
+      },
+      {
+       "kode": "KM14694",
+       "tekst": "reflektere over variasjonar i identitetar, seksuell orientering og kjønnsuttrykk, og eigne og andre sine grenser knytte til kjensler, kropp, kjønn og seksualitet og drøfte kva ein kan gjere om grenser blir brotne"
+      },
+      {
+       "kode": "KM14695",
+       "tekst": "beskrive sentrale hendingar som har ført fram til det demokratiet vi har i Noreg i dag og samanlikne korleis enkeltmenneske har høve til å påverke i ulike styresett"
+      },
+      {
+       "kode": "KM14696",
+       "tekst": "gi døme på kva lover, reglar og normer er og kva slags funksjon dei har i samfunn, og reflektere over konsekvensar av å bryte dei"
+      },
+      {
+       "kode": "KM14697",
+       "tekst": "reflektere over korleis møte mellom menneske har bidrege til å endre korleis menneske har tenkt og ulike samfunn har vore organiserte"
+      }
+     ]
+    },
+    {
+     "kode": "KV1151",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM14698",
+       "tekst": "bruke samfunnsfaglege metodar og digitale ressursar i eigne undersøkingar, presentere funn ved bruk av digitale verktøy og drøfte kor gyldige og relevante funna er"
+      },
+      {
+       "kode": "KM14701",
+       "tekst": "vurdere på kva måtar ulike kjelder gir informasjon om eit samfunnsfagleg tema, og reflektere over korleis algoritmar, einsretta kjelder eller mangel på kjelder kan prege forståinga vår"
+      },
+      {
+       "kode": "KM14700",
+       "tekst": "drøfte korleis framstillingar av fortida, hendingar og grupper har påverka og påverkar haldningane og handlingane til folk"
+      },
+      {
+       "kode": "KM14702",
+       "tekst": "utforske korleis teknologi har vore og framleis er ein endringsfaktor, og drøfte innverknaden teknologien har hatt og har på enkeltmenneske, samfunn og natur"
+      },
+      {
+       "kode": "KM14714",
+       "tekst": "reflektere over korleis menneske har kjempa og kjempar for endringar i samfunnet og samstundes har vore og er påverka av geografiske forhold og historisk kontekst"
+      },
+      {
+       "kode": "KM14704",
+       "tekst": "samanlikne korleis politiske, geografiske og historiske forhold påverkar levekår, busetjingsmønster og demografi i forskjellige delar av verda i dag"
+      },
+      {
+       "kode": "KM14699",
+       "tekst": "gjere greie for årsaker til og konsekvensar av sentrale historiske og notidige konfliktar og reflektere over om endringar av nokre føresetnader kunne ha hindra konfliktane"
+      },
+      {
+       "kode": "KM14705",
+       "tekst": "gjere greie for årsaker til og konsekvensar av terrorhandlingar og folkemord, som holocaust, og reflektere over korleis ekstreme haldningar og ekstreme handlingar kan førebyggjast"
+      },
+      {
+       "kode": "KM14703",
+       "tekst": "utforske og beskrive korleis menneske- og urfolksrettar og andre internasjonale avtalar og samarbeid har betydning for nasjonal politikk, livet til menneske, likestilling og likeverd"
+      },
+      {
+       "kode": "KM14706",
+       "tekst": "gjere greie for fornorsking av samane og dei nasjonale minoritetane og uretten dei har vore utsette for, og reflektere over kva konsekvensar det har hatt og har på individ- og samfunnsnivå"
+      },
+      {
+       "kode": "KM14708",
+       "tekst": "beskrive ulike dimensjonar ved berekraftig utvikling og korleis dei påverkar kvarandre, og presentere tiltak for meir berekraftige samfunn"
+      },
+      {
+       "kode": "KM14710",
+       "tekst": "vurdere korleis arbeid, inntekt og forbruk kan påverke personleg økonomi, levestandard og livskvalitet"
+      },
+      {
+       "kode": "KM14707",
+       "tekst": "reflektere over likskapar og ulikskapar i identitetar, levesett og kulturuttrykk og drøfte moglegheiter og utfordringar ved mangfald"
+      },
+      {
+       "kode": "KM14709",
+       "tekst": "utforske og reflektere over eigne digitale spor og høvet til å få sletta spora og å verne om retten ein sjølv og andre har til privatliv, personvern og opphavsrett"
+      },
+      {
+       "kode": "KM14711",
+       "tekst": "reflektere over korleis identitet, sjølvbilete og eigne grenser blir utvikla og utfordra i ulike fellesskap, og presentere forslag til korleis ein kan handtere påverknad og uønskte hendingar"
+      },
+      {
+       "kode": "KM14712",
+       "tekst": "reflektere over kva for aktørar som har makt i samfunnet i dag, og korleis desse grunngir standpunkta sine"
+      },
+      {
+       "kode": "KM14713",
+       "tekst": "utforske ulike plattformer for digital samhandling og reflektere over korleis digital deltaking og samhandling påverkar forma på og innhaldet i samfunnsdebatten"
+      },
+      {
+       "kode": "KM14715",
+       "tekst": "beskrive sentrale lover, reglar og normer og drøfte kva konsekvensar brot på desse kan ha for den enkelte og for samfunnet på kort og lang sikt"
+      },
+      {
+       "kode": "KM14716",
+       "tekst": "beskrive trekk ved det politiske systemet og velferdssamfunnet i Noreg i dag og reflektere over sentrale utfordringar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "KRLE",
+   "laereplan": "RLE01-04",
+   "sett": [
+    {
+     "kode": "KV1143",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM14586",
+       "tekst": "utforske og beskrive hvordan kristendom og andre religioner og livssyn kommer til uttrykk lokalt og regionalt"
+      },
+      {
+       "kode": "KM14597",
+       "tekst": "samtale om og presentere sentrale fortellinger og trosforestillinger i kristen tradisjon"
+      },
+      {
+       "kode": "KM14598",
+       "tekst": "samtale om og presentere sentrale fortellinger og trosforestillinger i østlige og vestlige religiøse tradisjoner"
+      },
+      {
+       "kode": "KM14587",
+       "tekst": "sammenligne og presentere ulike årstider og høytider i kristendom og andre religions- og livssynstradisjoner, som kulturarv"
+      },
+      {
+       "kode": "KM14588",
+       "tekst": "samtale om og presentere estetiske uttrykk fra kristendom og andre religioner og livssyn"
+      },
+      {
+       "kode": "KM14596",
+       "tekst": "bruke enkle fagbegreper i arbeidet med religioner og livssyn"
+      },
+      {
+       "kode": "KM14589",
+       "tekst": "skille mellom ulike kilder til kunnskap om religioner og livssyn"
+      },
+      {
+       "kode": "KM14594",
+       "tekst": "beskrive og samtale om ulike måter å leve sammen på i familie og samfunn"
+      },
+      {
+       "kode": "KM14590",
+       "tekst": "samarbeide med andre i filosofisk samtale"
+      },
+      {
+       "kode": "KM14591",
+       "tekst": "identifisere og reflektere over etiske spørsmål"
+      },
+      {
+       "kode": "KM14593",
+       "tekst": "utforske og samtale om etiske sider ved menneskers levesett og ressursbruk"
+      },
+      {
+       "kode": "KM14592",
+       "tekst": "sette seg inn i og formidle egne og andres tanker, følelser og erfaringer"
+      },
+      {
+       "kode": "KM14595",
+       "tekst": "samtale om hva menneskeverd, respekt og toleranse betyr og hva det innebærer for hvordan vi lever sammen"
+      }
+     ]
+    },
+    {
+     "kode": "KV1144",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM14599",
+       "tekst": "gjøre rede for historien til kristendom og andre religioner og livssyn i Norge, inkludert samers og nasjonale minoriteters religions- og livssynshistorie"
+      },
+      {
+       "kode": "KM14601",
+       "tekst": "beskrive og presentere noen sentrale rituelle praksiser og etiske normer i kristendom"
+      },
+      {
+       "kode": "KM14609",
+       "tekst": "beskrive og presentere noen sentrale rituelle praksiser og etiske normer fra østlige og vestlige religioner og livssynstradisjoner"
+      },
+      {
+       "kode": "KM14600",
+       "tekst": "utforske og sammenligne tekster og materielle uttrykk som kilder til kunnskap om kulturarv knyttet til kristendom og ulike religions- og livssynstradisjoner"
+      },
+      {
+       "kode": "KM14610",
+       "tekst": "utforske og samtale om mangfold både innenfor kristne trossamfunn og andre religionssamfunn"
+      },
+      {
+       "kode": "KM14607",
+       "tekst": "bruke fagbegreper i arbeidet med religioner og livssyn"
+      },
+      {
+       "kode": "KM14606",
+       "tekst": "gjøre rede for ulike syn på barndom, familie og samliv i religioner og livssyn"
+      },
+      {
+       "kode": "KM14602",
+       "tekst": "bruke filosofiske tenkemåter i samtale og undring"
+      },
+      {
+       "kode": "KM14603",
+       "tekst": "samtale om og formidle etiske ideer fra sentrale skikkelser i religiøse og livssynsbaserte tradisjoner"
+      },
+      {
+       "kode": "KM14611",
+       "tekst": "samtale om og formidle etiske ideer fra sentrale skikkelser i filosofihistorien"
+      },
+      {
+       "kode": "KM14604",
+       "tekst": "utforske og beskrive egne og andres perspektiver i etiske dilemmaer knyttet til hverdags- og samfunnsutfordringer"
+      },
+      {
+       "kode": "KM14605",
+       "tekst": "reflektere over eksistensielle spørsmål knyttet til menneskets levesett og levekår og klodens framtid"
+      },
+      {
+       "kode": "KM14608",
+       "tekst": "gjøre rede for hva menneskerettighetene innebærer for ytringsfrihet, religionsfrihet og religiøse minoriteters situasjon i Norge"
+      }
+     ]
+    },
+    {
+     "kode": "KV1145",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM14612",
+       "tekst": "utforske og presentere sentrale trekk ved kristendom og andre religions- og livssynstradisjoner og deres utbredelse i dag"
+      },
+      {
+       "kode": "KM14623",
+       "tekst": "utforske og drøfte hvordan kristendom og andre religioner inngår i historiske endringsprosesser globalt og nasjonalt"
+      },
+      {
+       "kode": "KM14624",
+       "tekst": "undersøke og presentere sentrale ideer fra livssynshumanisme og andre ikke-religiøse livssyn"
+      },
+      {
+       "kode": "KM14613",
+       "tekst": "utforske og presentere religiøst mangfold og religiøse praksiser utenfor etablerte religionssamfunn"
+      },
+      {
+       "kode": "KM14614",
+       "tekst": "gjøre rede for og reflektere over samenes og andre urfolks religions- og livssynstradisjoner"
+      },
+      {
+       "kode": "KM14616",
+       "tekst": "bruke og drøfte fagbegreper om religioner og livssyn"
+      },
+      {
+       "kode": "KM14617",
+       "tekst": "sammenligne og vurdere kritisk ulike kilder til kunnskap om religioner og livssyn"
+      },
+      {
+       "kode": "KM14615",
+       "tekst": "gjøre rede for og reflektere over ulike syn på kjønn og seksualitet i kristendom og andre religioner og livssyn"
+      },
+      {
+       "kode": "KM14622",
+       "tekst": "utforske og presentere hvordan elementer fra kristendom og andre religioner og livssyn kommer til uttrykk i medier og populærkultur"
+      },
+      {
+       "kode": "KM14625",
+       "tekst": "utforske og sammenligne etiske ideer fra sentrale skikkelser i religiøse og livssynsbaserte tradisjoner"
+      },
+      {
+       "kode": "KM14626",
+       "tekst": "utforske etiske ideer fra sentrale skikkelser i filosofihistorien og anvende ideene til å drøfte aktuelle etiske spørsmål"
+      },
+      {
+       "kode": "KM14618",
+       "tekst": "utforske andres perspektiv og håndtere uenighet og meningsbrytning"
+      },
+      {
+       "kode": "KM14619",
+       "tekst": "reflektere over eksistensielle spørsmål knyttet til det å vokse opp og leve i et mangfoldig og globalt samfunn"
+      },
+      {
+       "kode": "KM14620",
+       "tekst": "identifisere og drøfte etiske problemstillinger knyttet til ulike former for kommunikasjon"
+      },
+      {
+       "kode": "KM14621",
+       "tekst": "identifisere og drøfte aktuelle etiske problemstillinger knyttet til menneskerettigheter, bærekraft og fattigdom"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Engelsk",
+   "laereplan": "ENG01-06",
+   "sett": [
+    {
+     "kode": "KV1030",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13338",
+       "tekst": "bruke digitale ressurser for å oppleve språket via autentiske språkmodeller og samtalepartnere"
+      },
+      {
+       "kode": "KM13329",
+       "tekst": "lytte til og gjenkjenne språklyder og stavelser i ord"
+      },
+      {
+       "kode": "KM13330",
+       "tekst": "koble språklyder til bokstaver og stavemønstre og trekke bokstavlyder sammen til ord"
+      },
+      {
+       "kode": "KM13331",
+       "tekst": "lytte til og utforske det engelske alfabetet og uttalemønstre i lek- og sangaktiviteter"
+      },
+      {
+       "kode": "KM13334",
+       "tekst": "oppdage høyfrekvente ord og fraser i ulike type tekster"
+      },
+      {
+       "kode": "KM13332",
+       "tekst": "stille og svare på enkle spørsmål, følge enkle instruksjoner og bruke noen høflighetsuttrykk"
+      },
+      {
+       "kode": "KM13333",
+       "tekst": "delta i innøvde dialoger og spontane samtaler om egne behov og følelser, dagligliv og interesser"
+      },
+      {
+       "kode": "KM13335",
+       "tekst": "oppdage ord som er felles for engelsk og andre språk eleven kjenner til"
+      },
+      {
+       "kode": "KM13336",
+       "tekst": "lytte til, lese og samtale om innhold i enkle tekster, inkludert billedbøker"
+      },
+      {
+       "kode": "KM13339",
+       "tekst": "lese og eksperimentere med å skrive kjente ord, fraser og enkle setninger"
+      },
+      {
+       "kode": "KM13337",
+       "tekst": "tilegne seg ord og kulturell kunnskap gjennom engelskspråklig barnelitteratur og barnekultur"
+      }
+     ]
+    },
+    {
+     "kode": "KV1031",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13343",
+       "tekst": "utforske ulike ordbøker og hvordan de kan brukes i språklæring"
+      },
+      {
+       "kode": "KM13351",
+       "tekst": "bruke digitale ressurser til å utforske språket og samhandle med andre"
+      },
+      {
+       "kode": "KM13340",
+       "tekst": "utforske og bruke det engelske alfabetet og uttalemønstre i varierte lek- sang- og språklæringsaktiviteter"
+      },
+      {
+       "kode": "KM13354",
+       "tekst": "lytte til og forstå ord og uttrykk i tilpassede tekster"
+      },
+      {
+       "kode": "KM13341",
+       "tekst": "bruke noen vanlige småord, høflighetsuttrykk og enkle fraser og setninger for å få hjelp til å forstå og bli forstått"
+      },
+      {
+       "kode": "KM13342",
+       "tekst": "delta i samtaler om egne og andres behov, følelser, dagligliv og interesser og bruke samtaleregler"
+      },
+      {
+       "kode": "KM13346",
+       "tekst": "oppdage og leke med ord og uttrykk som er felles for engelsk og andre språk eleven kjenner til"
+      },
+      {
+       "kode": "KM13344",
+       "tekst": "identifisere ordklasser i tilpassede tekster"
+      },
+      {
+       "kode": "KM13345",
+       "tekst": "følge enkle regler for rettskriving og setningsstruktur"
+      },
+      {
+       "kode": "KM13347",
+       "tekst": "lese og forstå tekster med lydrette ord og kjente og ukjente ordbilder"
+      },
+      {
+       "kode": "KM13348",
+       "tekst": "lese og forstå betydningen av kjente og ukjente ord, fraser og setninger ut fra sammenhengen i selvvalgte tekster"
+      },
+      {
+       "kode": "KM13349",
+       "tekst": "lese og samtale om innhold i ulike typer tekster, inkludert billedbøker"
+      },
+      {
+       "kode": "KM13352",
+       "tekst": "skrive enkle tekster som uttrykker tanker og meninger"
+      },
+      {
+       "kode": "KM13353",
+       "tekst": "samtale om noen sider ved ulike levemåter, tradisjoner og skikker i den engelskspråklige verden og i Norge"
+      },
+      {
+       "kode": "KM13350",
+       "tekst": "tilegne seg ord, fraser og kulturell kunnskap gjennom engelskspråklig litteratur og barnekultur"
+      }
+     ]
+    },
+    {
+     "kode": "KV1032",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13359",
+       "tekst": "bruke enkle strategier i språklæring, tekstskaping og kommunikasjon"
+      },
+      {
+       "kode": "KM13364",
+       "tekst": "bruke digitale ressurser og ulike ordbøker i språklæring, tekstskaping og samhandling"
+      },
+      {
+       "kode": "KM13355",
+       "tekst": "utforske og bruke uttalemønstre og ord og uttrykk i lek, sang og rollespill"
+      },
+      {
+       "kode": "KM13356",
+       "tekst": "lytte til og forstå ord og uttrykk i tilpassede og autentiske tekster"
+      },
+      {
+       "kode": "KM13357",
+       "tekst": "uttrykke seg forståelig med et variert ordforråd og høflighetsuttrykk tilpasset mottaker og situasjon"
+      },
+      {
+       "kode": "KM13358",
+       "tekst": "innlede, holde i gang og avslutte samtaler om egne interesser og aktuelle emner"
+      },
+      {
+       "kode": "KM13361",
+       "tekst": "utforske og samtale om noen språklige likheter mellom engelsk og andre språk eleven kjenner til, og bruke dette i egen språklæring"
+      },
+      {
+       "kode": "KM13370",
+       "tekst": "identifisere setningsledd i ulike typer setninger og bruke kunnskap om bøying av verb, substantiv og adjektiv i arbeid med egne muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM13360",
+       "tekst": "følge regler for rettskriving, ordbøying og setningsstruktur"
+      },
+      {
+       "kode": "KM13362",
+       "tekst": "lese og videreformidle innhold fra ulike typer tekster, inkludert selvvalgte tekster"
+      },
+      {
+       "kode": "KM13363",
+       "tekst": "lese og lytte til engelskspråklige sakprosatekster og engelskspråklig barne- og ungdomslitteratur og skrive og samtale om innholdet"
+      },
+      {
+       "kode": "KM13365",
+       "tekst": "samtale om ulike kilders pålitelighet, og velge kilder til eget bruk"
+      },
+      {
+       "kode": "KM13366",
+       "tekst": "skrive sammenhengende tekster, inkludert sammensatte, som gjenforteller, forteller, spør og uttrykker meninger og interesser, tilpasset mottaker"
+      },
+      {
+       "kode": "KM13367",
+       "tekst": "bearbeide egne tekster ut fra tilbakemeldinger"
+      },
+      {
+       "kode": "KM13368",
+       "tekst": "reflektere over og samtale om rollen engelsk har i eget liv"
+      },
+      {
+       "kode": "KM13369",
+       "tekst": "utforske levemåter og tradisjoner i ulike samfunn i den engelskspråklige verden og i Norge og reflektere over identitet og kulturell tilhørighet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1033",
+     "tittel": "10. trinn ",
+     "maal": [
+      {
+       "kode": "KM13374",
+       "tekst": "bruke varierte strategier i språklæring, tekstskaping og kommunikasjon"
+      },
+      {
+       "kode": "KM13380",
+       "tekst": "bruke ulike digitale ressurser og andre hjelpemidler i språklæring, tekstskaping og samhandling"
+      },
+      {
+       "kode": "KM13388",
+       "tekst": "bruke sentrale mønstre for uttale i kommunikasjon"
+      },
+      {
+       "kode": "KM13371",
+       "tekst": "lytte til og forstå ord og uttrykk i varianter av engelsk"
+      },
+      {
+       "kode": "KM13372",
+       "tekst": "uttrykke seg med flyt og sammenheng med et variert ordforråd og idiomatiske uttrykk tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13373",
+       "tekst": "stille spørsmål og følge opp innspill i samtaler om ulike emner tilpasset ulike formål, mottakere og situasjoner"
+      },
+      {
+       "kode": "KM13376",
+       "tekst": "utforske og beskrive noen språklige likheter og ulikheter mellom engelsk og andre språk eleven kjenner til, og bruke dette i egen språklæring"
+      },
+      {
+       "kode": "KM13389",
+       "tekst": "bruke kunnskap om ordklasser og setningsstruktur i arbeid med egne muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM13375",
+       "tekst": "følge regler for rettskriving, ordbøying, setningsstruktur og tekststruktur"
+      },
+      {
+       "kode": "KM13377",
+       "tekst": "lese, diskutere og videreformidle innhold fra ulike typer tekster, inkludert selvvalgte tekster"
+      },
+      {
+       "kode": "KM13378",
+       "tekst": "lese, tolke og reflektere over engelskspråklig skjønnlitteratur, inkludert ungdomslitteratur"
+      },
+      {
+       "kode": "KM13379",
+       "tekst": "lese sakprosatekster og vurdere hvor pålitelige kildene er"
+      },
+      {
+       "kode": "KM13381",
+       "tekst": "bruke kilder på en kritisk og etterrettelig måte"
+      },
+      {
+       "kode": "KM13382",
+       "tekst": "skrive formelle og uformelle tekster, inkludert sammensatte, med struktur og sammenheng som beskriver, forteller og reflekterer tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13383",
+       "tekst": "bearbeide egne tekster ut fra tilbakemeldinger og kunnskap om språk"
+      },
+      {
+       "kode": "KM13384",
+       "tekst": "beskrive og reflektere over rollen engelsk har i Norge og i verden"
+      },
+      {
+       "kode": "KM13385",
+       "tekst": "utforske og reflektere over situasjonen til urfolk i den engelskspråklige verden og i Norge"
+      },
+      {
+       "kode": "KM13387",
+       "tekst": "utforske og beskrive levemåter, tenkesett, kommunikasjonsmønstre og mangfold i den engelskspråklige verden"
+      },
+      {
+       "kode": "KM13386",
+       "tekst": "utforske og videreformidle innhold i engelskspråklige kulturelle uttrykksformer fra ulike medier knyttet til egne interesser"
+      }
+     ]
+    },
+    {
+     "kode": "KV1034",
+     "tittel": "Vg1 yrkesfaglige utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM13393",
+       "tekst": "bruke egnede strategier i språklæring, tekstskaping og kommunikasjon"
+      },
+      {
+       "kode": "KM13398",
+       "tekst": "bruke egnede digitale ressurser og andre hjelpemidler i språklæring, tekstskaping og samhandling"
+      },
+      {
+       "kode": "KM13405",
+       "tekst": "bruke mønstre for uttale i kommunikasjon"
+      },
+      {
+       "kode": "KM13390",
+       "tekst": "lytte til, forstå og bruke fagterminologi muntlig og skriftlig i arbeidssituasjoner"
+      },
+      {
+       "kode": "KM13391",
+       "tekst": "uttrykke seg nyansert og presist med flyt og sammenheng, idiomatiske uttrykk og varierte setningsstrukturer tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13392",
+       "tekst": "gjøre rede for andres argumentasjon og bruke og følge opp andres innspill i samtaler og diskusjoner om yrkesrelevante emner"
+      },
+      {
+       "kode": "KM13394",
+       "tekst": "bruke kunnskap om sammenhenger mellom engelsk og andre språk eleven kjenner til i egen språklæring"
+      },
+      {
+       "kode": "KM13406",
+       "tekst": "bruke kunnskap om grammatikk og tekststruktur i arbeid med egne muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM13395",
+       "tekst": "lese, diskutere og reflektere over innhold og virkemidler i ulike typer tekster, inkludert selvvalgte tekster"
+      },
+      {
+       "kode": "KM13396",
+       "tekst": "lese og sammenfatte faglig innhold fra engelskspråklig dokumentasjon"
+      },
+      {
+       "kode": "KM13397",
+       "tekst": "lese og sammenligne ulike sakprosatekster om samme emne fra forskjellige kilder og kritisk vurdere hvor pålitelige kildene er"
+      },
+      {
+       "kode": "KM13399",
+       "tekst": "bruke ulike kilder på en kritisk, hensiktsmessig og etterrettelig måte"
+      },
+      {
+       "kode": "KM13400",
+       "tekst": "skape yrkesrelevante tekster med struktur og sammenheng som beskriver og dokumenterer eget arbeid tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13401",
+       "tekst": "vurdere og bearbeide egne tekster ut fra faglige kriterier og kunnskap om språk"
+      },
+      {
+       "kode": "KM13402",
+       "tekst": "beskrive sentrale trekk ved framveksten av engelsk som arbeidsspråk"
+      },
+      {
+       "kode": "KM13404",
+       "tekst": "utforske og reflektere over mangfold og samfunnsforhold i den engelskspråklige verden ut fra historiske sammenhenger"
+      },
+      {
+       "kode": "KM13403",
+       "tekst": "diskutere og reflektere over form, innhold og virkemidler i engelskspråklige kulturelle uttrykksformer fra ulike medier, inkludert musikk, film og spill"
+      }
+     ]
+    },
+    {
+     "kode": "KV1035",
+     "tittel": "Vg1 studieforberedende utdanningsprogram",
+     "maal": [
+      {
+       "kode": "KM13410",
+       "tekst": "bruke egnede strategier i språklæring, tekstskaping og kommunikasjon"
+      },
+      {
+       "kode": "KM13416",
+       "tekst": "bruke egnede digitale ressurser og andre hjelpemidler i språklæring, tekstskaping og samhandling"
+      },
+      {
+       "kode": "KM13423",
+       "tekst": "bruke mønstre for uttale i kommunikasjon"
+      },
+      {
+       "kode": "KM13407",
+       "tekst": "lytte til, forstå og bruke akademisk språk i arbeid med egne muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM13408",
+       "tekst": "uttrykke seg nyansert og presist med flyt og sammenheng, idiomatiske uttrykk og varierte setningsstrukturer tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13409",
+       "tekst": "gjøre rede for andres argumentasjon og bruke og følge opp andres innspill i samtaler og diskusjoner om ulike emner"
+      },
+      {
+       "kode": "KM13411",
+       "tekst": "bruke kunnskap om sammenhenger mellom engelsk og andre språk eleven kjenner til i egen språklæring"
+      },
+      {
+       "kode": "KM13412",
+       "tekst": "bruke kunnskap om grammatikk og tekststruktur i arbeid med egne muntlige og skriftlige tekster"
+      },
+      {
+       "kode": "KM13413",
+       "tekst": "lese, diskutere og reflektere over innhold og virkemidler i ulike typer tekster, inkludert selvvalgte tekster"
+      },
+      {
+       "kode": "KM13414",
+       "tekst": "lese, analysere og tolke engelskspråklig skjønnlitteratur"
+      },
+      {
+       "kode": "KM13415",
+       "tekst": "lese og sammenligne ulike sakprosatekster om samme emne fra forskjellige kilder og kritisk vurdere hvor pålitelige kildene er"
+      },
+      {
+       "kode": "KM13417",
+       "tekst": "bruke ulike kilder på en kritisk, hensiktsmessig og etterrettelig måte"
+      },
+      {
+       "kode": "KM13418",
+       "tekst": "skrive ulike typer formelle og uformelle tekster, inkludert sammensatte, med struktur og sammenheng som beskriver, diskuterer, begrunner og reflekterer tilpasset formål, mottaker og situasjon"
+      },
+      {
+       "kode": "KM13419",
+       "tekst": "vurdere og bearbeide egne tekster ut fra faglige kriterier og kunnskap om språk"
+      },
+      {
+       "kode": "KM13420",
+       "tekst": "beskrive sentrale trekk ved framveksten av engelsk som verdensspråk"
+      },
+      {
+       "kode": "KM13422",
+       "tekst": "utforske og reflektere over mangfold og samfunnsforhold i den engelskspråklige verden ut fra historiske sammenhenger"
+      },
+      {
+       "kode": "KM13421",
+       "tekst": "diskutere og reflektere over form, innhold og virkemidler i engelskspråklige kulturelle uttrykksformer fra ulike medier, inkludert musikk, film og spill"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Kunst og håndverk",
+   "laereplan": "KHV01-03",
+   "sett": [
+    {
+     "kode": "KV1042",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13515",
+       "tekst": "bruke håndverksteknikker og håndverktøy i utforming av tre, leire og tekstil på en miljøbevisst og trygg måte"
+      },
+      {
+       "kode": "KM13516",
+       "tekst": "undersøke egenskaper ved materialer og dele sanseerfaringer"
+      },
+      {
+       "kode": "KM13517",
+       "tekst": "utforske ulike visuelle uttrykk og bygge videre på andres ideer i eget skapende arbeid"
+      },
+      {
+       "kode": "KM13518",
+       "tekst": "eksperimentere med form, farge, rytme og kontrast"
+      },
+      {
+       "kode": "KM13519",
+       "tekst": "studere form gjennom å tegne, male og fotografere"
+      },
+      {
+       "kode": "KM13522",
+       "tekst": "skape fortellinger ved hjelp av digitale verktøy etter inspirasjon fra lokale og nasjonale kunstverk"
+      },
+      {
+       "kode": "KM13523",
+       "tekst": "forestille seg og beskrive framtiden gjennom tegning og modeller"
+      },
+      {
+       "kode": "KM13520",
+       "tekst": "planlegge og konstruere i naturmaterialer etter inspirasjon fra samisk og lokal byggeskikk"
+      },
+      {
+       "kode": "KM13521",
+       "tekst": "vise fram og presentere objekter gjennom utstilling eller samling"
+      }
+     ]
+    },
+    {
+     "kode": "KV1043",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13524",
+       "tekst": "bruke håndverktøy og sammenføyningsteknikker i tre, leire og tekstil på en miljøbevisst og trygg måte"
+      },
+      {
+       "kode": "KM13527",
+       "tekst": "prøve ut ulike ideer og muligheter i gjenbruksmaterialer og formidle til andre hvordan man i egen hverdag kan bidra til å ivareta natur og miljø"
+      },
+      {
+       "kode": "KM13525",
+       "tekst": "gjennomføre kunst- og designprosesser ved å søke inspirasjon, utforske muligheter, gjøre valg og lage egne produkter"
+      },
+      {
+       "kode": "KM13526",
+       "tekst": "undersøke hvordan tradisjonshåndverk, inkludert samisk håndverk, utnytter naturmaterialers egenskaper, og bruke erfaringer til å lage enkle bruksgjenstander"
+      },
+      {
+       "kode": "KM13528",
+       "tekst": "samtale om bruk, funksjon og materialvalg i ulike bygninger og lage skisser med forslag til ny arkitektur"
+      },
+      {
+       "kode": "KM13529",
+       "tekst": "tolke former og symboler fra ulike kulturer og bruke disse i visuelle uttrykk"
+      },
+      {
+       "kode": "KM13530",
+       "tekst": "tegne form og dybde ved bruk av virkemidler som overlapping og forminskning"
+      },
+      {
+       "kode": "KM13531",
+       "tekst": "bruke enkle komposisjonsprinsipper i fotografi og digitale verktøy"
+      },
+      {
+       "kode": "KM13532",
+       "tekst": "utforske mangfold i motiver og visuelle uttrykk i kunst fra ulike verdensdeler og lage en digital presentasjon"
+      },
+      {
+       "kode": "KM13533",
+       "tekst": "formidle og vise fram eget arbeid gjennom utstilling"
+      }
+     ]
+    },
+    {
+     "kode": "KV1044",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13534",
+       "tekst": "bruke ulike håndverktøy og elektriske verktøy for å bearbeide og sammenføye harde, plastiske og myke materialer på en trygg og miljøbevisst måte"
+      },
+      {
+       "kode": "KM13535",
+       "tekst": "undersøke materialene i ulike gjenstander og vurdere funksjon, holdbarhet og muligheter for reparasjon og gjenbruk"
+      },
+      {
+       "kode": "KM13536",
+       "tekst": "bygge og eksperimentere med stabile konstruksjoner"
+      },
+      {
+       "kode": "KM13538",
+       "tekst": "bruke ulike strategier for idéutvikling og problemløsing"
+      },
+      {
+       "kode": "KM13537",
+       "tekst": "bruke digitale verktøy til å planlegge og presentere prosesser og produkter"
+      },
+      {
+       "kode": "KM13539",
+       "tekst": "tegne form, flate og rom ved hjelp av virkemidler som kontraster, skygge, proporsjoner og perspektiv"
+      },
+      {
+       "kode": "KM13540",
+       "tekst": "utforske og reflektere over hvordan følelser og meninger vises i kunst, og bruke symbolikk og farge til å uttrykke følelser og meninger i egne arbeider"
+      },
+      {
+       "kode": "KM13541",
+       "tekst": "analysere visuelle virkemidler i ulike medier og belyse et aktuelt tema gjennom foto eller infografikk"
+      },
+      {
+       "kode": "KM13542",
+       "tekst": "beskrive mangfoldet i klestradisjoner eller gjenstander, inkludert samiske, og lage et produkt med inspirasjon fra kulturarv"
+      },
+      {
+       "kode": "KM13543",
+       "tekst": "undersøke hvordan kjønnsroller vises i kulturelle uttrykk før og nå, og lage visuelle uttrykk som utfordrer stereotypier"
+      },
+      {
+       "kode": "KM13544",
+       "tekst": "bruke programmering til å skape interaktivitet og visuelle uttrykk"
+      },
+      {
+       "kode": "KM13545",
+       "tekst": "designe og lage en utstilling som viser fram prosess og produkt"
+      }
+     ]
+    },
+    {
+     "kode": "KV1045",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13546",
+       "tekst": "utforske muligheter innenfor håndverksteknikker og egnet teknologi ved å bearbeide og sammenføye harde, plastiske og myke materialer."
+      },
+      {
+       "kode": "KM13547",
+       "tekst": "vurdere materialers holdbarhet og muligheter for reparasjon og gjenbruk, og bruke ulike verktøy og materialer på en hensiktsmessig og miljøbevisst måte"
+      },
+      {
+       "kode": "KM13548",
+       "tekst": "utvikle løsninger gjennom en stegvis designprosess og vurdere holdbarhet, funksjon og estetisk uttrykk"
+      },
+      {
+       "kode": "KM13549",
+       "tekst": "utforske hvordan digitale verktøy og ny teknologi kan gi muligheter for kommunikasjonsformer og opplevelser i skapende prosesser og produkter"
+      },
+      {
+       "kode": "KM13550",
+       "tekst": "visualisere form ved hjelp av frihåndstegninger, arbeidstegninger, modeller og digitale verktøy"
+      },
+      {
+       "kode": "KM13552",
+       "tekst": "analysere hvordan identitet og stedstilhørighet kommuniseres i arkitektur, klestradisjoner, kunst eller gjenstander, og integrere kulturelle referanser i eget skapende arbeid"
+      },
+      {
+       "kode": "KM13553",
+       "tekst": "undersøke hvordan kunst, inkludert samisk kunst, kan bidra i samfunnskritikk, og skape kunstuttrykk som belyser utfordringer i egen samtid"
+      },
+      {
+       "kode": "KM13554",
+       "tekst": "reflektere kritisk over visuelle virkemidler og eksperimentere med ulike visuelle uttrykk i en skapende prosess"
+      },
+      {
+       "kode": "KM13555",
+       "tekst": "lage skisser til fornyelse av lokale omgivelser og modellere arkitektoniske løsninger som ivaretar ulike behov og interesser"
+      },
+      {
+       "kode": "KM13551",
+       "tekst": "fordype seg i en visuell uttrykksform og/eller en håndverksteknikk, utforske muligheter gjennom praktisk skapende arbeid og presentere valg fra idé til ferdig resultat"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Mat og helse",
+   "laereplan": "MHE01-03",
+   "sett": [
+    {
+     "kode": "KV1053",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13616",
+       "tekst": "følgje prinsipp for god hygiene i samband med matlaging"
+      },
+      {
+       "kode": "KM13621",
+       "tekst": "bruke reiskap, rom- og vektmål og enkle teknikkar i samband med matlaging"
+      },
+      {
+       "kode": "KM13622",
+       "tekst": "kjenne att smakar i mat og undre seg over kvifor smak er noko vi opplever ulikt"
+      },
+      {
+       "kode": "KM13623",
+       "tekst": "fortelje om kva som kjenneteiknar sunn og variert mat og kvifor det er viktig for helsa"
+      },
+      {
+       "kode": "KM13617",
+       "tekst": "utnytte lokale matvarer i matlaging og presentere ledda i produksjonskjeda frå råvare til måltid"
+      },
+      {
+       "kode": "KM13618",
+       "tekst": "sortere avfall i samband med matlaging og forklare kvifor det er viktig å gjere det"
+      },
+      {
+       "kode": "KM13619",
+       "tekst": "lage enkle måltid og bidra til å skape ei triveleg ramme rundt måltid saman med andre"
+      },
+      {
+       "kode": "KM13624",
+       "tekst": "samtale om måltidsskikkar frå norsk og samisk kultur og frå andre kulturar, og om verdien av å ete saman med andre"
+      },
+      {
+       "kode": "KM13620",
+       "tekst": "samtale om korleis skulemåltidet kan bidra til ein god skulekvardag"
+      }
+     ]
+    },
+    {
+     "kode": "KV1054",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13625",
+       "tekst": "bruke reiskap, grunnleggjande teknikkar og matlagingsmetodar til å lage trygg og berekraftig mat som gir grunnlag for god helse"
+      },
+      {
+       "kode": "KM13634",
+       "tekst": "bruke sansane til å utforske og vurdere matens smak og tekstur og til å utforske anretning av mat"
+      },
+      {
+       "kode": "KM13627",
+       "tekst": "kjenne att og greie ut om grunnsmakar i matvarer og fortelje om og diskutere korleis smak kan påverke matpreferansar og matval"
+      },
+      {
+       "kode": "KM13626",
+       "tekst": "bruke oppskrifter i matlaging og rekne ut og vurdere mengda i porsjonane både med og utan bruk av digitale ressursar"
+      },
+      {
+       "kode": "KM13628",
+       "tekst": "vise samanhengar mellom matvaregrupper og næringsstoff som er viktige for god helse"
+      },
+      {
+       "kode": "KM13629",
+       "tekst": "bruke matmerking og kostmodellar til å setje saman eit sunt, variert og berekraftig kosthald og reflektere rundt vala sine"
+      },
+      {
+       "kode": "KM13630",
+       "tekst": "bruke digitale ressursar til å samanlikne og drøfte produktinformasjon og reklame i ulike medium"
+      },
+      {
+       "kode": "KM13631",
+       "tekst": "utnytte matvarer og restar frå matlaging og reflektere over eige matforbruk"
+      },
+      {
+       "kode": "KM13632",
+       "tekst": "utforske og presentere tradisjonelle norske og samiske metodar for å konservere mat på og kunne fortelje om råvarene som blir konserverte"
+      },
+      {
+       "kode": "KM13633",
+       "tekst": "lage måltid frå ulike kulturar og fortelje om og utforske korleis sosialt fellesskap og samhandling kan vere med på å styrkje god helse"
+      }
+     ]
+    },
+    {
+     "kode": "KV1055",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13635",
+       "tekst": "planleggje og bruke eigna reiskap, teknikkar og matlagingsmetodar til å lage trygg og berekraftig mat som gir grunnlag for god helse"
+      },
+      {
+       "kode": "KM13636",
+       "tekst": "bruke sansane til å vurdere kvaliteten på matvarer, utforske og kombinere smakar i matlaginga og forbetre oppskrifter, menyar og anretning av mat"
+      },
+      {
+       "kode": "KM13637",
+       "tekst": "drøfte korleis kosthald kan bidra til god helse, og bruke digitale ressursar til å vurdere eige kosthald og til å velje sunne og varierte matvarer i samband med matlaging"
+      },
+      {
+       "kode": "KM13638",
+       "tekst": "gjere greie for og kritisk vurdere påstandar, råd og informasjon om kosthald og helse"
+      },
+      {
+       "kode": "KM13639",
+       "tekst": "kritisk vurdere informasjon om matproduksjon og drøfte korleis forbrukarmakt kan påverke lokal og global matproduksjon"
+      },
+      {
+       "kode": "KM13640",
+       "tekst": "utforske klimaavtrykket til matvarer og gjere greie for korleis matval og matforbruk kan påverke miljøet, klimaet og matsikkerheita"
+      },
+      {
+       "kode": "KM13641",
+       "tekst": "lage mat frå norsk og samisk kultur og frå andre kulturar og samanlikne og utforske råvarer og matlagingsmetodar som blir brukte i ulike matkulturar"
+      },
+      {
+       "kode": "KM13642",
+       "tekst": "vise gjennom matlaging og måltid korleis identitet og fellesskap blir formidla i ulike kulturar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Kroppsøving",
+   "laereplan": "KRO01-06",
+   "sett": [
+    {
+     "kode": "KV1046",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13556",
+       "tekst": "utforske eigen kroppsleg bevegelse i leik og andre aktivitetar, åleine og saman med andre"
+      },
+      {
+       "kode": "KM13557",
+       "tekst": "utforske og gjennomføre grunnleggjande bevegelsar som å krype, gå, springe, hinke, satse, lande, vende og rulle i ulike miljø ut frå eigne føresetnader"
+      },
+      {
+       "kode": "KM13558",
+       "tekst": "øve på å avlevere, ta imot og leike med ulike reiskapar og balltypar"
+      },
+      {
+       "kode": "KM13559",
+       "tekst": "leike og vere med saman med andre i aktivitet i varierte bevegelsesmiljø"
+      },
+      {
+       "kode": "KM13560",
+       "tekst": "leike og utføre grunnleggjande øvingar med tilvenning til vatn, som å dykke, flyte, gli, skape framdrift, hoppe uti og orientere seg i vatn"
+      },
+      {
+       "kode": "KM13561",
+       "tekst": "forstå og praktisere enkle reglar for samspel i ulike bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13562",
+       "tekst": "utforske naturen i nærmiljøet med varierte aktivitetar til ulike årstider"
+      },
+      {
+       "kode": "KM13563",
+       "tekst": "forstå og praktisere turreglar og bruke klede etter vêr og forhold i naturen"
+      },
+      {
+       "kode": "KM13564",
+       "tekst": "øve på trygg ferdsel i trafikken"
+      },
+      {
+       "kode": "KM13565",
+       "tekst": "øve på trygg ferdsel ved vatn og på å kunne tilkalle hjelp"
+      }
+     ]
+    },
+    {
+     "kode": "KV1047",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13566",
+       "tekst": "utforske og gjennomføre leikar, idrettsaktivitetar, dansar og andre bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13567",
+       "tekst": "bruke kroppen til å utforske aktivitetar og utvikle grunnleggjande bevegelsar"
+      },
+      {
+       "kode": "KM13568",
+       "tekst": "øve på og bruke basisferdigheiter som å føre, kaste, sprette, sparke og ta imot ball i ulike bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13569",
+       "tekst": "vere symjedyktig ved å falle uti på djupt vatn, symje 100 meter på magen, og undervegs dykke ned og hente ein gjenstand med hendene, stoppe og kvile i 3 minutt (imens flyte på magen, orientere seg, rulle over, flyte på rygg), så symje 100 meter på rygg og ta seg opp på land"
+      },
+      {
+       "kode": "KM13570",
+       "tekst": "forstå og bruke reglar for samhandling i spel og bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13571",
+       "tekst": "forstå kroppsleg ulikskap mellom seg sjølv og andre, og inkludere andre i ulike bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13572",
+       "tekst": "utforske uteaktivitetar og samarbeide med andre under vekslande årstider i nærmiljøet"
+      },
+      {
+       "kode": "KM13573",
+       "tekst": "lage og bruke kart for å orientere seg i kjent terreng"
+      },
+      {
+       "kode": "KM13574",
+       "tekst": "øve på trygg og sporlaus ferdsel i naturen"
+      },
+      {
+       "kode": "KM13575",
+       "tekst": "forstå og følgje reglar i trafikken"
+      }
+     ]
+    },
+    {
+     "kode": "KV1048",
+     "tittel": "7. trinn",
+     "maal": [
+      {
+       "kode": "KM13576",
+       "tekst": "utforske og gjennomføre leik og spel saman med andre i ulike bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13577",
+       "tekst": "øve på samansette bevegelsar, åleine og saman med andre"
+      },
+      {
+       "kode": "KM13578",
+       "tekst": "gjennomføre aktivitetar ut frå eigne interesser og føresetnader i dans, friluftsliv, idrettsaktivitetar og andre bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13579",
+       "tekst": "bruke kart, digitale verktøy og teikn i naturen til å orientere seg i natur og nærmiljø"
+      },
+      {
+       "kode": "KM13580",
+       "tekst": "forstå og praktisere reglar for aktivitet og spel og respektere resultata"
+      },
+      {
+       "kode": "KM13581",
+       "tekst": "forstå ulikskapar mellom seg sjølv og andre og delta i bevegelsesaktivitetar som kan vere tilpassa ikkje berre eigne føresetnader, men òg andre sine"
+      },
+      {
+       "kode": "KM13582",
+       "tekst": "utføre grunnleggjande teknikkar i symjing på magen, på ryggen og under vatn"
+      },
+      {
+       "kode": "KM13583",
+       "tekst": "vurdere sikkerheit i uteaktivitet og naturferdsel og gjennomføre sjølvberging i vatn"
+      },
+      {
+       "kode": "KM13584",
+       "tekst": "bruke nærmiljøet og utforske lokale kulturar for friluftsliv"
+      },
+      {
+       "kode": "KM13585",
+       "tekst": "gjere greie for allemannsretten under ferdsel og opphald i naturen"
+      },
+      {
+       "kode": "KM13586",
+       "tekst": "gjennomføre overnattingstur og reflektere over eigne naturopplevingar"
+      }
+     ]
+    },
+    {
+     "kode": "KV1049",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13587",
+       "tekst": "utforske eigne moglegheiter til trening, helse og velvære gjennom leik, dans, friluftsliv, idrettsaktivitetar og andre bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13588",
+       "tekst": "trene på og utvikle ferdigheiter i varierte bevegelsesaktivitetar"
+      },
+      {
+       "kode": "KM13589",
+       "tekst": "øve på og gjennomføre danseaktivitetar frå ungdomskulturar og andre kulturar, og saman med medelevar skape og presentere dansekomposisjonar"
+      },
+      {
+       "kode": "KM13590",
+       "tekst": "reflektere over korleis ulike framstillingar av kropp i media og samfunnet påverkar bevegelsesaktivitet, kroppsidentitet og sjølvbilete"
+      },
+      {
+       "kode": "KM13591",
+       "tekst": "planleggje og gjennomføre bevegelsesaktivitetar som kan gjennomførast ved skadar eller sjukdom"
+      },
+      {
+       "kode": "KM13592",
+       "tekst": "bruke eigne ferdigheiter og kunnskapar på ein slik måte at det kan medverke til framgang for andre"
+      },
+      {
+       "kode": "KM13593",
+       "tekst": "anerkjenne ulikskap mellom seg sjølv og andre i bevegelsesaktivitetar og inkludere alle, uavhengig av føresetnader"
+      },
+      {
+       "kode": "KM13594",
+       "tekst": "forstå fleire typer kart og digitale verktøy og bruke dei til å orientere seg i kjende og ukjende miljø"
+      },
+      {
+       "kode": "KM13598",
+       "tekst": "utføre varierte symjeteknikkar og kunne symje ein lengre distanse basert på eiga målsetjing"
+      },
+      {
+       "kode": "KM13595",
+       "tekst": "forstå og gjennomføre livberging i, på og ved vatn ute i naturen"
+      },
+      {
+       "kode": "KM13599",
+       "tekst": "forstå og gjennomføre livreddande førstehjelp"
+      },
+      {
+       "kode": "KM13596",
+       "tekst": "gjennomføre friluftsliv til ulike årstider, òg med overnatting ute, og reflektere over kva naturopplevingar kan ha å seie for ein sjølv og andre"
+      },
+      {
+       "kode": "KM13597",
+       "tekst": "vurdere risiko og tryggleik ved ulike uteaktivitetar, forstå og gjennomføre sporlaus og trygg ferdsel"
+      }
+     ]
+    },
+    {
+     "kode": "KV1050",
+     "tittel": "vg1",
+     "maal": [
+      {
+       "kode": "KM13600",
+       "tekst": "trene på og skape nye variantar av leik, bevegelsesaktivitet og dans saman med andre"
+      },
+      {
+       "kode": "KM13601",
+       "tekst": "planleggje og gjennomføre metodar for øving og trening for å oppnå individuelle mål, òg når ein ikkje fullt ut kan delta i aktiviteten"
+      },
+      {
+       "kode": "KM13602",
+       "tekst": "bruke eigne ferdigheiter og kunnskapar til å samarbeide og bidra til å gjere andre gode i aktivitet og samspel"
+      },
+      {
+       "kode": "KM13603",
+       "tekst": "førebyggje skadar ved bevegelsesaktivitetar og utføre grunnleggjande førstehjelp"
+      },
+      {
+       "kode": "KM13604",
+       "tekst": "bruke kart og digitale verktøy på ein måte som sikrar trygg ferdsel for seg sjølv og for andre"
+      },
+      {
+       "kode": "KM13605",
+       "tekst": "bruke lokale tradisjonar for ferdsel i naturen under vekslande årstider"
+      }
+     ]
+    },
+    {
+     "kode": "KV1051",
+     "tittel": "vg2",
+     "maal": [
+      {
+       "kode": "KM13606",
+       "tekst": "gjennomføre leikar, idrettsaktivitetar og andre bevegelsesaktivitetar og forstå korleis ulike aktivitetar påverkar og utviklar koordinasjon, styrke, uthald og bevegelegheit"
+      },
+      {
+       "kode": "KM13607",
+       "tekst": "utføre trening på eiga hand og reflektere over korleis fysisk aktivitet kan fremje god psykisk og fysisk helse og bidra til ein helsefremjande livsstil etter avslutta skulegang og i framtidig arbeidsliv"
+      },
+      {
+       "kode": "KM13608",
+       "tekst": "praktisere reglar for å delta i ulike bevegelsesaktivitetar og medverke til læring for andre"
+      },
+      {
+       "kode": "KM13609",
+       "tekst": "planleggje og gjennomføre uteaktivitetar til ulike årstider, der formålet er å ha gode naturopplevingar"
+      },
+      {
+       "kode": "KM13610",
+       "tekst": "praktisere berekraftig ferdsel i naturen og kunne gjennomføre friluftsliv i nærområdet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1052",
+     "tittel": "vg3",
+     "maal": [
+      {
+       "kode": "KM13611",
+       "tekst": "øve på og utvikle kunnskapar og ferdigheiter i ulike bevegelsesaktivitetar ut frå eigne føresetnader"
+      },
+      {
+       "kode": "KM13612",
+       "tekst": "planleggje, gjennomføre og vurdere eigentrening og forklare korleis dette kan medverke til ein fysisk aktiv og helsefremjande livsstil etter avslutta skulegang"
+      },
+      {
+       "kode": "KM13613",
+       "tekst": "beskrive og drøfte samanhengar mellom bevegelse, kropp, trening og helse i samfunnet"
+      },
+      {
+       "kode": "KM13614",
+       "tekst": "samarbeide om å løyse praktiske oppgåver i eit læringsfellesskap og ut frå øving og aktivitet reflektere over korleis eigen medverknad kan påverke andre"
+      },
+      {
+       "kode": "KM13615",
+       "tekst": "planleggje og gjennomføre uteaktivitetar og friluftsliv i nærområdet"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "navn": "Musikk",
+   "laereplan": "MUS01-03",
+   "sett": [
+    {
+     "kode": "KV1063",
+     "tittel": "2. trinn",
+     "maal": [
+      {
+       "kode": "KM13712",
+       "tekst": "utøve et repertoar av sangleker, sanger og danser hentet fra elevenes nære musikkultur og fra kulturarven"
+      },
+      {
+       "kode": "KM13714",
+       "tekst": "utforske og eksperimentere med puls, rytme, tempo, klang, melodi, dynamikk, harmoni og form i dans, med stemmen og i spill på instrumenter"
+      },
+      {
+       "kode": "KM13713",
+       "tekst": "leke med musikkens grunnelementer gjennom lyd og stemme, lage mønstre og sette sammen mønstrene til enkle improvisasjoner og komposisjoner, også med digitale verktøy"
+      },
+      {
+       "kode": "KM13715",
+       "tekst": "formidle opplevelser av ulike musikalske uttrykk gjennom samtale og kunstneriske uttrykksformer"
+      }
+     ]
+    },
+    {
+     "kode": "KV1064",
+     "tittel": "4. trinn",
+     "maal": [
+      {
+       "kode": "KM13716",
+       "tekst": "utøve og utforske et repertoar av sanger og danser fra ulike musikkulturer, inkludert samisk musikkultur"
+      },
+      {
+       "kode": "KM13718",
+       "tekst": "synge og spille på instrumenter alene og sammen med andre ved bruk av gehør og enkel notasjon"
+      },
+      {
+       "kode": "KM13717",
+       "tekst": "eksperimentere med rytmer, melodier og andre grunnelementer, sette sammen mønstre til komposisjoner, også ved bruk av digitale verktøy, og beskrive arbeidsprosesser og resultater"
+      },
+      {
+       "kode": "KM13719",
+       "tekst": "formidle egne musikkopplevelser og beskrive bruk av musikalske virkemidler ved hjelp av enkle fagbegreper"
+      },
+      {
+       "kode": "KM13720",
+       "tekst": "samtale om og reflektere over hvordan musikk skaper mening når den brukes i ulike sosiale sammenhenger"
+      }
+     ]
+    },
+    {
+     "kode": "KV1065",
+     "tittel": "7.trinn",
+     "maal": [
+      {
+       "kode": "KM13721",
+       "tekst": "utøve et repertoar av musikk, sang, andre vokale uttrykk og dans fra samtiden og historien"
+      },
+      {
+       "kode": "KM13725",
+       "tekst": "utforske og drøfte hvordan musikk fra fortiden påvirker dagens musikk"
+      },
+      {
+       "kode": "KM13723",
+       "tekst": "øve inn og framføre sang og musikk, i samspill eller individuelt, gehørbasert og ved bruk av enkle notasjonsteknikker"
+      },
+      {
+       "kode": "KM13722",
+       "tekst": "lytte, eksperimentere og skape nye uttrykk med instrumenter, kropp, stemme eller lyd fra andre kilder, og presentere resultatet"
+      },
+      {
+       "kode": "KM13728",
+       "tekst": "bruke teknologi og digitale verktøy til å skape, øve inn og bearbeide musikk"
+      },
+      {
+       "kode": "KM13729",
+       "tekst": "bruke fagbegreper i beskrivelse av og refleksjon over arbeidsprosesser, resultater, musikalske uttrykk og virkemidler"
+      },
+      {
+       "kode": "KM13726",
+       "tekst": "utforske og formidle musikalske opplevelser og erfaringer"
+      },
+      {
+       "kode": "KM13727",
+       "tekst": "undersøke hvordan kjønn, kjønnsroller og seksualitet fremstilles i musikk og dans i det offentlige rom, og skape uttrykk som utfordrer stereotypier"
+      },
+      {
+       "kode": "KM13724",
+       "tekst": "reflektere over hvordan musikk kan spille ulike roller for utvikling av individer og gruppers identitet"
+      }
+     ]
+    },
+    {
+     "kode": "KV1066",
+     "tittel": "10. trinn",
+     "maal": [
+      {
+       "kode": "KM13730",
+       "tekst": "utøve et variert repertoar av musikk, sang, andre vokale uttrykk og dans"
+      },
+      {
+       "kode": "KM13735",
+       "tekst": "reflektere over hvordan musikalske tradisjoner, inkludert samiske musikktradisjoner, bevares og fornyes"
+      },
+      {
+       "kode": "KM13732",
+       "tekst": "samarbeide med andre om å planlegge og gjennomføre øvingsprosesser hvor det inngår selvvalgt sang, andre vokale uttrykk, spill på instrumenter eller dans, og formidle resultatet i gruppe eller individuelt"
+      },
+      {
+       "kode": "KM13731",
+       "tekst": "skape og programmere musikalske forløp ved å eksperimentere med lyd fra ulike kilder"
+      },
+      {
+       "kode": "KM13736",
+       "tekst": "utforske og formidle musikalske opplevelser og erfaringer, og reflektere over bruk av musikalske virkemidler"
+      },
+      {
+       "kode": "KM13737",
+       "tekst": "lytte og prøve ut ulike uttrykk og begrunne valg i skapende prosesser fra idé til ferdig resultat"
+      },
+      {
+       "kode": "KM13738",
+       "tekst": "bruke gehør og notasjonsteknikker som støtte i skapende arbeid"
+      },
+      {
+       "kode": "KM13734",
+       "tekst": "bruke relevante fagbegreper i skapende arbeid og i refleksjon over prosesser og resultater"
+      },
+      {
+       "kode": "KM13733",
+       "tekst": "utforske og reflektere over hvordan musikk, sang og dans som estetiske uttrykk er påvirket av og uttrykk for historiske og samfunnsmessige forhold, og skape musikalske uttrykk som tar opp utfordringer i samtiden"
+      },
+      {
+       "kode": "KM13739",
+       "tekst": "utforske og drøfte musikkens og dansens betydning i samfunnet og etiske problemstillinger knyttet til musikalske ytringer og musikkulturer"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1205 @@
+/* Kunnskapsspillet
+   Én skriftfamilie (Archivo, variabel bredde). Brettet er det eneste stedet vi bruker stor
+   bredde og tyngde; resten er rolig. Fire temaer styres med variabler på <html data-tema>. */
+
+:root,
+[data-tema='tavle'] {
+  --bg: #1d3b31;
+  --flate: #24463b;
+  --flate-2: #2c5246;
+  --kant: #3d6658;
+  --tekst: #f1efe6;
+  --dempet: #b5c4b9;
+  --aksent: #f5c84b;
+  --aksent-tekst: #1d3b31;
+  --rute: #24463b;
+  --rute-kant: #3d6658;
+  --rute-tekst: #f5c84b;
+  --kategori: #f1efe6;
+  --brukt: #1a332b;
+  --riktig: #5cc489;
+  --feil: #f0806b;
+  --skygge: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+[data-tema='studio'] {
+  --bg: #16123a;
+  --flate: #211b52;
+  --flate-2: #2b2468;
+  --kant: #3e3590;
+  --tekst: #f4f2ff;
+  --dempet: #b3acdf;
+  --aksent: #ffb627;
+  --aksent-tekst: #16123a;
+  --rute: #2b2fb8;
+  --rute-kant: #4a4fe0;
+  --rute-tekst: #ffb627;
+  --kategori: #ffffff;
+  --brukt: #1b1748;
+  --riktig: #3ddc97;
+  --feil: #ff6b6b;
+  --skygge: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+[data-tema='lys'] {
+  --bg: #ffffff;
+  --flate: #f3f4f1;
+  --flate-2: #e7e9e4;
+  --kant: #b9bdb4;
+  --tekst: #111a14;
+  --dempet: #4c574f;
+  --aksent: #0b5d3b;
+  --aksent-tekst: #ffffff;
+  --rute: #0b5d3b;
+  --rute-kant: #0b5d3b;
+  --rute-tekst: #ffffff;
+  --kategori: #111a14;
+  --brukt: #e7e9e4;
+  --riktig: #0b7a45;
+  --feil: #b3261e;
+  --skygge: none;
+}
+
+[data-tema='fargerik'] {
+  --bg: #fff7e8;
+  --flate: #ffffff;
+  --flate-2: #fdeccc;
+  --kant: #e9d3a6;
+  --tekst: #2a1d0e;
+  --dempet: #6f5a3f;
+  --aksent: #e4572e;
+  --aksent-tekst: #ffffff;
+  --rute: #2e86de;
+  --rute-kant: transparent;
+  --rute-tekst: #ffffff;
+  --kategori: #2a1d0e;
+  --brukt: #f3e6cc;
+  --riktig: #2f9e5e;
+  --feil: #d63c1f;
+  --skygge: 0 3px 0 rgba(42, 29, 14, 0.18);
+}
+
+:root {
+  --skrift: 'Archivo Variable', system-ui, sans-serif;
+  --r: 6px;
+  font-family: var(--skrift);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--tekst);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+[data-tekst='stor'] {
+  font-size: 21px;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+:focus-visible {
+  outline: 3px solid var(--aksent);
+  outline-offset: 2px;
+}
+
+/* ---------- Felles ---------- */
+
+.knapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.55em 1.1em;
+  border: 2px solid var(--kant);
+  border-radius: var(--r);
+  background: var(--flate);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.knapp:hover:not(:disabled) {
+  border-color: var(--tekst);
+}
+.knapp:disabled {
+  opacity: 0.45;
+}
+.knapp-hoved {
+  background: var(--aksent);
+  border-color: var(--aksent);
+  color: var(--aksent-tekst);
+}
+.knapp-hoved:hover:not(:disabled) {
+  border-color: var(--aksent);
+  filter: brightness(1.08);
+}
+.knapp-stor {
+  font-size: 1.15em;
+  padding: 0.7em 1.6em;
+}
+.knapp-fare {
+  background: var(--feil);
+  border-color: var(--feil);
+  color: #fff;
+}
+.knapp-riktig,
+.knapp-feil {
+  min-width: 6.5em;
+  justify-content: center;
+}
+.knapp-riktig {
+  border-color: var(--riktig);
+}
+.knapp-riktig:hover:not(:disabled),
+.knapp-riktig.valgt {
+  background: var(--riktig);
+  border-color: var(--riktig);
+  color: #fff;
+}
+.knapp-feil {
+  border-color: var(--feil);
+}
+.knapp-feil:hover:not(:disabled),
+.knapp-feil.valgt {
+  background: var(--feil);
+  border-color: var(--feil);
+  color: #fff;
+}
+
+.lenkeknapp {
+  padding: 0.3em 0.2em;
+  border: 0;
+  background: none;
+  color: var(--dempet);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.lenkeknapp:hover:not(:disabled) {
+  color: var(--tekst);
+}
+.lenkeknapp:disabled {
+  opacity: 0.4;
+  text-decoration: none;
+}
+
+.knapperad {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+.knapperad.slutt {
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.dempet {
+  color: var(--dempet);
+}
+.liten {
+  font-size: 0.85em;
+}
+.kilde {
+  margin-top: 1.25rem;
+  font-size: 0.8em;
+  color: var(--dempet);
+}
+
+.melding {
+  margin-bottom: 1rem;
+  padding: 0.7em 1em;
+  border-radius: var(--r);
+  border-left: 4px solid var(--riktig);
+  background: var(--flate);
+}
+.melding-feil {
+  border-left-color: var(--feil);
+}
+
+/* ---------- Startskjerm ---------- */
+
+.start {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  padding: 2rem;
+}
+.start-innhold {
+  max-width: 62rem;
+  width: 100%;
+}
+.start-ruter {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+  max-width: 34rem;
+}
+.start-rute {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--rute-kant);
+  border-radius: var(--r);
+  background: var(--rute);
+  color: var(--rute-tekst);
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  box-shadow: var(--skygge);
+  animation: rute-inn 520ms cubic-bezier(0.2, 0.8, 0.2, 1.2) both;
+}
+@keyframes rute-inn {
+  from {
+    opacity: 0;
+    transform: translateY(-28px) rotate(-4deg);
+  }
+}
+.start-tittel {
+  font-size: clamp(2.6rem, 9vw, 6.5rem);
+  font-weight: 850;
+  font-stretch: 112%;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+.start-ingress {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  max-width: 36rem;
+  color: var(--dempet);
+  margin-bottom: 2.25rem;
+}
+.start .knapp {
+  font-size: 1.1em;
+  padding: 0.75em 1.5em;
+}
+
+/* ---------- Sider (oppsett, redigering) ---------- */
+
+.side {
+  max-width: 58rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 4rem;
+}
+.side-bred {
+  max-width: 90rem;
+}
+.topplinje {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+}
+.topplinje h1 {
+  font-size: 1.35rem;
+  font-weight: 750;
+  text-align: center;
+}
+.topplinje > .lenkeknapp {
+  justify-self: start;
+}
+.topplinje-hoyre {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.panel {
+  background: var(--flate);
+  border: 1px solid var(--kant);
+  border-radius: calc(var(--r) * 1.5);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.panel h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.9rem;
+}
+.panel h2:not(:first-child) {
+  margin-top: 1.6rem;
+}
+.panel-topp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.panel-topp h2 {
+  margin: 0;
+}
+.undertittel {
+  font-size: 1rem;
+  margin: 1.75rem 0 0.75rem;
+  color: var(--dempet);
+}
+
+.steg {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+.steg li {
+  flex: 1;
+}
+.steg button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 0.2em;
+  border: 0;
+  border-bottom: 3px solid var(--kant);
+  background: none;
+  color: var(--dempet);
+  font-weight: 600;
+  text-align: left;
+}
+.steg button:disabled {
+  cursor: default;
+}
+.steg .aktiv button {
+  border-color: var(--aksent);
+  color: var(--tekst);
+}
+.steg .ferdig button {
+  border-color: var(--dempet);
+}
+.steg-nr {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  background: var(--flate-2);
+  font-size: 0.85em;
+}
+.aktiv .steg-nr {
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+}
+
+.valgrutenett {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.5rem;
+}
+.valgknapp {
+  padding: 0.75em 0.9em;
+  border: 2px solid var(--kant);
+  border-radius: var(--r);
+  background: var(--bg);
+  font-weight: 600;
+  text-align: left;
+}
+.valgknapp:hover {
+  border-color: var(--tekst);
+}
+.valgknapp.valgt {
+  border-color: var(--aksent);
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+}
+
+.felt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  margin-top: 1.25rem;
+}
+.felt > span {
+  font-weight: 600;
+  font-size: 0.9em;
+}
+.felt-rad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+.felt-rad .felt {
+  min-width: 10rem;
+}
+.panel > .felt-rad:first-child .felt {
+  margin-top: 0;
+}
+.felt-bred {
+  flex: 2;
+}
+input:not([type]),
+input[type='number'],
+textarea,
+select {
+  width: 100%;
+  padding: 0.55em 0.7em;
+  border: 2px solid var(--kant);
+  border-radius: var(--r);
+  background: var(--bg);
+}
+textarea {
+  resize: vertical;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--dempet);
+  opacity: 0.7;
+}
+
+.maal-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+.maal-topp {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+.maal {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.6em 0.8em;
+  border: 2px solid transparent;
+  border-radius: var(--r);
+  background: var(--bg);
+  cursor: pointer;
+  max-width: 75ch;
+}
+.maal:hover {
+  border-color: var(--kant);
+}
+.maal.valgt {
+  border-color: var(--aksent);
+}
+.maal input {
+  margin-top: 0.3em;
+  accent-color: var(--aksent);
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+.maal-oppsummering {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+.maal-kort {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2em;
+  color: var(--dempet);
+  font-size: 0.9em;
+  max-width: 75ch;
+}
+
+.brettliste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.brettkort {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--r);
+  background: var(--bg);
+}
+.brettkort > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Redigering */
+.storrelse {
+  display: flex;
+  gap: 1rem;
+}
+.storrelse label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+.storrelse select {
+  width: auto;
+}
+.redigering-kolonner {
+  display: grid;
+  grid-template-columns: repeat(var(--kolonner), minmax(13rem, 1fr));
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.redigering-kolonne {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.kategori-input {
+  font-weight: 750;
+  font-size: 1.05em;
+  border-color: var(--aksent) !important;
+}
+.sporsmal-felt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.6rem;
+  border-radius: var(--r);
+  background: var(--bg);
+}
+.sporsmal-felt textarea,
+.sporsmal-felt input {
+  background: var(--flate);
+  font-size: 0.92em;
+}
+.sporsmal-nivaa {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--dempet);
+}
+
+/* Spilloppsett */
+.segment {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 2px solid var(--kant);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.segment button {
+  padding: 0.5em 0.95em;
+  border: 0;
+  border-right: 1px solid var(--kant);
+  background: var(--bg);
+  font-weight: 600;
+}
+.segment button:last-child {
+  border-right: 0;
+}
+.segment button.valgt {
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+}
+.lag-felt {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+.lag-navn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-left: 0.75rem;
+  border: 2px solid var(--kant);
+  border-left: 8px solid var(--lagfarge);
+  border-radius: var(--r);
+  background: var(--bg);
+}
+.lag-navn input {
+  border: 0 !important;
+  padding-left: 0 !important;
+  font-weight: 650;
+}
+.lag-prikk {
+  display: none;
+}
+.innstilling {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--kant);
+}
+.panel h2 + .innstilling {
+  border-top: 0;
+  padding-top: 0;
+}
+.innstilling > div:first-child {
+  display: flex;
+  flex-direction: column;
+  max-width: 28rem;
+}
+.innstilling-kontroll {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+.egen-tid {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85em;
+  color: var(--dempet);
+}
+.egen-tid input {
+  width: 5em;
+}
+.bryter {
+  width: 3.2em;
+  height: 1.8em;
+  padding: 0.2em;
+  border: 2px solid var(--kant);
+  border-radius: 1em;
+  background: var(--bg);
+  display: flex;
+}
+.bryter span {
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 50%;
+  background: var(--dempet);
+  transition: transform 160ms ease;
+}
+.bryter[aria-checked='true'] {
+  background: var(--aksent);
+  border-color: var(--aksent);
+}
+.bryter[aria-checked='true'] span {
+  transform: translateX(1.4em);
+  background: var(--aksent-tekst);
+}
+.bryter:disabled {
+  opacity: 0.4;
+}
+
+.tema-valg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.tema-kort {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.6rem 0.6rem 0.8rem;
+  border: 2px solid var(--kant);
+  border-radius: var(--r);
+  background: var(--bg);
+  text-align: left;
+}
+.tema-kort.valgt {
+  border-color: var(--aksent);
+  box-shadow: 0 0 0 2px var(--aksent);
+}
+.tema-forhandsvisning {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 0.4rem;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--kant);
+}
+.mini-kolonne {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mini-kategori {
+  height: 8px;
+  border-radius: 2px;
+  background: var(--kategori);
+  opacity: 0.8;
+}
+.mini-rute {
+  display: grid;
+  place-items: center;
+  height: 22px;
+  border-radius: 2px;
+  background: var(--rute);
+  color: var(--rute-tekst);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* ---------- Spillbrettet ---------- */
+
+.spill {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem clamp(0.75rem, 2vw, 1.5rem) 1rem;
+}
+.spill-brett {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 32rem;
+}
+.spill-topp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.6rem;
+}
+.spill-tittel {
+  font-weight: 650;
+  color: var(--dempet);
+}
+.spill-verktoy {
+  display: flex;
+  gap: 1rem;
+}
+.spill-verktoy .lenkeknapp {
+  font-size: 0.9em;
+}
+
+.brett {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--kolonner), 1fr);
+  gap: clamp(0.35rem, 0.8vw, 0.7rem);
+  min-height: 0;
+}
+.brett-kolonne {
+  display: grid;
+  grid-template-rows: minmax(3.5rem, auto) repeat(var(--rader), minmax(0, 1fr));
+  gap: clamp(0.35rem, 0.8vw, 0.7rem);
+}
+.brett-kategori {
+  display: grid;
+  place-items: center;
+  padding: 0.4rem;
+  text-align: center;
+  color: var(--kategori);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: clamp(0.95rem, 2vw, 1.75rem);
+  line-height: 1.1;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  border-bottom: 3px solid var(--aksent);
+}
+.brett-rute {
+  display: grid;
+  place-items: center;
+  min-height: 2.5rem;
+  border: 2px solid var(--rute-kant);
+  border-radius: var(--r);
+  background: var(--rute);
+  color: var(--rute-tekst);
+  font-weight: 850;
+  font-stretch: 125%;
+  font-size: clamp(1.4rem, min(4.2vw, 7vh), 4rem);
+  letter-spacing: -0.01em;
+  box-shadow: var(--skygge);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.brett-rute:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+}
+.brett-rute:disabled {
+  background: var(--brukt);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: default;
+}
+
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 1) {
+  --rute: #e4572e;
+}
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 2) {
+  --rute: #2e86de;
+}
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 3) {
+  --rute: #c98a00;
+}
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 4) {
+  --rute: #2f9e5e;
+}
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 5) {
+  --rute: #8a4fd8;
+}
+[data-tema='fargerik'] .brett-kolonne:nth-child(6n + 6) {
+  --rute: #d6457f;
+}
+[data-tema='fargerik'] .brett-kategori {
+  border-bottom-color: var(--rute);
+}
+[data-tema='fargerik'] .tema-forhandsvisning .mini-kolonne:nth-child(1),
+.tema-forhandsvisning[data-tema='fargerik'] .mini-kolonne:nth-child(1) {
+  --rute: #e4572e;
+}
+.tema-forhandsvisning[data-tema='fargerik'] .mini-kolonne:nth-child(3) {
+  --rute: #2f9e5e;
+}
+
+.brett-ferdig {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 0;
+}
+
+.poengtavle {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: clamp(0.35rem, 0.8vw, 0.7rem);
+  margin-top: clamp(0.5rem, 1.2vw, 1rem);
+}
+.lag-poeng {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem 0.5rem 0.5rem;
+  border-radius: var(--r);
+  background: var(--flate);
+  border-top: 6px solid var(--lagfarge);
+}
+.lag-poeng-navn {
+  font-weight: 650;
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+}
+.lag-poeng-tall {
+  border: 0;
+  background: none;
+  font-weight: 850;
+  font-stretch: 115%;
+  font-size: clamp(1.6rem, min(3.4vw, 6vh), 3rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.juster {
+  display: flex;
+  gap: 0.4rem;
+}
+.juster button {
+  padding: 0.2em 0.6em;
+  border: 1px solid var(--kant);
+  border-radius: var(--r);
+  background: var(--bg);
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
+/* Spørsmål */
+.sporsmal-lag {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 3vw, 2.5rem);
+  background: var(--bg);
+  animation: apne 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  overflow-y: auto;
+}
+@keyframes apne {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+.sporsmal-boks {
+  width: min(70rem, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.5vh, 2rem);
+}
+.sporsmal-meta {
+  font-weight: 700;
+  color: var(--aksent);
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+}
+.sporsmal-tekst {
+  font-weight: 750;
+  font-size: clamp(1.8rem, 4.6vw, 4.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  max-width: 28ch;
+  text-wrap: balance;
+}
+.sporsmal-tekst.liten-tekst {
+  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  max-width: 40ch;
+}
+.svar {
+  min-height: 3rem;
+}
+.svar.synlig {
+  padding: 1rem 1.25rem;
+  border-left: 6px solid var(--aksent);
+  background: var(--flate);
+  border-radius: var(--r);
+  animation: apne 220ms ease both;
+}
+.svar-etikett {
+  font-weight: 700;
+  color: var(--dempet);
+  font-size: 0.9em;
+}
+.svar-tekst {
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2.8vw, 2.4rem);
+  line-height: 1.2;
+}
+.svar-lag {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.svar-rad {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.55rem 0.75rem 0.55rem 1rem;
+  border-radius: var(--r);
+  background: var(--flate);
+  border-left: 8px solid var(--lagfarge);
+}
+.svar-rad.ute {
+  opacity: 0.5;
+}
+.svar-rad input {
+  width: 8em;
+}
+.svar-lagnavn {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.riktig-melding {
+  padding: 0.8rem 1rem;
+  border-radius: var(--r);
+  background: var(--lagfarge);
+  color: #fff;
+  font-weight: 750;
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.tidtaker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.tidtaker-spor {
+  flex: 1;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--flate-2);
+  overflow: hidden;
+}
+.tidtaker-fyll {
+  height: 100%;
+  background: var(--aksent);
+  transform-origin: left;
+  transition: transform 1s linear;
+}
+.tidtaker.snart .tidtaker-fyll {
+  background: var(--feil);
+}
+.tidtaker-tall {
+  min-width: 5.5em;
+  font-weight: 800;
+  font-size: 1.3em;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.tidtaker.ute .tidtaker-tall {
+  color: var(--feil);
+}
+
+.dobbel-tittel {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  line-height: 1;
+  color: var(--aksent);
+  animation: dobbel 600ms cubic-bezier(0.2, 0.8, 0.2, 1.4) both;
+}
+@keyframes dobbel {
+  from {
+    transform: scale(0.4) rotate(-8deg);
+    opacity: 0;
+  }
+}
+.lag-velger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.lag-knapp {
+  padding: 0.6em 1em;
+  border: 2px solid var(--kant);
+  border-left: 8px solid var(--lagfarge);
+  border-radius: var(--r);
+  background: var(--flate);
+  font-weight: 700;
+}
+.lag-knapp.valgt {
+  border-color: var(--lagfarge);
+  background: var(--lagfarge);
+  color: #fff;
+}
+.lag-knapp.valgt .dempet {
+  color: inherit;
+}
+.innsats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.innsats input {
+  flex: 1;
+  min-width: 12rem;
+  accent-color: var(--aksent);
+}
+.innsats output {
+  font-weight: 850;
+  font-size: 2em;
+  min-width: 3ch;
+  font-variant-numeric: tabular-nums;
+}
+
+.finale {
+  display: grid;
+  place-items: center;
+}
+
+/* Resultat */
+.resultat {
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.resultat-tittel {
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  font-weight: 850;
+  font-stretch: 110%;
+  line-height: 1;
+  text-align: center;
+}
+.resultat-liste {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: min(48rem, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.resultat-liste li {
+  display: grid;
+  grid-template-columns: 9rem 1fr 5rem;
+  align-items: center;
+  gap: 1rem;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+}
+.resultat-navn {
+  font-weight: 700;
+}
+.resultat-stolpe {
+  height: 1.6em;
+  border-radius: var(--r);
+  background: var(--lagfarge);
+  transform-origin: left;
+  transform: scaleX(max(var(--andel), 0.02));
+  animation: stolpe 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes stolpe {
+  from {
+    transform: scaleX(0);
+  }
+}
+.resultat-poeng {
+  font-weight: 850;
+  font-size: 1.3em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.resultat-maal {
+  width: min(48rem, 100%);
+  color: var(--dempet);
+}
+.resultat-maal summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .start-tittel {
+    font-size: 9.6vw;
+    font-stretch: 92%;
+  }
+  .topplinje {
+    grid-template-columns: 1fr;
+  }
+  .topplinje h1 {
+    text-align: left;
+  }
+  .topplinje-hoyre {
+    justify-content: flex-start;
+  }
+  .steg button {
+    font-size: 0.85em;
+  }
+  .innstilling-kontroll {
+    align-items: flex-start;
+  }
+  .spill-verktoy {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .resultat-liste li {
+    grid-template-columns: 6rem 1fr 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
