@@ -74,7 +74,7 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 - Anbefal lærere å sette et utgiftstak hos leverandøren.
 
 ## Åpne spørsmål
-- Buzzer per lag er bygget (Cloudflare Worker + Durable Object, mappen buzzer/). Velges per spill.
+- Buzzer per lag er bygget (Cloudflare Worker + Durable Object, mappen buzzer/). Bare når alle lag svarer med en gang (Lynrunde).
 - Hvilke fag/trinn skal vi starte med?
 
 ## Teknisk

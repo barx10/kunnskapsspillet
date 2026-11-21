@@ -42,7 +42,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   const [fullskjerm, setFullskjerm] = useState(!!document.fullscreenElement)
   const [na, setNa] = useState(() => Date.now())
   const spill_lyd = (f: () => void) => inn.lyd && f()
-  const medBuzzer = inn.melding === 'buzzer' && (inn.forstSvar === 'alle' || inn.stjele !== 'av')
+  const medBuzzer = inn.melding === 'buzzer' && inn.forstSvar === 'alle'
   const bz = useBuzzer()
   const [visRom, setVisRom] = useState(false)
   const lagNavn = JSON.stringify(lag.map(({ navn, farge }) => ({ navn, farge })))

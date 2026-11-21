@@ -69,8 +69,8 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
 
-  // Buzzer gir mening når noen lag skal melde seg: alle med en gang, eller de andre etter feil svar.
-  const kanMelde = i.forstSvar === 'alle' || i.stjele !== 'av'
+  // Buzzer brukes bare når alle lag kan svare med en gang (som i Lynrunde).
+  const kanMelde = i.forstSvar === 'alle'
   const brukerBuzzer = kanMelde && i.melding === 'buzzer'
   useEffect(() => {
     if (!brukerBuzzer) return
@@ -142,6 +142,20 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
             ]}
           />
         </Rad>
+        {kanMelde && (
+          <Rad tittel="Slik melder lagene seg" hjelp={i.melding === 'buzzer' ? 'Lærerskjermen viser hvilket lag som buzzet først.' : undefined}>
+            <Segment
+              etikett="Slik melder lagene seg"
+              verdi={i.melding}
+              onEndre={(v) => sett('melding', v)}
+              valg={[
+                { verdi: 'hand', tekst: 'Rekker opp hånda' },
+                { verdi: 'buzzer', tekst: 'Buzzer på egen enhet' },
+              ]}
+            />
+          </Rad>
+        )}
+        {kanMelde && i.melding === 'buzzer' && <RomPanel lag={lag} />}
         <Rad tittel="Tidtaker" hjelp="Tiden laget har til å svare. Starter når spørsmålet vises.">
           <Segment
             etikett="Tidtaker"
@@ -159,7 +173,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         </Rad>
 
         <h3 className="regel-gruppe">Når et lag ikke klarer det</h3>
-        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? 'Svarer laget som rakk opp hånda feil, kan de andre prøve.' : undefined}>
+        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? (i.melding === 'buzzer' ? 'Svarer laget som buzzet først feil, kan de andre buzze.' : 'Svarer laget som rakk opp hånda feil, kan de andre prøve.') : undefined}>
           <Segment
             etikett="Andre lag kan svare"
             verdi={i.stjele}
@@ -171,20 +185,6 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
             ]}
           />
         </Rad>
-        {kanMelde && (
-          <Rad tittel={i.forstSvar === 'alle' ? 'Slik melder lagene seg' : 'Slik melder de andre lagene seg'} hjelp={i.melding === 'buzzer' ? 'Lærerskjermen viser hvilket lag som buzzet først.' : undefined}>
-            <Segment
-              etikett="Slik melder lagene seg"
-              verdi={i.melding}
-              onEndre={(v) => sett('melding', v)}
-              valg={[
-                { verdi: 'hand', tekst: 'Rekker opp hånda' },
-                { verdi: 'buzzer', tekst: 'Buzzer på egen enhet' },
-              ]}
-            />
-          </Rad>
-        )}
-        {kanMelde && i.melding === 'buzzer' && <RomPanel lag={lag} />}
         {i.stjele !== 'av' && (
           <>
             <Rad tittel="Tid for de andre lagene">
