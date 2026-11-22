@@ -1,5 +1,5 @@
 import type { Brett, Valg } from '../types'
-import { fagListe, kilde } from '../laereplan'
+import { fagListe, kilde, trinnForSett } from '../laereplan'
 import { MaalVelger } from '../komponenter/MaalVelger'
 import { Topplinje } from '../komponenter/Topplinje'
 
@@ -20,6 +20,7 @@ const STEG = ['Fag og tema', 'Kompetansemål', 'Brett']
 export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake, onNyttBrett, onRediger, onVelg }: Props) {
   const fag = fagListe.find((f) => f.navn === valg.fag)
   const annet = valg.fag !== '' && !fag
+  const alderValg = fag && valg.trinn ? trinnForSett(fag.navn, valg.trinn) : []
 
   const passer = brett.filter((b) => b.fag === valg.fag && (!valg.trinn || b.trinn === valg.trinn))
   const andre = brett.filter((b) => !passer.includes(b))
@@ -42,22 +43,43 @@ export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake
           <h2>Hvilket fag?</h2>
           <div className="valgrutenett">
             {fagListe.map((f) => (
-              <button key={f.navn} className={valg.fag === f.navn ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, fag: f.navn, trinn: '', maal: [] })}>
+              <button key={f.navn} className={valg.fag === f.navn ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, fag: f.navn, trinn: '', alder: '', maal: [] })}>
                 {f.navn}
               </button>
             ))}
-            <button className={annet ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, fag: 'Annet', trinn: '', maal: [] })}>
+            <button className={annet ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, fag: 'Annet', trinn: '', alder: '', maal: [] })}>
               Annet fag
             </button>
           </div>
 
           {fag && (
             <>
-              <h2>Trinn</h2>
+              <h2>Kompetansemål etter</h2>
               <div className="valgrutenett">
                 {fag.trinn.map((t) => (
-                  <button key={t.trinn} className={valg.trinn === t.trinn ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, trinn: t.trinn, maal: [] })}>
+                  <button
+                    key={t.trinn}
+                    className={valg.trinn === t.trinn ? 'valgknapp valgt' : 'valgknapp'}
+                    onClick={() => {
+                      const mulige = trinnForSett(fag.navn, t.trinn)
+                      setValg({ ...valg, trinn: t.trinn, alder: mulige.length === 1 ? mulige[0] : mulige.includes(valg.alder) ? valg.alder : '', maal: [] })
+                    }}
+                  >
                     {t.trinn}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          {alderValg.length > 1 && (
+            <>
+              <h2>Trinn</h2>
+              <p className="dempet">Hvilket trinn går elevene på? KI-en tilpasser språk og nivå etter dette.</p>
+              <div className="valgrutenett">
+                {alderValg.map((a) => (
+                  <button key={a} className={valg.alder === a ? 'valgknapp valgt' : 'valgknapp'} onClick={() => setValg({ ...valg, alder: a })}>
+                    {a}
                   </button>
                 ))}
               </div>
@@ -72,7 +94,7 @@ export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake
               </label>
               <label className="felt">
                 <span>Trinn</span>
-                <input value={valg.trinn} placeholder="For eksempel 9. trinn" onChange={(e) => setValg({ ...valg, trinn: e.target.value })} />
+                <input value={valg.alder} placeholder="For eksempel 9. trinn" onChange={(e) => setValg({ ...valg, trinn: e.target.value, alder: e.target.value })} />
               </label>
             </div>
           )}
@@ -83,7 +105,7 @@ export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake
           </label>
 
           <div className="knapperad slutt">
-            <button className="knapp knapp-hoved" disabled={!valg.fag || (!!fag && !valg.trinn)} onClick={() => setSteg(fag ? 1 : 2)}>
+            <button className="knapp knapp-hoved" disabled={!valg.fag || (!!fag && (!valg.trinn || (alderValg.length > 1 && !valg.alder)))} onClick={() => setSteg(fag ? 1 : 2)}>
               Neste
             </button>
           </div>
@@ -118,7 +140,7 @@ export function Oppsett({ valg, setValg, brett, steg, onSteg: setSteg, onTilbake
           </div>
           {passer.length === 0 && (
             <p className="dempet">
-              Du har ingen brett i {valg.fag.toLowerCase()} {valg.trinn} ennå. Lag et nytt, eller bruk et av de andre.
+              Du har ingen brett i {valg.fag.toLowerCase()} {valg.alder || valg.trinn} ennå. Lag et nytt, eller bruk et av de andre.
             </p>
           )}
           <BrettListe liste={passer} onVelg={onVelg} onRediger={onRediger} />
@@ -148,7 +170,7 @@ function BrettListe({ liste, onVelg, onRediger }: { liste: Brett[]; onVelg: (b: 
             <div>
               <strong>{b.tittel}</strong>
               <span className="dempet">
-                {[b.fag, b.trinn].filter(Boolean).join(', ')} – {b.kategorier.length} kategorier, {n} spørsmål
+                {[b.fag, b.alder || b.trinn].filter(Boolean).join(', ')} – {b.kategorier.length} kategorier, {n} spørsmål
               </span>
             </div>
             <div className="knapperad">

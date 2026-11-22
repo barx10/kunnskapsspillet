@@ -101,7 +101,7 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
             </button>
           </p>
           <p className="dempet">
-            Forslagene bygger på brettets fag, trinn og tema ({[brett.fag, brett.trinn, brett.tema].filter(Boolean).join(', ') || 'ikke fylt inn ennå'}), kompetansemålene og en eventuell fagtekst.
+            Forslagene bygger på brettets fag, trinn og tema ({[brett.fag, brett.alder, brett.tema].filter(Boolean).join(', ') || 'ikke fylt inn ennå'}), kompetansemålene og en eventuell fagtekst.
           </p>
 
           <fieldset className="valg-liste">
@@ -188,4 +188,4 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
   )
 }
 
-const grunn = (b: Brett) => ({ fag: b.fag, trinn: b.trinn, tema: b.tema, maal: b.maal })
+const grunn = (b: Brett) => ({ fag: b.fag, trinn: b.trinn, alder: b.alder, tema: b.tema, maal: b.maal })

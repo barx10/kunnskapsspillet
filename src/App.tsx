@@ -22,7 +22,7 @@ type Skjerm =
   | { navn: 'spill' }
   | { navn: 'ki' }
 
-const tomtValg: Valg = { fag: '', trinn: '', tema: '', maal: [] }
+const tomtValg: Valg = { fag: '', trinn: '', alder: '', tema: '', maal: [] }
 const START: Skjerm = { navn: 'start' }
 const ULAGRET = 'Du har endringer som ikke er lagret. Vil du forlate redigeringen uten å lagre?'
 
@@ -137,7 +137,7 @@ export default function App() {
           steg={skjerm.steg}
           onSteg={(steg) => (steg < skjerm.steg ? tilbakeTil({ navn: 'oppsett', steg }) : gaTil({ navn: 'oppsett', steg }))}
           onTilbake={() => tilbakeTil(START)}
-          onNyttBrett={() => gaTil({ navn: 'rediger', brett: tomtBrett(valg.fag, valg.trinn, valg.tema, valg.maal), tilbake: 'oppsett' })}
+          onNyttBrett={() => gaTil({ navn: 'rediger', brett: tomtBrett(valg.fag, valg.trinn, valg.tema, valg.maal, 5, 5, valg.alder), tilbake: 'oppsett' })}
           onRediger={(b) => gaTil({ navn: 'rediger', brett: b, tilbake: 'oppsett' })}
           onVelg={(b) => gaTil({ navn: 'spilloppsett', brett: b, tilbake: 'oppsett' })}
         />

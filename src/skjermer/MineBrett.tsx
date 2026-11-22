@@ -52,7 +52,7 @@ export function MineBrett({ brett, setBrett, onTilbake, onNytt, onRediger, onSpi
                 <div>
                   <strong>{b.tittel}</strong>
                   <span className="dempet">
-                    {[b.fag, b.trinn].filter(Boolean).join(', ') || 'Uten fag'} – {n} spørsmål, {b.maal.length} kompetansemål
+                    {[b.fag, b.alder || b.trinn].filter(Boolean).join(', ') || 'Uten fag'} – {n} spørsmål, {b.maal.length} kompetansemål
                   </span>
                 </div>
                 {sletter === b.id ? (

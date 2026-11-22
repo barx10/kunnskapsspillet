@@ -8,7 +8,10 @@ export type Brett = {
   id: string
   tittel: string
   fag: string
+  /** Kompetansemålsettet (for eksempel «etter 7. trinn»). */
   trinn: string
+  /** Trinnet elevene går på, så KI kan tilpasse språk og nivå. */
+  alder?: string
   tema: string
   maal: Kompetansemaal[]
   kategorier: Kategori[]
@@ -62,4 +65,4 @@ export type Spilltilstand = {
   startet?: number
 }
 
-export type Valg = { fag: string; trinn: string; tema: string; maal: Kompetansemaal[] }
+export type Valg = { fag: string; trinn: string; alder: string; tema: string; maal: Kompetansemaal[] }
