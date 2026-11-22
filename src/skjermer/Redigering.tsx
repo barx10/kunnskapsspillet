@@ -65,8 +65,12 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
             <input value={b.fag} onChange={(e) => setB({ ...b, fag: e.target.value })} />
           </label>
           <label className="felt">
-            <span>Trinn</span>
+            <span>Kompetansemål etter</span>
             <input value={b.trinn} onChange={(e) => setB({ ...b, trinn: e.target.value })} />
+          </label>
+          <label className="felt">
+            <span>Trinn</span>
+            <input value={b.alder ?? ''} placeholder="For eksempel 6. trinn" onChange={(e) => setB({ ...b, alder: e.target.value })} />
           </label>
         </div>
         <label className="felt">

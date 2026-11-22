@@ -11,6 +11,7 @@ export const eksempelbrett: Brett = {
   tittel: 'Naturfag 7. trinn – eksempel',
   fag: 'Naturfag',
   trinn: '7. trinn',
+  alder: '7. trinn',
   tema: 'Stoffer, kroppen, verdensrommet og naturen',
   maal: naturfag7?.maal.filter((m) => koder.includes(m.kode)) ?? [],
   kategorier: [

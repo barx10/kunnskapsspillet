@@ -17,6 +17,7 @@ export type BrettForslag = z.infer<typeof BrettForslag>
 export type Bestilling = {
   fag: string
   trinn: string
+  alder?: string
   tema: string
   maal: Kompetansemaal[]
   kategorinavn: string[] // tom streng = KI velger
@@ -32,7 +33,7 @@ const SYSTEM = `Du lager spørsmål til et quizspill med poengbrett som spilles 
 Læreren styrer spillet på storskjerm og leser spørsmålene høyt.
 
 Krav:
-- Skriv på norsk bokmål, tilpasset elevenes trinn.
+- Skriv på norsk bokmål, tilpasset elevenes alder og trinn. Språk, ordvalg og vanskelighetsgrad skal passe trinnet elevene går på.
 - Hver kategori har spørsmål i stigende vanskelighetsgrad: første spørsmål er lettest, siste er vanskeligst.
 - Spørsmålene skal være faglig korrekte og ha ett tydelig riktig svar, så læreren raskt kan avgjøre om et lag svarte riktig.
 - Spørsmål: én eller to setninger. Svar: kort fasit, gjerne med en kort forklaring eller godkjente varianter i parentes.
@@ -44,7 +45,8 @@ Krav:
 function lagPrompt(b: Bestilling) {
   const linjer = [
     `Fag: ${b.fag || 'ikke oppgitt'}`,
-    `Trinn: ${b.trinn || 'ikke oppgitt'}`,
+    `Elevene går på: ${b.alder || 'ikke oppgitt'}`,
+    `Kompetansemål etter: ${b.trinn || 'ikke oppgitt'}`,
     `Tema: ${b.tema || 'ikke oppgitt'}`,
   ]
   if (b.maal.length) linjer.push('', 'Kompetansemål:', ...b.maal.map((m) => `- ${m.tekst}`))

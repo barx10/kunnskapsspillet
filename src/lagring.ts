@@ -69,12 +69,13 @@ export const lagreSpill = (s: Spilltilstand | null) => (s ? skriv(NOKLER.spill, 
 
 export const nyId = () => crypto.randomUUID()
 
-export function tomtBrett(fag = '', trinn = '', tema = '', maal: Brett['maal'] = [], kolonner = 5, rader = 5): Brett {
+export function tomtBrett(fag = '', trinn = '', tema = '', maal: Brett['maal'] = [], kolonner = 5, rader = 5, alder = ''): Brett {
   return {
     id: nyId(),
     tittel: tema || 'Nytt brett',
     fag,
     trinn,
+    alder,
     tema,
     maal,
     kategorier: Array.from({ length: kolonner }, () => ({
@@ -122,6 +123,7 @@ export function importer(tekst: string): Brett {
     tittel: str(b.tittel, 120) || 'Importert brett',
     fag: str(b.fag, 80),
     trinn: str(b.trinn, 80),
+    alder: str(b.alder, 80),
     tema: str(b.tema, 120),
     maal: (Array.isArray(b.maal) ? b.maal.slice(0, MAKS.maal) : []).map((m: Record<string, unknown>) => ({ kode: str(m?.kode, 20), tekst: str(m?.tekst) })),
     kategorier: kategorier.map((k: Record<string, unknown>) => ({

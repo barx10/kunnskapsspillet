@@ -3,7 +3,7 @@ import { Modal } from './Modal'
 const STEG: { tittel: string; tekst: React.ReactNode }[] = [
   {
     tittel: 'Velg fag, tema og kompetansemål',
-    tekst: 'Trykk «Nytt spill» og velg fag og trinn. Skriv gjerne et tema, og kryss av kompetansemålene spillet skal dekke. Du kan hoppe over målene.',
+    tekst: 'Trykk «Nytt spill» og velg fag, kompetansemål og trinn. Skriv gjerne et tema, og kryss av kompetansemålene spillet skal dekke. Du kan hoppe over målene.',
   },
   {
     tittel: 'Lag et brett',
