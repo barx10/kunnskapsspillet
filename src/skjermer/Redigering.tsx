@@ -4,6 +4,7 @@ import { Topplinje } from '../komponenter/Topplinje'
 import { MaalVelger } from '../komponenter/MaalVelger'
 import { fagListe } from '../laereplan'
 import { KiDialog } from '../ki/KiDialog'
+import { feilAlternativer } from '../alternativer'
 
 type Props = { start: Brett; onAvbryt: () => void; onLagre: (b: Brett) => void; onEndret: (ulagret: boolean) => void }
 
@@ -23,6 +24,24 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
     setB({
       ...b,
       kategorier: b.kategorier.map((k, i) => (i === ki ? { ...k, sporsmal: k.sporsmal.map((s, j) => (j === ri ? { ...s, [felt]: verdi } : s)) } : k)),
+    })
+
+  const settAlternativ = (ki: number, ri: number, n: number, verdi: string) =>
+    setB({
+      ...b,
+      kategorier: b.kategorier.map((k, i) =>
+        i === ki
+          ? {
+              ...k,
+              sporsmal: k.sporsmal.map((s, j) => {
+                if (j !== ri) return s
+                const alt = [0, 1, 2].map((x) => s.alternativer?.[x] ?? '')
+                alt[n] = verdi
+                return { ...s, alternativer: alt }
+              }),
+            }
+          : k,
+      ),
     })
 
   const settKolonner = (n: number) => {
@@ -49,7 +68,7 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
   return (
     <main className="side side-bred">
       <Topplinje tittel={start.tittel ? 'Rediger brett' : 'Nytt brett'} onTilbake={onAvbryt} tilbakeTekst="Avbryt">
-        <button className="knapp knapp-hoved" onClick={() => onLagre(b)}>
+        <button className="knapp knapp-hoved" onClick={() => onLagre(rydd(b))}>
           Lagre brett
         </button>
       </Topplinje>
@@ -144,6 +163,12 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
                   <span className="sporsmal-nivaa">Nivå {ri + 1}</span>
                   <textarea rows={2} value={s.sporsmal} placeholder="Spørsmål" aria-label={`Spørsmål, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settSporsmal(ki, ri, 'sporsmal', e.target.value)} />
                   <input value={s.svar} placeholder="Svar" aria-label={`Svar, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settSporsmal(ki, ri, 'svar', e.target.value)} />
+                  <details className="alternativ-felt">
+                    <summary>Svaralternativer ({feilAlternativer(s).length}/3)</summary>
+                    {[0, 1, 2].map((n) => (
+                      <input key={n} value={s.alternativer?.[n] ?? ''} placeholder={`Feil alternativ ${n + 1}`} aria-label={`Feil alternativ ${n + 1}, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settAlternativ(ki, ri, n, e.target.value)} />
+                    ))}
+                  </details>
                 </div>
               ))}
             </div>
@@ -187,10 +212,22 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
         <button className="knapp" onClick={onAvbryt}>
           Avbryt
         </button>
-        <button className="knapp knapp-hoved" onClick={() => onLagre(b)}>
+        <button className="knapp knapp-hoved" onClick={() => onLagre(rydd(b))}>
           Lagre brett
         </button>
       </div>
     </main>
   )
 }
+
+/** Fjerner tomme svaralternativer før lagring. */
+const rydd = (b: Brett): Brett => ({
+  ...b,
+  kategorier: b.kategorier.map((k) => ({
+    ...k,
+    sporsmal: k.sporsmal.map(({ alternativer, ...s }) => {
+      const alt = (alternativer ?? []).map((a) => a.trim()).filter(Boolean)
+      return alt.length ? { ...s, alternativer: alt } : s
+    }),
+  })),
+})

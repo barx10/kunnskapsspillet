@@ -20,7 +20,8 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
       <>
         Velg 2–6 lag og gi dem navn. Velg så en spillmodus: <strong>Klassisk</strong> (lagene velger og svarer etter tur, bommer laget eller tiden går ut, går spørsmålet til et
         tilfeldig lag og deretter til alle), <strong>Lynrunde</strong> (laget som rekker opp hånda først, svarer) eller <strong>Rolig</strong> (uten tidtaker og minuspoeng). Du kan justere reglene etterpå,
-        for eksempel tid, halve poeng til de andre lagene, antall dobbel-ruter og spilletid.
+        for eksempel tid, halve poeng til de andre lagene, antall dobbel-ruter og spilletid. Vil du gjøre det enklere, slår du på svaralternativer. Da kan lagene også kjøpe hint
+        som fjerner ett feil alternativ.
       </>
     ),
   },

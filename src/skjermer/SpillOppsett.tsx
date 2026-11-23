@@ -5,6 +5,7 @@ import { buzzer } from '../buzzer/vert'
 import { RomPanel } from '../buzzer/RomPanel'
 import { Topplinje } from '../komponenter/Topplinje'
 import { poengFor } from '../poeng'
+import { feilAlternativer } from '../alternativer'
 
 type Props = {
   brett: Brett
@@ -69,6 +70,10 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
   const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m, ...(m === 'lynrunde' && { melding: 'buzzer' as const }) })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
+  const sporsmalene = brett.kategorier.flatMap((k) => k.sporsmal).filter((s) => s.sporsmal.trim())
+  const medAlt = sporsmalene.filter((s) => feilAlternativer(s).length > 0).length
+  const medHint = sporsmalene.filter((s) => feilAlternativer(s).length > 1).length
+  const hintPriser = [0, 0.5, 1, 2].filter((f) => !(i.poengskala === 1 && f === 0.5))
 
   // Buzzer brukes bare når alle lag kan svare med en gang (som i Lynrunde).
   const kanMelde = i.forstSvar === 'alle'
@@ -223,6 +228,20 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
           />
         </Rad>
 
+        <h3 className="regel-gruppe">Hjelp til elevene</h3>
+        <Bryter
+          tittel="Svaralternativer"
+          hjelp={medAlt === 0 ? 'Brettet har ingen svaralternativer. Legg dem inn under Rediger, eller la KI lage dem.' : `Viser svaret og de feile alternativene som A–D. ${medAlt} av ${sporsmalene.length} spørsmål har alternativer.`}
+          verdi={i.alternativer && medAlt > 0}
+          deaktivert={medAlt === 0}
+          onEndre={(v) => sett('alternativer', v)}
+        />
+        {i.alternativer && medAlt > 0 && (
+          <Rad tittel="Hint" hjelp={`Et lag kan kjøpe hint. Hvert hint fjerner ett feil alternativ og koster poeng. Minst ett feil alternativ blir stående. ${medHint} spørsmål har nok alternativer til hint.`}>
+            <Segment etikett="Pris for hint" verdi={i.hintPris} onEndre={(v) => sett('hintPris', v)} valg={hintPriser.map((f) => ({ verdi: f, tekst: f === 0 ? 'Av' : `${Math.max(1, Math.round(f * i.poengskala))} poeng` }))} />
+          </Rad>
+        )}
+
         <h3 className="regel-gruppe">Spillet</h3>
         <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen hvis minuspoeng er valgt. Andre lag kan ikke svare.">
           <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => regel('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
@@ -275,7 +294,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         <button
           className="knapp knapp-hoved knapp-stor"
           onClick={() => {
-            const ferdig = { ...i, finale: i.finale && harFinale }
+            const ferdig = { ...i, finale: i.finale && harFinale, alternativer: i.alternativer && medAlt > 0 }
             setInnstillinger({ ...ferdig, finale: i.finale })
             onStart(ferdig, lag.map((l, n) => ({ ...l, navn: l.navn.trim() || LAGNAVN[n] })))
           }}
