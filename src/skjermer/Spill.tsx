@@ -13,7 +13,9 @@ type Props = { spill: Spilltilstand; setSpill: (s: Spilltilstand) => void; onPau
 /**
  * Et åpent spørsmål.
  * - forsteLag: laget som svarer først (laget med turen). null = alle lag kan svare med en gang.
- * - fase: 'forste' mens forsteLag svarer, 'apen' når de andre lagene kan melde seg.
+ * - andreLag: laget som trekkes tilfeldig når forsteLag bommer eller tiden går ut.
+ * - fase: 'forste' mens forsteLag svarer, 'andre' mens andreLag svarer, 'apen' når alle gjenværende lag kan melde seg.
+ * - stengt: ingen flere lag kan svare på spørsmålet.
  */
 type Aapen = {
   id: string
@@ -25,7 +27,9 @@ type Aapen = {
   dobbelLag: number | null
   innsats: number
   forsteLag: number | null
-  fase: 'forste' | 'apen'
+  andreLag: number | null
+  fase: 'forste' | 'andre' | 'apen'
+  stengt: boolean
   feil: number[]
   riktig: number | null
   visSvar: boolean
@@ -127,7 +131,9 @@ export function Spill({ spill, setSpill, onPause }: Props) {
       dobbelLag: dobbel && harTur ? tur : null,
       innsats: 0,
       forsteLag,
+      andreLag: null,
       fase: forsteLag === null ? 'apen' : 'forste',
+      stengt: false,
       feil: [],
       riktig: null,
       visSvar: false,
@@ -144,7 +150,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   /** Poeng for et svar fra lag n i nåværende fase. */
   const verdiFor = (a: Aapen) => {
     if (a.dobbel) return a.innsats
-    const stjeler = a.forsteLag !== null && a.fase === 'apen'
+    const stjeler = a.forsteLag !== null && a.fase !== 'forste'
     return stjeler && inn.stjelePoeng === 'halv' ? Math.max(1, Math.round(a.verdi / 2)) : a.verdi
   }
 
@@ -160,24 +166,23 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     spill_lyd(lyd.feil)
     const trekk = inn.feilSvar === 'minus' || aapen.dobbel ? -verdi : 0
     if (trekk) oppdater(endrePoeng(n, trekk))
-    const feil = [...aapen.feil, n]
-    const igjen = lag.filter((_, k) => !feil.includes(k) && k !== aapen.forsteLag).length
-    const ingenIgjen = aapen.forsteLag === null ? feil.length >= lag.length : igjen === 0
-    const ferdig = aapen.dobbel || inn.stjele === 'av' || ingenIgjen
-    setAapen({ ...aapen, feil, fase: ferdig ? aapen.fase : 'apen', tidUte: false, visSvar: ferdig || aapen.visSvar })
+    const b = { ...aapen, feil: [...aapen.feil, n], tidUte: false }
+    if (aapen.dobbel || inn.stjele === 'av') setAapen(steng(b))
+    else if (aapen.fase === 'apen') setAapen(aktuelle(b, lag.length).length ? b : steng(b))
+    else setAapen(videre(b, lag.length))
   }
 
-  /** Tiden til laget som svarer først, er ute. */
-  const forsteTidUte = useCallback(() => {
+  /** Tiden til laget med turen (eller det trukne laget) er ute. */
+  const turTidUte = useCallback(() => {
     setAapen((a) => {
-      if (!a || a.fase !== 'forste') return a
-      if (inn.stjele === 'feilOgTid' && !a.dobbel) return { ...a, fase: 'apen', tidUte: false }
+      if (!a || a.fase === 'apen') return a
+      if (inn.stjele === 'feilOgTid' && !a.dobbel) return videre(a, lag.length)
       return { ...a, tidUte: true }
     })
-  }, [inn.stjele])
+  }, [inn.stjele, lag.length])
   const apenTidUte = useCallback(() => setAapen((a) => (a ? { ...a, tidUte: true } : a)), [])
 
-  const slippTilAndre = () => aapen && setAapen({ ...aapen, fase: 'apen', tidUte: false })
+  const slippTilAndre = () => aapen && setAapen(videre(aapen, lag.length))
 
   const tilFinale = () => {
     if (aapen) return
@@ -294,7 +299,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           verdi={verdiFor(aapen)}
           onSvar={svar}
           onLukk={lukk}
-          onForsteTidUte={forsteTidUte}
+          onTurTidUte={turTidUte}
           onApenTidUte={apenTidUte}
           onSlippTilAndre={slippTilAndre}
           medBuzzer={medBuzzer}
@@ -302,6 +307,28 @@ export function Spill({ spill, setSpill, onPause }: Props) {
       )}
     </div>
   )
+}
+
+const steng = (a: Aapen): Aapen => ({ ...a, stengt: true, visSvar: true, tidUte: false })
+
+/** Lagene som kan svare nå. */
+function aktuelle(a: Aapen, antallLag: number): number[] {
+  if (a.stengt) return []
+  if (a.fase === 'forste' && a.forsteLag !== null) return [a.forsteLag]
+  if (a.fase === 'andre' && a.andreLag !== null) return [a.andreLag]
+  return Array.from({ length: antallLag }, (_, n) => n).filter((n) => !a.feil.includes(n) && n !== a.forsteLag && n !== a.andreLag)
+}
+
+/** Laget med turen bommet: spørsmålet går til et tilfeldig annet lag. Bommer også det, kan alle gjenværende lag svare. */
+function videre(a: Aapen, antallLag: number): Aapen {
+  const b: Aapen = { ...a, tidUte: false }
+  if (a.fase === 'forste') {
+    const kandidater = Array.from({ length: antallLag }, (_, n) => n).filter((n) => n !== a.forsteLag && !a.feil.includes(n))
+    if (!kandidater.length) return steng(b)
+    return { ...b, fase: 'andre', andreLag: kandidater[Math.floor(Math.random() * kandidater.length)] }
+  }
+  const apen: Aapen = { ...b, fase: 'apen' }
+  return aktuelle(apen, antallLag).length ? apen : steng(apen)
 }
 
 /** Hvem velger neste rute etter at et spørsmål er lukket. */
@@ -323,23 +350,23 @@ type VisningProps = {
   verdi: number
   onSvar: (n: number, riktig: boolean) => void
   onLukk: () => void
-  onForsteTidUte: () => void
+  onTurTidUte: () => void
   onApenTidUte: () => void
   onSlippTilAndre: () => void
   medBuzzer: boolean
 }
 
-function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsats, verdi, onSvar, onLukk, onForsteTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
+function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsats, verdi, onSvar, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
   const { innstillinger: inn, lag } = spill
   const ferdig = aapen.riktig !== null || aapen.visSvar
   const hovedknapp = useRef<HTMLButtonElement>(null)
 
-  const iForste = aapen.fase === 'forste' && aapen.forsteLag !== null
-  const aktuelleLag = iForste ? [aapen.forsteLag as number] : lag.map((_, n) => n).filter((n) => !aapen.feil.includes(n) && n !== aapen.forsteLag)
+  const iTur = (aapen.fase === 'forste' && aapen.forsteLag !== null) || (aapen.fase === 'andre' && aapen.andreLag !== null)
+  const aktuelleLag = aktuelle(aapen, lag.length)
 
   // Buzzer: åpne for lagene som kan svare nå, og steng når ingen kan det.
   const bz = useBuzzer()
-  const buzzAktiv = medBuzzer && aapen.steg === 'sporsmal' && !ferdig && !iForste && aapen.riktig === null && aktuelleLag.length > 0
+  const buzzAktiv = medBuzzer && aapen.steg === 'sporsmal' && !ferdig && !iTur && aapen.riktig === null && aktuelleLag.length > 0
   const runde = `${aapen.id}-${aapen.feil.length}`
   const tillatt = aktuelleLag.join(',')
   useEffect(() => {
@@ -406,18 +433,21 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
     )
   }
 
-  const kanSlippes = iForste && inn.stjele !== 'av' && !aapen.dobbel && lag.length > 1
+  const kanSlippes = iTur && !aapen.stengt && inn.stjele !== 'av' && !aapen.dobbel && lag.length > 1
 
   // Overskrift over lagene
   let melding: string
-  if (iForste) melding = `${lag[aapen.forsteLag as number].navn} svarer`
+  if (iTur && aapen.fase === 'forste') melding = `${lag[aapen.forsteLag as number].navn} svarer`
+  else if (iTur) melding = `Turen går til ${lag[aapen.andreLag as number].navn}`
   else if (forstBuzz !== undefined) melding = `${lag[forstBuzz].navn} var først!`
   else if (medBuzzer) melding = aapen.forsteLag === null && aapen.feil.length === 0 ? 'Laget som buzzer først, får svare' : 'De andre lagene kan buzze nå!'
   else if (aapen.forsteLag === null && aapen.feil.length === 0) melding = 'Laget som rekker opp hånda først, får svare'
+  else if (aapen.andreLag !== null) melding = 'Nå kan alle lag svare. Rekk opp hånda!'
   else melding = 'De andre lagene kan svare. Rekk opp hånda!'
 
-  const visTidtaker = !ferdig && forstBuzz === undefined && (iForste ? inn.tidtaker : aapen.forsteLag === null && aapen.feil.length === 0 ? inn.tidtaker : inn.stjeleSekunder > 0)
-  const sekunder = iForste || (aapen.forsteLag === null && aapen.feil.length === 0) ? inn.sekunder : inn.stjeleSekunder
+  const forsteSvar = aapen.fase === 'forste' || (aapen.forsteLag === null && aapen.feil.length === 0)
+  const visTidtaker = !ferdig && forstBuzz === undefined && (forsteSvar ? inn.tidtaker : inn.stjeleSekunder > 0)
+  const sekunder = forsteSvar ? inn.sekunder : inn.stjeleSekunder
 
   return (
     <div className="sporsmal-lag" role="dialog" aria-modal="true" aria-label={`${kategori} for ${aapen.verdi}`}>
@@ -427,7 +457,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
         </p>
         <p className="sporsmal-tekst">{sporsmal.sporsmal}</p>
 
-        {visTidtaker && <Tidtaker key={`${aapen.fase}-${aapen.feil.length}`} sekunder={sekunder} lyd={inn.lyd} onUte={iForste ? onForsteTidUte : onApenTidUte} />}
+        {visTidtaker && <Tidtaker key={`${aapen.fase}-${aapen.feil.length}`} sekunder={sekunder} lyd={inn.lyd} onUte={iTur ? onTurTidUte : onApenTidUte} />}
 
         <div className={aapen.visSvar ? 'svar synlig' : 'svar'} aria-live="polite">
           {aapen.visSvar ? (
@@ -447,7 +477,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
             {!ferdig && (
               <p className="svar-melding">
                 {melding}
-                {!iForste && aapen.forsteLag !== null && verdi !== aapen.verdi && <span className="dempet"> ({verdi} poeng)</span>}
+                {aapen.fase !== 'forste' && aapen.forsteLag !== null && verdi !== aapen.verdi && <span className="dempet"> ({verdi} poeng)</span>}
               </p>
             )}
             {[...rekkefolge, ...aktuelleLag.filter((n) => !rekkefolge.includes(n))].map((n) => {
@@ -473,7 +503,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
             {aapen.feil.length > 0 && <p className="dempet liten">Svarte feil: {aapen.feil.map((n) => lag[n].navn).join(', ')}</p>}
             {kanSlippes && (
               <button className="lenkeknapp slipp" onClick={onSlippTilAndre}>
-                {aapen.tidUte ? 'Tiden er ute. La de andre lagene svare' : 'La de andre lagene svare'}
+                {aapen.fase === 'forste' ? (aapen.tidUte ? 'Tiden er ute. Gi spørsmålet til et tilfeldig lag' : 'Gi spørsmålet til et tilfeldig lag') : aapen.tidUte ? 'Tiden er ute. La alle lag svare' : 'La alle lag svare'}
               </button>
             )}
           </div>

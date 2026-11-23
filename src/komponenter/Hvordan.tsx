@@ -18,8 +18,8 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
     tittel: 'Del klassen i lag og velg spillmodus',
     tekst: (
       <>
-        Velg 2–6 lag og gi dem navn. Velg så en spillmodus: <strong>Klassisk</strong> (lagene velger og svarer etter tur, de andre kan prøve hvis laget bommer eller tiden går
-        ut), <strong>Lynrunde</strong> (laget som rekker opp hånda først, svarer) eller <strong>Rolig</strong> (uten tidtaker og minuspoeng). Du kan justere reglene etterpå,
+        Velg 2–6 lag og gi dem navn. Velg så en spillmodus: <strong>Klassisk</strong> (lagene velger og svarer etter tur, bommer laget eller tiden går ut, går spørsmålet til et
+        tilfeldig lag og deretter til alle), <strong>Lynrunde</strong> (laget som rekker opp hånda først, svarer) eller <strong>Rolig</strong> (uten tidtaker og minuspoeng). Du kan justere reglene etterpå,
         for eksempel tid, halve poeng til de andre lagene, antall dobbel-ruter og spilletid.
       </>
     ),
@@ -29,7 +29,7 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
     tekst: (
       <>
         Vis siden på storskjermen og trykk «Fullskjerm». Øverst står det hvilket lag som skal velge rute. Les spørsmålet høyt, og trykk «Riktig» eller «Feil» ved laget som
-        svarer. Bommer laget, eller tiden går ut, står det på skjermen at de andre lagene kan rekke opp hånda.
+        svarer. Bommer laget, eller tiden går ut, trekkes et tilfeldig lag som får prøve. Bommer også det, står det på skjermen at alle lagene kan rekke opp hånda.
         Trykk «Vis svaret» når dere vil se fasiten, og «Tilbake til brettet» for å gå videre. Esc-tasten tar deg også tilbake når spørsmålet er avgjort.
       </>
     ),
