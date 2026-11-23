@@ -224,7 +224,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         </Rad>
 
         <h3 className="regel-gruppe">Spillet</h3>
-        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv.">
+        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen hvis minuspoeng er valgt. Andre lag kan ikke svare.">
           <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => regel('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
         </Rad>
         <Rad tittel="Spilletid" hjelp="Brettet viser hvor lang tid som er igjen. Når tiden er ute, går dere til finalen eller resultatet.">
