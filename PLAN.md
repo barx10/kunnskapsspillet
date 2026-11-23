@@ -32,13 +32,7 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 - Appen fungerer fullt ut uten nøkkel. Bare innhold læreren selv har skrevet sendes, aldri
   elevdata.
 
-### Fase 4: Elevenheter (vurderes)
-- Romkode → ett nettbrett/én PC per lag som buzzer.
-- Krever sanntidsbackend (f.eks. Supabase Realtime).
-- Merk: mobilforbud på mange skoler, så hvis vi lager det, bør det være én enhet per lag og ikke
-  elevenes egne mobiler.
-
-### Fase 5: Deling
+### Fase 4: Deling
 - Kontoer for lærere, delte brett på tvers av skolen, et bibliotek med ferdige brett.
 
 ## Flyt
@@ -74,14 +68,11 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 - Anbefal lærere å sette et utgiftstak hos leverandøren.
 
 ## Åpne spørsmål
-- Buzzer per lag er bygget (Cloudflare Worker + Durable Object, mappen buzzer/). Bare når alle lag svarer med en gang (Lynrunde).
 - Hvilke fag/trinn skal vi starte med?
 
 ## Teknisk
 - Vite + React + TypeScript + Tailwind som en statisk app, hostet på GitHub Pages med GitHub Actions.
 - Hele fase 1–3 er ren frontend, også KI-delen siden den bruker BYOK.
-- Fase 4 (buzzer) kan bruke Supabase Realtime rett fra nettleseren, så den kan også ligge
-  statisk. Vercel er reserveløsningen hvis vi trenger serverkode senere.
 
 ## Navn
 «Jeopardy» er et varemerke, så appen har eget navn og eget visuelt uttrykk.

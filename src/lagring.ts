@@ -1,4 +1,4 @@
-import type { Brett, Innstillinger, Spilltilstand } from './types'
+import type { Brett, Hendelse, Innstillinger, Lag, Spilltilstand } from './types'
 import { eksempelbrett } from './data/eksempel'
 
 const NOKLER = { brett: 'ks.brett', innstillinger: 'ks.innstillinger', spill: 'ks.spill' }
@@ -22,7 +22,7 @@ export const MODUSER: Record<Exclude<Innstillinger['modus'], 'egen'>, Pick<Innst
 export const standardInnstillinger: Innstillinger = {
   modus: 'klassisk',
   ...MODUSER.klassisk,
-  melding: 'hand',
+  startpoeng: 0,
   alternativer: false,
   hintPris: 0,
   spilletid: 0,
@@ -59,11 +59,12 @@ export function normaliserInnstillinger(raw: unknown): Innstillinger {
   if (!['riktig', 'rekke', 'fri'].includes(i.tur)) i.tur = 'riktig'
   if (i.tur === 'fri') i.forstSvar = 'alle'
   if (!['feilOgTid', 'feil', 'av'].includes(i.stjele)) i.stjele = 'feil'
-  if (!['hand', 'buzzer'].includes(i.melding)) i.melding = 'hand'
+  i.startpoeng = Math.min(10_000, Math.max(0, Math.round(Number(i.startpoeng) || 0)))
   i.antallDobbel = Math.min(3, Math.max(0, Number(i.antallDobbel) || 0))
   i.alternativer = i.alternativer === true
   if (![0, 0.5, 1, 2].includes(i.hintPris)) i.hintPris = 0
   delete i.dobbel
+  delete (i as { melding?: unknown }).melding
   return i
 }
 
@@ -71,9 +72,25 @@ export const hentInnstillinger = (): Innstillinger => normaliserInnstillinger(le
 export const lagreInnstillinger = (i: Innstillinger) => skriv(NOKLER.innstillinger, i)
 
 export function hentSpill(): Spilltilstand | null {
-  const s = les<Spilltilstand | null>(NOKLER.spill, null)
+  const s = les<(Omit<Spilltilstand, 'lag'> & { lag: (Lag & { poeng?: number })[] }) | null>(NOKLER.spill, null)
   if (!s?.brett || !Array.isArray(s.lag)) return null
-  return { ...s, innstillinger: normaliserInnstillinger(s.innstillinger), tur: s.tur ?? 0, startet: s.startet ?? Date.now() }
+  // Spill fra eldre versjoner lagret poengsummen direkte. Den blir én hendelse per lag.
+  const hendelser: Hendelse[] = Array.isArray(s.hendelser)
+    ? s.hendelser
+    : s.lag.map((l, n) => ({ lag: n, poeng: l.poeng ?? 0, tekst: 'Poeng fra før' })).filter((h) => h.poeng !== 0)
+  // Ruter med poeng regnes som brukt, også om siden ble lastet på nytt mens spørsmålet var åpent.
+  const brukt = [...new Set([...(s.brukt ?? []), ...hendelser.flatMap((h) => (h.rute ? [h.rute] : []))])]
+  const innstillinger = normaliserInnstillinger(s.innstillinger)
+  if (!Array.isArray(s.hendelser)) innstillinger.startpoeng = 0
+  return {
+    ...s,
+    lag: s.lag.map(({ navn, farge }) => ({ navn, farge })),
+    hendelser,
+    brukt,
+    innstillinger,
+    tur: s.tur ?? 0,
+    startet: s.startet ?? Date.now(),
+  }
 }
 export const lagreSpill = (s: Spilltilstand | null) => (s ? skriv(NOKLER.spill, s) : localStorage.removeItem(NOKLER.spill))
 

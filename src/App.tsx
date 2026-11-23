@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Brett, Innstillinger, Lag, Spilltilstand, Valg } from './types'
 import { hentBrett, hentInnstillinger, hentSpill, lagreBrett, lagreInnstillinger, lagreSpill, tomtBrett } from './lagring'
 import { Start } from './skjermer/Start'
@@ -38,6 +38,7 @@ export default function App() {
   const [innstillinger, setInnstillinger] = useState<Innstillinger>(hentInnstillinger)
   const [spill, setSpill] = useState<Spilltilstand | null>(hentSpill)
   const [valg, setValg] = useState<Valg>(tomtValg)
+  const endreSpill = useCallback((f: (s: Spilltilstand) => Spilltilstand) => setSpill((s) => (s ? f(s) : s)), [])
 
   useEffect(() => {
     history.replaceState({ ks: 0 }, '')
@@ -102,7 +103,7 @@ export default function App() {
 
   const startSpill = (b: Brett, i: Innstillinger, lag: Lag[]) => {
     setInnstillinger(i)
-    setSpill({ brett: b, innstillinger: i, lag, brukt: [], dobbel: velgDobbel(b, i), fase: 'brett', tur: 0, startet: Date.now() })
+    setSpill({ brett: b, innstillinger: i, lag, hendelser: [], brukt: [], dobbel: velgDobbel(b, i), fase: 'brett', tur: 0, startet: Date.now() })
     gaTil({ navn: 'spill' })
   }
 
@@ -190,14 +191,14 @@ export default function App() {
         return (
           <Resultat
             spill={spill}
-            onIgjen={() => startSpill(spill.brett, spill.innstillinger, spill.lag.map((l) => ({ ...l, poeng: 0 })))}
+            onIgjen={() => startSpill(spill.brett, spill.innstillinger, spill.lag)}
             onStart={() => {
               setSpill(null)
               tilbakeTil(START)
             }}
           />
         )
-      return <Spill spill={spill} setSpill={setSpill} onPause={() => tilbakeTil(START)} />
+      return <Spill spill={spill} endre={endreSpill} onPause={() => tilbakeTil(START)} />
   }
   }
 }

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { Brett, Innstillinger, Lag, Poengskala, Spillmodus, Tema } from '../types'
 import { MODUSER } from '../lagring'
-import { buzzer } from '../buzzer/vert'
-import { RomPanel } from '../buzzer/RomPanel'
 import { Topplinje } from '../komponenter/Topplinje'
 import { poengFor } from '../poeng'
 import { feilAlternativer } from '../alternativer'
@@ -37,7 +35,7 @@ const SPILLETIDER = [0, 15, 20, 30, 45]
 
 const MODUSKORT: { id: Spillmodus; navn: string; beskrivelse: string }[] = [
   { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Bommer de eller tiden går ut, går spørsmålet til et tilfeldig lag, og deretter til alle.' },
-  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som buzzer først, får svare.' },
+  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som rekker opp hånda først, får svare.' },
   { id: 'rolig', navn: 'Rolig', beskrivelse: 'Ingen tidtaker og ingen minuspoeng. Lagene bytter på å velge og svare.' },
   { id: 'egen', navn: 'Egne regler', beskrivelse: 'Sett sammen reglene selv nedenfor.' },
 ]
@@ -58,7 +56,7 @@ function Segment<T extends string | number>({ valg, verdi, onEndre, etikett }: {
 
 export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake, onStart }: Props) {
   const [i, setI] = useState(innstillinger)
-  const [lag, setLag] = useState<Lag[]>(() => LAGNAVN.slice(0, 3).map((navn, n) => ({ navn, farge: LAGFARGER[n], poeng: 0 })))
+  const [lag, setLag] = useState<Lag[]>(() => LAGNAVN.slice(0, 3).map((navn, n) => ({ navn, farge: LAGFARGER[n] })))
   // Endrer du en regel, går modusen over til «Egne regler».
   const regel = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => {
     const ny = { ...i, [k]: v, modus: 'egen' as Spillmodus }
@@ -66,8 +64,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
     setI(ny)
   }
   const sett = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => setI({ ...i, [k]: v })
-  // Lynrunde bruker buzzer som standard. Læreren kan fortsatt bytte til hånd.
-  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m, ...(m === 'lynrunde' && { melding: 'buzzer' as const }) })
+  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
   const sporsmalene = brett.kategorier.flatMap((k) => k.sporsmal).filter((s) => s.sporsmal.trim())
@@ -75,17 +72,10 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
   const medHint = sporsmalene.filter((s) => feilAlternativer(s).length > 1).length
   const hintPriser = [0, 0.5, 1, 2].filter((f) => !(i.poengskala === 1 && f === 0.5))
 
-  // Buzzer brukes bare når alle lag kan svare med en gang (som i Lynrunde).
-  const kanMelde = i.forstSvar === 'alle'
-  const brukerBuzzer = kanMelde && i.melding === 'buzzer'
-  useEffect(() => {
-    if (!brukerBuzzer) return
-    buzzer.start()
-    buzzer.settLag(lag.map((l, n) => ({ navn: l.navn.trim() || LAGNAVN[n], farge: l.farge })))
-  }, [brukerBuzzer, lag])
+  const startvalg = i.poengskala === 1 ? [0, 5, 10] : [0, 500, 1000]
 
   const antallLag = (n: number) =>
-    setLag((l) => (n < l.length ? l.slice(0, n) : [...l, ...LAGNAVN.slice(l.length, n).map((navn, k) => ({ navn, farge: LAGFARGER[l.length + k], poeng: 0 }))]))
+    setLag((l) => (n < l.length ? l.slice(0, n) : [...l, ...LAGNAVN.slice(l.length, n).map((navn, k) => ({ navn, farge: LAGFARGER[l.length + k] }))]))
 
   return (
     <main className="side">
@@ -148,20 +138,6 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
             ]}
           />
         </Rad>
-        {kanMelde && (
-          <Rad tittel="Slik melder lagene seg" hjelp={i.melding === 'buzzer' ? 'Lærerskjermen viser hvilket lag som buzzet først.' : undefined}>
-            <Segment
-              etikett="Slik melder lagene seg"
-              verdi={i.melding}
-              onEndre={(v) => sett('melding', v)}
-              valg={[
-                { verdi: 'hand', tekst: 'Rekker opp hånda' },
-                { verdi: 'buzzer', tekst: 'Buzzer på egen enhet' },
-              ]}
-            />
-          </Rad>
-        )}
-        {kanMelde && i.melding === 'buzzer' && <RomPanel lag={lag} />}
         <Rad tittel="Tidtaker" hjelp="Tiden laget har til å svare. Starter når spørsmålet vises.">
           <Segment
             etikett="Tidtaker"
@@ -179,7 +155,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         </Rad>
 
         <h3 className="regel-gruppe">Når et lag ikke klarer det</h3>
-        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? (i.melding === 'buzzer' ? 'Svarer laget som buzzet først feil, kan de andre buzze.' : 'Svarer laget som rakk opp hånda feil, kan de andre prøve.') : 'Først får et tilfeldig lag prøve. Bommer også det, kan alle de andre svare.'}>
+        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? 'Svarer laget som rakk opp hånda feil, kan de andre prøve.' : 'Først får et tilfeldig lag prøve. Bommer også det, kan alle de andre svare.'}>
           <Segment
             etikett="Andre lag kan svare"
             verdi={i.stjele}
@@ -243,7 +219,15 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         )}
 
         <h3 className="regel-gruppe">Spillet</h3>
-        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen hvis minuspoeng er valgt. Andre lag kan ikke svare.">
+        <Rad tittel="Startpoeng" hjelp="Poengene hvert lag har når spillet starter. Med startpoeng kan alle lag satse på dobbel og finale fra første stund.">
+          <Segment etikett="Startpoeng" verdi={startvalg.includes(i.startpoeng) ? i.startpoeng : -1} onEndre={(v) => v >= 0 && sett('startpoeng', v)} valg={startvalg.map((v) => ({ verdi: v, tekst: String(v) }))} />
+          <label className="egen-tid">
+            Eget tall
+            <input type="number" min={0} max={10000} step={i.poengskala === 1 ? 1 : 50} value={i.startpoeng} onChange={(e) => sett('startpoeng', Math.min(10_000, Math.max(0, Math.round(+e.target.value) || 0)))} />
+            poeng
+          </label>
+        </Rad>
+        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen. Andre lag kan ikke svare.">
           <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => regel('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
         </Rad>
         <Rad tittel="Spilletid" hjelp="Brettet viser hvor lang tid som er igjen. Når tiden er ute, går dere til finalen eller resultatet.">

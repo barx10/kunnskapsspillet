@@ -1,24 +1,22 @@
 import { useState } from 'react'
-import type { Spilltilstand } from '../types'
+import type { Hendelse, Spilltilstand } from '../types'
 import { Tidtaker } from '../komponenter/Tidtaker'
 import { lyd } from '../lyd'
+import { poengsum } from '../poeng'
 
-type Props = { spill: Spilltilstand; setSpill: (s: Spilltilstand) => void }
+type Props = { spill: Spilltilstand; onFerdig: (hendelser: Hendelse[]) => void; onTilbake?: () => void }
 
-export function Finale({ spill, setSpill }: Props) {
+export function Finale({ spill, onFerdig, onTilbake }: Props) {
   const { brett, lag, innstillinger: inn } = spill
+  const sum = poengsum(spill)
   const [steg, setSteg] = useState<'innsats' | 'sporsmal' | 'svar'>('innsats')
   const [innsats, setInnsats] = useState(lag.map(() => 0))
   const [resultat, setResultat] = useState<(boolean | null)[]>(lag.map(() => null))
-  const maks = (n: number) => Math.max(0, lag[n].poeng)
+  const maks = (n: number) => Math.max(0, sum[n])
   const alleVurdert = resultat.every((r) => r !== null)
 
   const ferdig = () =>
-    setSpill({
-      ...spill,
-      fase: 'slutt',
-      lag: lag.map((l, n) => ({ ...l, poeng: l.poeng + (resultat[n] ? innsats[n] : -innsats[n]) })),
-    })
+    onFerdig(lag.flatMap((_, n) => (innsats[n] > 0 ? [{ lag: n, poeng: resultat[n] ? innsats[n] : -innsats[n], tekst: `Finale: ${resultat[n] ? 'riktig' : 'feil'}` }] : [])))
 
   return (
     <div className="spill finale">
@@ -32,7 +30,7 @@ export function Finale({ spill, setSpill }: Props) {
               {lag.map((l, n) => (
                 <label key={n} className="svar-rad" style={{ '--lagfarge': l.farge } as React.CSSProperties}>
                   <span className="svar-lagnavn">
-                    {l.navn} <span className="dempet">({l.poeng})</span>
+                    {l.navn} <span className="dempet">({sum[n]})</span>
                   </span>
                   <input
                     type="number"
@@ -47,6 +45,11 @@ export function Finale({ spill, setSpill }: Props) {
               ))}
             </div>
             <div className="knapperad slutt">
+              {onTilbake && (
+                <button className="knapp" onClick={onTilbake}>
+                  Tilbake til brettet
+                </button>
+              )}
               <button className="knapp knapp-hoved knapp-stor" onClick={() => setSteg('sporsmal')}>
                 Vis finalespørsmålet
               </button>
