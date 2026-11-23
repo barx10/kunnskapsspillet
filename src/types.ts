@@ -39,8 +39,8 @@ export type Innstillinger = {
   /** Tid for de andre lagene, 0 = ingen tidtaker. */
   stjeleSekunder: number
   stjelePoeng: 'full' | 'halv'
-  /** Hvordan lagene melder seg: rekke opp hånda eller buzzer på egen enhet. */
-  melding: 'hand' | 'buzzer'
+  /** Poengene hvert lag starter med. */
+  startpoeng: number
   antallDobbel: number
   /** Vis svaralternativer på spørsmål som har det. */
   alternativer: boolean
@@ -55,12 +55,16 @@ export type Innstillinger = {
   storTekst: boolean
 }
 
-export type Lag = { navn: string; farge: string; poeng: number }
+export type Lag = { navn: string; farge: string }
+
+/** Én poengendring. Poengsummen er alltid startpoeng pluss summen av hendelsene. */
+export type Hendelse = { lag: number; poeng: number; tekst: string; /** Ruten hendelsen hører til. */ rute?: string }
 
 export type Spilltilstand = {
   brett: Brett
   innstillinger: Innstillinger
   lag: Lag[]
+  hendelser: Hendelse[]
   brukt: string[]
   dobbel: string[]
   fase: 'brett' | 'finale' | 'slutt'

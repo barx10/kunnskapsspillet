@@ -21,6 +21,5 @@ export const lyd = {
   feil: () => [220, 185].forEach((f, i) => tone(f, i * 0.16, 0.3, 'square', 0.08)),
   tikk: () => tone(880, 0, 0.06, 'sine', 0.08),
   slutt: () => tone(330, 0, 0.9, 'sawtooth', 0.09),
-  buzz: () => [196, 262].forEach((f, i) => tone(f, i * 0.06, 0.4, 'sawtooth', 0.1)),
   dobbel: () => [392, 523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.07, 0.25, 'triangle')),
 }

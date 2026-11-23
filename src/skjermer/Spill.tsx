@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Spilltilstand, Sporsmal } from '../types'
-import { poengFor } from '../poeng'
+import type { Hendelse, Spilltilstand, Sporsmal } from '../types'
+import { poengFor, poengsum } from '../poeng'
 import { feilAlternativer } from '../alternativer'
 import { lyd } from '../lyd'
 import { Tidtaker } from '../komponenter/Tidtaker'
-import { Finale } from './Finale'
-import { buzzer, useBuzzer } from '../buzzer/vert'
-import { RomPanel } from '../buzzer/RomPanel'
 import { Modal } from '../komponenter/Modal'
+import { Finale } from './Finale'
 
-type Props = { spill: Spilltilstand; setSpill: (s: Spilltilstand) => void; onPause: () => void }
+type Endre = (f: (s: Spilltilstand) => Spilltilstand) => void
+type Props = { spill: Spilltilstand; endre: Endre; onPause: () => void }
+
+/** Ett svar på et spørsmål. poeng er med fortegn: +200 for riktig, −200 eller 0 for feil. */
+type Svar = { lag: number; riktig: boolean; poeng: number }
 
 /**
  * Et åpent spørsmål.
@@ -17,6 +19,8 @@ type Props = { spill: Spilltilstand; setSpill: (s: Spilltilstand) => void; onPau
  * - andreLag: laget som trekkes tilfeldig når forsteLag bommer eller tiden går ut.
  * - fase: 'forste' mens forsteLag svarer, 'andre' mens andreLag svarer, 'apen' når alle gjenværende lag kan melde seg.
  * - stengt: ingen flere lag kan svare på spørsmålet.
+ * - svar og hint: alt som gir poeng. Poengene for ruten regnes alltid ut fra disse, så de kan ikke telles dobbelt.
+ * - forrige: tilstanden før siste svar, så læreren kan angre inne i spørsmålet.
  */
 type Aapen = {
   id: string
@@ -31,42 +35,38 @@ type Aapen = {
   andreLag: number | null
   fase: 'forste' | 'andre' | 'apen'
   stengt: boolean
-  feil: number[]
-  /** Feil alternativer som er fjernet med hint, og lagene som kjøpte dem. */
-  fjernet: string[]
+  svar: Svar[]
   hint: number[]
-  riktig: number | null
+  /** Feil alternativer som er fjernet med hint. */
+  fjernet: string[]
   visSvar: boolean
   tidUte: boolean
+  forrige: Aapen | null
 }
 
-export function Spill({ spill, setSpill, onPause }: Props) {
+const riktigLag = (a: Aapen) => a.svar.find((s) => s.riktig)?.lag ?? null
+const feilLag = (a: Aapen) => a.svar.filter((s) => !s.riktig).map((s) => s.lag)
+
+export function Spill({ spill, endre, onPause }: Props) {
   const { brett, innstillinger: inn, lag } = spill
   const tur = spill.tur ?? 0
   const harTur = inn.tur !== 'fri'
+  const sum = poengsum(spill)
   const [aapen, setAapen] = useState<Aapen | null>(null)
   const [historikk, setHistorikk] = useState<Spilltilstand[]>([])
   const [justerer, setJusterer] = useState<number | null>(null)
+  const [visLogg, setVisLogg] = useState(false)
   const [fullskjerm, setFullskjerm] = useState(!!document.fullscreenElement)
   const [na, setNa] = useState(() => Date.now())
-  const spill_lyd = (f: () => void) => inn.lyd && f()
-  const medBuzzer = inn.melding === 'buzzer' && inn.forstSvar === 'alle'
-  const bz = useBuzzer()
-  const [visRom, setVisRom] = useState(false)
-  const lagNavn = JSON.stringify(lag.map(({ navn, farge }) => ({ navn, farge })))
-  useEffect(() => {
-    if (!medBuzzer) return
-    buzzer.start()
-    buzzer.settLag(JSON.parse(lagNavn))
-  }, [medBuzzer, lagNavn])
+  const spillLyd = (f: () => void) => inn.lyd && f()
+
   // Et åpent spørsmål får sitt eget punkt i nettleserhistorikken, så tilbakeknappen lukker
   // spørsmålet i stedet for å forlate spillet. Ubesvarte spørsmål kan da åpnes igjen.
   const aapenRef = useRef<Aapen | null>(null)
   const markerBrukt = useRef(false)
-  const spillRef = useRef(spill)
+  const vedApning = useRef<Spilltilstand | null>(null)
   useEffect(() => {
     aapenRef.current = aapen
-    spillRef.current = spill
   })
 
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
@@ -74,7 +74,9 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   const gjenstar = gyldige.filter((id) => !spill.brukt.includes(id)).length
   const hoyesteVerdi = poengFor(rader - 1, inn.poengskala)
   /** Et lag kan satse sine egne poeng, eller opp til den høyeste ruteverdien. */
-  const maksInnsatsFor = (n: number | null) => (n === null ? hoyesteVerdi : Math.max(lag[n].poeng, hoyesteVerdi))
+  const maksInnsatsFor = (n: number | null) => (n === null ? hoyesteVerdi : Math.max(sum[n], hoyesteVerdi))
+  const hintPris = inn.hintPris > 0 ? Math.max(1, Math.round(inn.hintPris * inn.poengskala)) : 0
+  const steg = inn.poengskala === 1 ? [1, 2, 5] : [50, 100, 200]
 
   // Spilletid
   const igjenMs = inn.spilletid > 0 ? (spill.startet ?? na) + inn.spilletid * 60_000 - na : null
@@ -91,40 +93,56 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     return () => document.removeEventListener('fullscreenchange', f)
   }, [])
 
+  // Spørsmålet lukkes: ruten blir brukt og turen går videre. Poengene er allerede ført.
   useEffect(() => {
     const tilbake = () => {
       const a = aapenRef.current
       if (!a) return
-      const avgjort = a.riktig !== null || a.visSvar || a.feil.length > 0
+      const avgjort = a.svar.length > 0 || a.hint.length > 0 || a.visSvar
       if (markerBrukt.current || avgjort) {
-        const s = spillRef.current
-        setHistorikk((h) => [...h.slice(-30), s])
-        setSpill({ ...s, brukt: [...s.brukt, a.id], tur: nesteTur(s, a) })
+        const for_ = vedApning.current
+        if (for_) setHistorikk((h) => [...h.slice(-30), for_])
+        endre((s) => ({ ...s, brukt: s.brukt.includes(a.id) ? s.brukt : [...s.brukt, a.id], tur: nesteTur(s, a) }))
       }
       markerBrukt.current = false
+      vedApning.current = null
       setAapen(null)
     }
     window.addEventListener('popstate', tilbake)
     return () => window.removeEventListener('popstate', tilbake)
-  }, [setSpill])
+  }, [endre])
 
-  const oppdater = (s: Spilltilstand) => {
+  /** Endring på brettet som kan angres. */
+  const medAngre = (f: (s: Spilltilstand) => Spilltilstand) => {
     setHistorikk((h) => [...h.slice(-30), spill])
-    setSpill(s)
+    endre(f)
   }
   const angre = () => {
     const forrige = historikk.at(-1)
     if (!forrige) return
     setHistorikk((h) => h.slice(0, -1))
-    setSpill(forrige)
-    setAapen(null)
+    endre(() => forrige)
   }
-  const endrePoeng = (n: number, delta: number, s: Spilltilstand = spill) => ({ ...s, lag: s.lag.map((l, k) => (k === n ? { ...l, poeng: l.poeng + delta } : l)) })
+  const leggTil = (h: Hendelse) => medAngre((s) => ({ ...s, hendelser: [...s.hendelser, h] }))
+  const fjernHendelse = (i: number) => medAngre((s) => ({ ...s, hendelser: s.hendelser.filter((_, k) => k !== i) }))
+
+  /** Oppdaterer det åpne spørsmålet, og lar poengene for ruten følge svarene. */
+  const settAapen = (a: Aapen) => {
+    setAapen(a)
+    const navn = `${brett.kategorier[a.ki].navn || `Kategori ${a.ki + 1}`} ${a.verdi}${a.dobbel ? ' (dobbel)' : ''}`
+    const nye: Hendelse[] = [
+      ...a.hint.map((n) => ({ lag: n, poeng: -hintPris, tekst: `${navn}: hint`, rute: a.id })),
+      ...a.svar.filter((s) => s.poeng !== 0).map((s) => ({ lag: s.lag, poeng: s.poeng, tekst: `${navn}: ${s.riktig ? 'riktig' : 'feil'}`, rute: a.id })),
+    ]
+    endre((s) => ({ ...s, hendelser: [...s.hendelser.filter((h) => h.rute !== a.id), ...nye] }))
+  }
 
   const apne = (ki: number, ri: number) => {
     const id = `${ki}-${ri}`
     const dobbel = spill.dobbel.includes(id)
-    if (dobbel) spill_lyd(lyd.dobbel)
+    if (dobbel) spillLyd(lyd.dobbel)
+    setJusterer(null)
+    vedApning.current = spill
     history.pushState({ ...history.state, sporsmal: id }, '')
     const forsteLag = dobbel ? null : inn.forstSvar === 'tur' && harTur ? tur : null
     const verdi = poengFor(ri, inn.poengskala)
@@ -142,12 +160,12 @@ export function Spill({ spill, setSpill, onPause }: Props) {
       andreLag: null,
       fase: forsteLag === null ? 'apen' : 'forste',
       stengt: false,
-      feil: [],
-      fjernet: [],
+      svar: [],
       hint: [],
-      riktig: null,
+      fjernet: [],
       visSvar: false,
       tidUte: false,
+      forrige: null,
     })
   }
 
@@ -157,7 +175,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     history.back()
   }
 
-  /** Poeng for et svar fra lag n i nåværende fase. */
+  /** Hva et riktig svar er verdt i nåværende fase. */
   const verdiFor = (a: Aapen) => {
     if (a.dobbel) return a.innsats
     const stjeler = a.forsteLag !== null && a.fase !== 'forste'
@@ -168,50 +186,56 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     if (!aapen) return
     const verdi = verdiFor(aapen)
     if (riktig) {
-      spill_lyd(lyd.riktig)
-      oppdater(endrePoeng(n, verdi))
-      setAapen({ ...aapen, riktig: n, visSvar: true })
+      spillLyd(lyd.riktig)
+      settAapen({ ...aapen, svar: [...aapen.svar, { lag: n, riktig: true, poeng: verdi }], visSvar: true, tidUte: false, forrige: aapen })
       return
     }
-    spill_lyd(lyd.feil)
-    const trekk = inn.feilSvar === 'minus' ? -verdi : 0
-    if (trekk) oppdater(endrePoeng(n, trekk))
-    const b = { ...aapen, feil: [...aapen.feil, n], tidUte: false }
-    if (aapen.dobbel || inn.stjele === 'av') setAapen(steng(b))
-    else if (aapen.fase === 'apen') setAapen(aktuelle(b, lag.length).length ? b : steng(b))
-    else setAapen(videre(b, lag.length))
+    spillLyd(lyd.feil)
+    // Dobbel gir alltid minus innsatsen ved feil svar. Ellers følger det regelen for feil svar.
+    const poeng = aapen.dobbel || inn.feilSvar === 'minus' ? -verdi : 0
+    const b: Aapen = { ...aapen, svar: [...aapen.svar, { lag: n, riktig: false, poeng }], tidUte: false, forrige: aapen }
+    if (aapen.dobbel || inn.stjele === 'av') settAapen(steng(b))
+    else if (aapen.fase === 'apen') settAapen(aktuelle(b, lag.length).length ? b : steng(b))
+    else settAapen(videre(b, lag.length))
   }
 
-  const hintPris = Math.max(1, Math.round(inn.hintPris * inn.poengskala))
+  const angreSvar = () => aapen?.forrige && settAapen(aapen.forrige)
+
   /** Lag n kjøper et hint: ett tilfeldig feil alternativ fjernes. Minst ett feil alternativ blir stående. */
   const kjopHint = (n: number) => {
     if (!aapen) return
     const igjen = feilAlternativer(brett.kategorier[aapen.ki].sporsmal[aapen.ri]).filter((a) => !aapen.fjernet.includes(a))
     if (igjen.length < 2) return
-    oppdater(endrePoeng(n, -hintPris))
-    setAapen({ ...aapen, fjernet: [...aapen.fjernet, igjen[Math.floor(Math.random() * igjen.length)]], hint: [...aapen.hint, n] })
+    settAapen({ ...aapen, fjernet: [...aapen.fjernet, igjen[Math.floor(Math.random() * igjen.length)]], hint: [...aapen.hint, n], forrige: aapen })
   }
 
   /** Tiden til laget med turen (eller det trukne laget) er ute. */
   const turTidUte = useCallback(() => {
     setAapen((a) => {
       if (!a || a.fase === 'apen') return a
-      if (inn.stjele === 'feilOgTid' && !a.dobbel) return videre(a, lag.length)
+      if (inn.stjele === 'feilOgTid' && !a.dobbel) return { ...videre(a, lag.length), forrige: a }
       return { ...a, tidUte: true }
     })
   }, [inn.stjele, lag.length])
   const apenTidUte = useCallback(() => setAapen((a) => (a ? { ...a, tidUte: true } : a)), [])
 
-  const slippTilAndre = () => aapen && setAapen(videre(aapen, lag.length))
+  const slippTilAndre = () => aapen && setAapen({ ...videre(aapen, lag.length), forrige: aapen })
 
   const tilFinale = () => {
     if (aapen) return
-    oppdater({ ...spill, fase: inn.finale ? 'finale' : 'slutt' })
+    medAngre((s) => ({ ...s, fase: inn.finale ? 'finale' : 'slutt' }))
   }
 
   const fullskjermKnapp = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {})
 
-  if (spill.fase === 'finale') return <Finale spill={spill} setSpill={oppdater} />
+  if (spill.fase === 'finale')
+    return (
+      <Finale
+        spill={spill}
+        onTilbake={historikk.length ? angre : undefined}
+        onFerdig={(nye) => medAngre((s) => ({ ...s, hendelser: [...s.hendelser, ...nye], fase: 'slutt' }))}
+      />
+    )
 
   const sporsmal = aapen ? brett.kategorier[aapen.ki].sporsmal[aapen.ri] : null
   const ferdigBrett = gjenstar === 0 || tidenErUte
@@ -226,14 +250,12 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           </span>
         )}
         <div className="spill-verktoy">
-          {medBuzzer && (
-            <button className={bz.status === 'tilkoblet' ? 'lenkeknapp rom-merke' : 'lenkeknapp rom-merke frakoblet'} onClick={() => setVisRom(true)}>
-              Buzzer {bz.kode} · {bz.tilkoblet.length}/{lag.length} lag
-            </button>
-          )}
           {igjenMs !== null && <span className={tidenErUte ? 'spilletid ute' : 'spilletid'}>{tidenErUte ? 'Spilletiden er ute' : `${Math.ceil(igjenMs / 60_000)} min igjen`}</span>}
           <button className="lenkeknapp" onClick={angre} disabled={historikk.length === 0}>
             Angre
+          </button>
+          <button className="lenkeknapp" onClick={() => setVisLogg(true)}>
+            Poenglogg
           </button>
           <button className="lenkeknapp" onClick={fullskjermKnapp}>
             {fullskjerm ? 'Avslutt fullskjerm' : 'Fullskjerm'}
@@ -278,19 +300,23 @@ export function Spill({ spill, setSpill, onPause }: Props) {
         {lag.map((l, n) => (
           <div key={n} className={harTur && n === tur && !ferdigBrett ? 'lag-poeng har-tur' : 'lag-poeng'} style={{ '--lagfarge': l.farge } as React.CSSProperties}>
             <span className="lag-poeng-navn">{l.navn}</span>
-            <button className="lag-poeng-tall" onClick={() => setJusterer(justerer === n ? null : n)} aria-label={`${l.navn}: ${l.poeng} poeng. Juster poeng`}>
-              {l.poeng}
+            <button className="lag-poeng-tall" disabled={!!aapen} onClick={() => setJusterer(justerer === n ? null : n)} aria-label={`${l.navn}: ${sum[n]} poeng. Juster poeng`}>
+              {sum[n]}
             </button>
-            {justerer === n && (
+            {justerer === n && !aapen && (
               <span className="juster">
-                <button onClick={() => oppdater(endrePoeng(n, -inn.poengskala))} aria-label="Trekk fra">
-                  −{inn.poengskala}
-                </button>
-                <button onClick={() => oppdater(endrePoeng(n, inn.poengskala))} aria-label="Legg til">
-                  +{inn.poengskala}
-                </button>
+                {[...steg].reverse().map((d) => (
+                  <button key={-d} onClick={() => leggTil({ lag: n, poeng: -d, tekst: 'Justert' })} aria-label={`Trekk fra ${d}`}>
+                    −{d}
+                  </button>
+                ))}
+                {steg.map((d) => (
+                  <button key={d} onClick={() => leggTil({ lag: n, poeng: d, tekst: 'Justert' })} aria-label={`Legg til ${d}`}>
+                    +{d}
+                  </button>
+                ))}
                 {harTur && n !== tur && (
-                  <button onClick={() => oppdater({ ...spill, tur: n })} aria-label={`Gi turen til ${l.navn}`}>
+                  <button onClick={() => medAngre((s) => ({ ...s, tur: n }))} aria-label={`Gi turen til ${l.navn}`}>
                     Gi turen
                   </button>
                 )}
@@ -300,9 +326,27 @@ export function Spill({ spill, setSpill, onPause }: Props) {
         ))}
       </footer>
 
-      {visRom && (
-        <Modal tittel="Buzzer" onLukk={() => setVisRom(false)} bred>
-          <RomPanel lag={lag} />
+      {visLogg && (
+        <Modal tittel="Poenglogg" onLukk={() => setVisLogg(false)} bred>
+          <p className="dempet">
+            Alle lag startet med {inn.startpoeng} poeng. Fjerner du en linje, endres poengsummen med en gang.
+          </p>
+          {spill.hendelser.length === 0 ? (
+            <p>Ingen poeng er gitt ennå.</p>
+          ) : (
+            <ol className="poenglogg" reversed>
+              {spill.hendelser.map((h, i) => ({ h, i })).reverse().map(({ h, i }) => (
+                <li key={i} style={{ '--lagfarge': lag[h.lag]?.farge } as React.CSSProperties}>
+                  <span className="poenglogg-lag">{lag[h.lag]?.navn}</span>
+                  <span className="poenglogg-tekst">{h.tekst}</span>
+                  <span className="poenglogg-poeng">{h.poeng > 0 ? `+${h.poeng}` : `−${-h.poeng}`}</span>
+                  <button className="lenkeknapp" onClick={() => fjernHendelse(i)} aria-label={`Fjern ${h.tekst} for ${lag[h.lag]?.navn}`}>
+                    Fjern
+                  </button>
+                </li>
+              ))}
+            </ol>
+          )}
         </Modal>
       )}
 
@@ -317,13 +361,13 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           maksInnsatsFor={maksInnsatsFor}
           verdi={verdiFor(aapen)}
           onSvar={svar}
-          hintPris={inn.hintPris > 0 ? hintPris : 0}
+          onAngre={angreSvar}
+          hintPris={hintPris}
           onHint={kjopHint}
           onLukk={lukk}
           onTurTidUte={turTidUte}
           onApenTidUte={apenTidUte}
           onSlippTilAndre={slippTilAndre}
-          medBuzzer={medBuzzer}
         />
       )}
     </div>
@@ -334,17 +378,19 @@ const steng = (a: Aapen): Aapen => ({ ...a, stengt: true, visSvar: true, tidUte:
 
 /** Lagene som kan svare nå. */
 function aktuelle(a: Aapen, antallLag: number): number[] {
-  if (a.stengt) return []
+  if (a.stengt || riktigLag(a) !== null) return []
   if (a.fase === 'forste' && a.forsteLag !== null) return [a.forsteLag]
   if (a.fase === 'andre' && a.andreLag !== null) return [a.andreLag]
-  return Array.from({ length: antallLag }, (_, n) => n).filter((n) => !a.feil.includes(n) && n !== a.forsteLag && n !== a.andreLag)
+  const feil = feilLag(a)
+  return Array.from({ length: antallLag }, (_, n) => n).filter((n) => !feil.includes(n) && n !== a.forsteLag && n !== a.andreLag)
 }
 
 /** Laget med turen bommet: spørsmålet går til et tilfeldig annet lag. Bommer også det, kan alle gjenværende lag svare. */
 function videre(a: Aapen, antallLag: number): Aapen {
   const b: Aapen = { ...a, tidUte: false }
   if (a.fase === 'forste') {
-    const kandidater = Array.from({ length: antallLag }, (_, n) => n).filter((n) => n !== a.forsteLag && !a.feil.includes(n))
+    const feil = feilLag(a)
+    const kandidater = Array.from({ length: antallLag }, (_, n) => n).filter((n) => n !== a.forsteLag && !feil.includes(n))
     if (!kandidater.length) return steng(b)
     return { ...b, fase: 'andre', andreLag: kandidater[Math.floor(Math.random() * kandidater.length)] }
   }
@@ -354,10 +400,9 @@ function videre(a: Aapen, antallLag: number): Aapen {
 
 /** Hvem velger neste rute etter at et spørsmål er lukket. */
 function nesteTur(s: Spilltilstand, a: Aapen) {
-  const n = s.lag.length
   const tur = s.tur ?? 0
-  if (s.innstillinger.tur === 'riktig') return a.riktig ?? tur
-  if (s.innstillinger.tur === 'rekke') return (tur + 1) % n
+  if (s.innstillinger.tur === 'riktig') return riktigLag(a) ?? tur
+  if (s.innstillinger.tur === 'rekke') return (tur + 1) % s.lag.length
   return tur
 }
 
@@ -370,18 +415,20 @@ type VisningProps = {
   maksInnsatsFor: (n: number | null) => number
   verdi: number
   onSvar: (n: number, riktig: boolean) => void
+  onAngre: () => void
   hintPris: number
   onHint: (n: number) => void
   onLukk: () => void
   onTurTidUte: () => void
   onApenTidUte: () => void
   onSlippTilAndre: () => void
-  medBuzzer: boolean
 }
 
-function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsatsFor, verdi, onSvar, hintPris, onHint, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
+function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsatsFor, verdi, onSvar, onAngre, hintPris, onHint, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre }: VisningProps) {
   const { innstillinger: inn, lag } = spill
-  const ferdig = aapen.riktig !== null || aapen.visSvar
+  const riktig = riktigLag(aapen)
+  const feil = feilLag(aapen)
+  const ferdig = riktig !== null || aapen.visSvar
   const hovedknapp = useRef<HTMLButtonElement>(null)
   const feilAlt = feilAlternativer(sporsmal)
   const medAlternativer = inn.alternativer && feilAlt.length > 0
@@ -391,21 +438,10 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
   const iTur = (aapen.fase === 'forste' && aapen.forsteLag !== null) || (aapen.fase === 'andre' && aapen.andreLag !== null)
   const aktuelleLag = aktuelle(aapen, lag.length)
 
-  // Buzzer: åpne for lagene som kan svare nå, og steng når ingen kan det.
-  const bz = useBuzzer()
-  const buzzAktiv = medBuzzer && aapen.steg === 'sporsmal' && !ferdig && !iTur && aapen.riktig === null && aktuelleLag.length > 0
-  const runde = `${aapen.id}-${aapen.feil.length}`
-  const tillatt = aktuelleLag.join(',')
-  useEffect(() => {
-    if (buzzAktiv) buzzer.apne(runde, tillatt.split(',').map(Number))
-    else buzzer.steng()
-  }, [buzzAktiv, runde, tillatt])
-  useEffect(() => () => buzzer.steng(), [])
-  const rekkefolge = buzzAktiv && bz.runde === runde ? bz.rekkefolge.filter((n) => aktuelleLag.includes(n)) : []
-  const forstBuzz = rekkefolge.at(0)
-  useEffect(() => {
-    if (forstBuzz !== undefined && inn.lyd) lyd.buzz()
-  }, [forstBuzz, inn.lyd])
+  // Poengene hvert lag har fått eller mistet på dette spørsmålet.
+  const ruteposter = lag
+    .map((l, n) => ({ l, n, poeng: aapen.svar.reduce((s, x) => (x.lag === n ? s + x.poeng : s), 0) - aapen.hint.filter((h) => h === n).length * hintPris }))
+    .filter((r) => aapen.svar.some((x) => x.lag === r.n) || aapen.hint.includes(r.n))
 
   useEffect(() => {
     hovedknapp.current?.focus()
@@ -423,6 +459,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
   if (aapen.steg === 'dobbel-innsats') {
     const lagValgt = aapen.dobbelLag
     const maksInnsats = maksInnsatsFor(lagValgt)
+    const sett = (v: number) => setAapen({ ...aapen, innsats: Math.min(maksInnsats, Math.max(inn.poengskala, Math.round(v) || inn.poengskala)) })
     return (
       <div className="sporsmal-lag" role="dialog" aria-modal="true" aria-label="Dobbel">
         <div className="sporsmal-boks dobbel">
@@ -440,7 +477,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
                 aria-pressed={lagValgt === n}
                 onClick={() => setAapen({ ...aapen, dobbelLag: n, innsats: Math.min(aapen.innsats, maksInnsatsFor(n)) })}
               >
-                {l.navn} <span className="dempet">({l.poeng})</span>
+                {l.navn} <span className="dempet">({poengsum(spill)[n]})</span>
               </button>
             ))}
           </div>
@@ -449,9 +486,14 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
               <span>
                 Innsats ({inn.poengskala}–{maksInnsats})
               </span>
-              <input type="range" min={inn.poengskala} max={maksInnsats} step={inn.poengskala === 1 ? 1 : 50} value={aapen.innsats} onChange={(e) => setAapen({ ...aapen, innsats: +e.target.value })} />
-              <output>{aapen.innsats}</output>
+              <input type="range" min={inn.poengskala} max={maksInnsats} step={inn.poengskala === 1 ? 1 : 50} value={aapen.innsats} onChange={(e) => sett(+e.target.value)} />
+              <input type="number" className="innsats-tall" min={inn.poengskala} max={maksInnsats} value={aapen.innsats} onChange={(e) => sett(+e.target.value)} aria-label="Innsats" />
             </label>
+          )}
+          {lagValgt !== null && (
+            <p className="dempet">
+              Riktig svar gir +{aapen.innsats}. Feil svar gir −{aapen.innsats}.
+            </p>
           )}
           <div className="knapperad slutt">
             <button ref={hovedknapp} className="knapp knapp-hoved knapp-stor" disabled={lagValgt === null} onClick={() => setAapen({ ...aapen, steg: 'sporsmal', forsteLag: lagValgt, fase: 'forste' })}>
@@ -469,15 +511,14 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
   let melding: string
   if (iTur && aapen.fase === 'forste') melding = `${lag[aapen.forsteLag as number].navn} svarer`
   else if (iTur) melding = `Turen går til ${lag[aapen.andreLag as number].navn}`
-  else if (forstBuzz !== undefined) melding = `${lag[forstBuzz].navn} var først!`
-  else if (medBuzzer) melding = aapen.forsteLag === null && aapen.feil.length === 0 ? 'Laget som buzzer først, får svare' : 'De andre lagene kan buzze nå!'
-  else if (aapen.forsteLag === null && aapen.feil.length === 0) melding = 'Laget som rekker opp hånda først, får svare'
+  else if (aapen.forsteLag === null && feil.length === 0) melding = 'Laget som rekker opp hånda først, får svare'
   else if (aapen.andreLag !== null) melding = 'Nå kan alle lag svare. Rekk opp hånda!'
   else melding = 'De andre lagene kan svare. Rekk opp hånda!'
 
-  const forsteSvar = aapen.fase === 'forste' || (aapen.forsteLag === null && aapen.feil.length === 0)
-  const visTidtaker = !ferdig && forstBuzz === undefined && (forsteSvar ? inn.tidtaker : inn.stjeleSekunder > 0)
+  const forsteSvar = aapen.fase === 'forste' || (aapen.forsteLag === null && feil.length === 0)
+  const visTidtaker = !ferdig && (forsteSvar ? inn.tidtaker : inn.stjeleSekunder > 0)
   const sekunder = forsteSvar ? inn.sekunder : inn.stjeleSekunder
+  const visLag = riktig === null && aktuelleLag.length > 0
 
   return (
     <div className="sporsmal-lag" role="dialog" aria-modal="true" aria-label={`${kategori} for ${aapen.verdi}`}>
@@ -502,7 +543,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
           </ol>
         )}
 
-        {visTidtaker && <Tidtaker key={`${aapen.fase}-${aapen.feil.length}`} sekunder={sekunder} lyd={inn.lyd} onUte={iTur ? onTurTidUte : onApenTidUte} />}
+        {visTidtaker && <Tidtaker key={`${aapen.fase}-${feil.length}`} sekunder={sekunder} lyd={inn.lyd} onUte={iTur ? onTurTidUte : onApenTidUte} />}
 
         <div className={aapen.visSvar ? 'svar synlig' : 'svar'} aria-live="polite">
           {aapen.visSvar ? (
@@ -517,45 +558,30 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
           )}
         </div>
 
-        {aapen.riktig === null && !(aapen.visSvar && aktuelleLag.length === 0) && (
+        {visLag && (
           <div className="svar-lag">
-            {!ferdig && (
-              <p className="svar-melding">
-                {melding}
-                {aapen.fase !== 'forste' && aapen.forsteLag !== null && verdi !== aapen.verdi && <span className="dempet"> ({verdi} poeng)</span>}
-              </p>
-            )}
-            {[...rekkefolge, ...aktuelleLag.filter((n) => !rekkefolge.includes(n))].map((n) => {
-              const l = lag[n]
-              const plass = rekkefolge.indexOf(n)
-              return (
-                <div key={n} className={plass === 0 ? 'svar-rad forst' : 'svar-rad'} style={{ '--lagfarge': l.farge } as React.CSSProperties}>
-                  <span className="svar-lagnavn">
-                    {l.navn}
-                    {plass >= 0 && <span className="buzz-plass">{plass === 0 ? 'Først' : `${plass + 1}.`}</span>}
-                  </span>
-                  <span className="knapperad">
-                    {kanHint && (
-                      <button className="knapp knapp-hint" onClick={() => onHint(n)} aria-label={`${l.navn} kjøper hint for ${hintPris} poeng`}>
-                        Hint −{hintPris}
-                      </button>
-                    )}
-                    <button className="knapp knapp-feil" onClick={() => onSvar(n, false)}>
-                      Feil
+            <p className="svar-melding">
+              {melding}
+              {aapen.fase !== 'forste' && aapen.forsteLag !== null && verdi !== aapen.verdi && <span className="dempet"> ({verdi} poeng)</span>}
+            </p>
+            {aktuelleLag.map((n) => (
+              <div key={n} className="svar-rad" style={{ '--lagfarge': lag[n].farge } as React.CSSProperties}>
+                <span className="svar-lagnavn">{lag[n].navn}</span>
+                <span className="knapperad">
+                  {kanHint && (
+                    <button className="knapp knapp-hint" onClick={() => onHint(n)} aria-label={`${lag[n].navn} kjøper hint for ${hintPris} poeng`}>
+                      Hint −{hintPris}
                     </button>
-                    <button className="knapp knapp-riktig" onClick={() => onSvar(n, true)}>
-                      Riktig
-                    </button>
-                  </span>
-                </div>
-              )
-            })}
-            {aapen.hint.length > 0 && (
-              <p className="dempet liten">
-                Hint kjøpt: {aapen.hint.map((n) => lag[n].navn).join(', ')} (−{hintPris} per hint)
-              </p>
-            )}
-            {aapen.feil.length > 0 && <p className="dempet liten">Svarte feil: {aapen.feil.map((n) => lag[n].navn).join(', ')}</p>}
+                  )}
+                  <button className="knapp knapp-feil" onClick={() => onSvar(n, false)}>
+                    Feil
+                  </button>
+                  <button className="knapp knapp-riktig" onClick={() => onSvar(n, true)}>
+                    Riktig
+                  </button>
+                </span>
+              </div>
+            ))}
             {kanSlippes && (
               <button className="lenkeknapp slipp" onClick={onSlippTilAndre}>
                 {aapen.fase === 'forste' ? (aapen.tidUte ? 'Tiden er ute. Gi spørsmålet til et tilfeldig lag' : 'Gi spørsmålet til et tilfeldig lag') : aapen.tidUte ? 'Tiden er ute. La alle lag svare' : 'La alle lag svare'}
@@ -563,13 +589,30 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
             )}
           </div>
         )}
-        {aapen.riktig !== null && (
-          <p className="riktig-melding" style={{ '--lagfarge': lag[aapen.riktig].farge } as React.CSSProperties}>
-            {lag[aapen.riktig].navn} fikk {verdi} poeng
+
+        {riktig !== null && (
+          <p className="riktig-melding" style={{ '--lagfarge': lag[riktig].farge } as React.CSSProperties}>
+            {lag[riktig].navn} fikk {aapen.svar.find((s) => s.riktig)?.poeng} poeng
           </p>
         )}
 
+        {ruteposter.length > 0 && (
+          <div className="rute-poeng" aria-live="polite">
+            <span className="dempet">Poeng på dette spørsmålet:</span>
+            {ruteposter.map((r) => (
+              <span key={r.n} className="rute-poeng-lag" style={{ '--lagfarge': r.l.farge } as React.CSSProperties}>
+                {r.l.navn} {r.poeng > 0 ? `+${r.poeng}` : r.poeng < 0 ? `−${-r.poeng}` : '0'}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className="knapperad slutt">
+          {aapen.forrige && (
+            <button className="knapp" onClick={onAngre}>
+              Angre siste
+            </button>
+          )}
           <button ref={hovedknapp} className={ferdig ? 'knapp knapp-hoved knapp-stor' : 'knapp'} onClick={onLukk}>
             {ferdig ? 'Tilbake til brettet' : 'Ingen svarte – lukk'}
           </button>

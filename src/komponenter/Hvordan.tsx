@@ -37,7 +37,7 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
   },
   {
     tittel: 'Dobbel og finale',
-    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som valgte ruten, satser selv poeng før spørsmålet vises, minst den laveste ruteverdien og maks egen poengsum eller den høyeste ruteverdien. Riktig svar gir innsatsen. Feil svar gir minus innsatsen hvis minuspoeng er valgt, ellers 0. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
+    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som valgte ruten, satser selv poeng før spørsmålet vises, minst den laveste ruteverdien og maks egen poengsum eller den høyeste ruteverdien. Riktig svar gir innsatsen. Feil svar gir minus innsatsen. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
   },
   {
     tittel: 'Del brettene',
@@ -58,7 +58,10 @@ export function Hvordan({ onLukk }: { onLukk: () => void }) {
       </ol>
       <h3 className="hvordan-tips">Greit å vite</h3>
       <ul className="hvordan-liste">
-        <li>Har du gitt feil poeng, trykker du «Angre». Du kan også trykke på et lags poengsum for å justere den eller gi laget turen.</li>
+        <li>Poengene føres automatisk når du trykker «Riktig» eller «Feil», også for dobbel, hint og når andre lag svarer. Har du trykket feil inne i et spørsmål, trykker du «Angre siste».</li>
+        <li>«Angre» på brettet tar tilbake hele forrige spørsmål. «Poenglogg» viser alle poeng som er gitt, og der kan du fjerne enkeltlinjer.</li>
+        <li>Trykk på et lags poengsum for å legge til eller trekke fra 50, 100 eller 200 poeng, eller gi laget turen.</li>
+        <li>Under «Startpoeng» kan alle lag starte med for eksempel 500 poeng.</li>
         <li>Trykker du «Pause», blir spillet husket. Du fortsetter fra startskjermen, også etter at nettleseren har vært lukket.</li>
         <li>Velg utseendet «Lys» hvis rommet er lyst og projektoren svak.</li>
         <li>KI kan ta feil. Les gjennom spørsmålene før du spiller.</li>

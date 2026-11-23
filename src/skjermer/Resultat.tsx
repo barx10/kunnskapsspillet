@@ -1,9 +1,11 @@
 import type { Spilltilstand } from '../types'
+import { poengsum } from '../poeng'
 
 type Props = { spill: Spilltilstand; onIgjen: () => void; onStart: () => void }
 
 export function Resultat({ spill, onIgjen, onStart }: Props) {
-  const sortert = [...spill.lag].sort((a, b) => b.poeng - a.poeng)
+  const sum = poengsum(spill)
+  const sortert = spill.lag.map((l, n) => ({ ...l, poeng: sum[n] })).sort((a, b) => b.poeng - a.poeng)
   const topp = sortert[0].poeng
   const vinnere = sortert.filter((l) => l.poeng === topp)
   const hoyeste = Math.max(1, ...sortert.map((l) => Math.abs(l.poeng)))
