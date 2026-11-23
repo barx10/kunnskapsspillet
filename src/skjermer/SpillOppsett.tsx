@@ -35,7 +35,7 @@ const STJELETIDER = [0, 5, 10, 15, 20]
 const SPILLETIDER = [0, 15, 20, 30, 45]
 
 const MODUSKORT: { id: Spillmodus; navn: string; beskrivelse: string }[] = [
-  { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Svarer de feil eller tiden går ut, kan de andre lagene prøve.' },
+  { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Bommer de eller tiden går ut, går spørsmålet til et tilfeldig lag, og deretter til alle.' },
   { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som buzzer først, får svare.' },
   { id: 'rolig', navn: 'Rolig', beskrivelse: 'Ingen tidtaker og ingen minuspoeng. Lagene bytter på å velge og svare.' },
   { id: 'egen', navn: 'Egne regler', beskrivelse: 'Sett sammen reglene selv nedenfor.' },
@@ -174,7 +174,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
         </Rad>
 
         <h3 className="regel-gruppe">Når et lag ikke klarer det</h3>
-        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? (i.melding === 'buzzer' ? 'Svarer laget som buzzet først feil, kan de andre buzze.' : 'Svarer laget som rakk opp hånda feil, kan de andre prøve.') : undefined}>
+        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? (i.melding === 'buzzer' ? 'Svarer laget som buzzet først feil, kan de andre buzze.' : 'Svarer laget som rakk opp hånda feil, kan de andre prøve.') : 'Først får et tilfeldig lag prøve. Bommer også det, kan alle de andre svare.'}>
           <Segment
             etikett="Andre lag kan svare"
             verdi={i.stjele}
