@@ -1,6 +1,7 @@
 export type Kompetansemaal = { kode: string; tekst: string }
 
-export type Sporsmal = { sporsmal: string; svar: string }
+/** alternativer: feil svaralternativer (opptil tre). Det riktige alternativet er svaret. */
+export type Sporsmal = { sporsmal: string; svar: string; alternativer?: string[] }
 
 export type Kategori = { navn: string; sporsmal: Sporsmal[] }
 
@@ -41,6 +42,10 @@ export type Innstillinger = {
   /** Hvordan lagene melder seg: rekke opp hånda eller buzzer på egen enhet. */
   melding: 'hand' | 'buzzer'
   antallDobbel: number
+  /** Vis svaralternativer på spørsmål som har det. */
+  alternativer: boolean
+  /** Pris for et hint (fjerner ett feil alternativ), som andel av poengskalaen. 0 = ingen hint. */
+  hintPris: number
   /** Spilletid i minutter, 0 = til alle ruter er brukt. */
   spilletid: number
   finale: boolean

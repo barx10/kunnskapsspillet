@@ -23,6 +23,8 @@ export const standardInnstillinger: Innstillinger = {
   modus: 'klassisk',
   ...MODUSER.klassisk,
   melding: 'hand',
+  alternativer: false,
+  hintPris: 0,
   spilletid: 0,
   finale: true,
   lyd: true,
@@ -33,10 +35,16 @@ export const standardInnstillinger: Innstillinger = {
 
 export function hentBrett(): Brett[] {
   const lagrede = les<Brett[] | null>(NOKLER.brett, null)
-  if (lagrede) return lagrede
+  if (lagrede) return lagrede.map(medEksempelAlternativer)
   const start = [eksempelbrett]
   skriv(NOKLER.brett, start)
   return start
+}
+/** Eksempelbrett lagret før svaralternativer fantes, får alternativene fra den nye versjonen. */
+function medEksempelAlternativer(b: Brett): Brett {
+  if (b.id !== eksempelbrett.id) return b
+  const fasit = new Map(eksempelbrett.kategorier.flatMap((k) => k.sporsmal.map((s) => [s.sporsmal, s.alternativer] as const)))
+  return { ...b, kategorier: b.kategorier.map((k) => ({ ...k, sporsmal: k.sporsmal.map((s) => (s.alternativer?.length ? s : { ...s, alternativer: fasit.get(s.sporsmal) ?? s.alternativer })) })) }
 }
 export const lagreBrett = (brett: Brett[]) => skriv(NOKLER.brett, brett)
 
@@ -53,6 +61,8 @@ export function normaliserInnstillinger(raw: unknown): Innstillinger {
   if (!['feilOgTid', 'feil', 'av'].includes(i.stjele)) i.stjele = 'feil'
   if (!['hand', 'buzzer'].includes(i.melding)) i.melding = 'hand'
   i.antallDobbel = Math.min(3, Math.max(0, Number(i.antallDobbel) || 0))
+  i.alternativer = i.alternativer === true
+  if (![0, 0.5, 1, 2].includes(i.hintPris)) i.hintPris = 0
   delete i.dobbel
   return i
 }
@@ -130,7 +140,8 @@ export function importer(tekst: string): Brett {
       navn: str(k?.navn, 60),
       sporsmal: Array.from({ length: rader }, (_, i) => {
         const s = (Array.isArray(k?.sporsmal) ? k.sporsmal[i] : null) as Record<string, unknown> | null
-        return { sporsmal: str(s?.sporsmal), svar: str(s?.svar) }
+        const alternativer = (Array.isArray(s?.alternativer) ? s.alternativer : []).slice(0, 3).map((a: unknown) => str(a, 200)).filter(Boolean)
+        return { sporsmal: str(s?.sporsmal), svar: str(s?.svar), ...(alternativer.length ? { alternativer } : {}) }
       }),
     })),
     finale: { kategori: str(finale.kategori, 60), sporsmal: str(finale.sporsmal), svar: str(finale.svar) },

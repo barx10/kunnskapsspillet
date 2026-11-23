@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Brett } from '../types'
 import { hentKiOppsett, LEVERANDORER, type KiOppsett } from './oppsett'
-import { genererForslag } from './generer'
+import { genererAlternativer, genererForslag } from './generer'
+import { feilAlternativer } from '../alternativer'
 import { KiNokkelSkjema } from './KiNokkelSkjema'
 import { FILTYPER, beskrivelse, lesFagtekst, type Fagtekst } from './fagtekst'
 
-type Modus = 'tomme' | 'alt' | 'kategori'
+type Modus = 'tomme' | 'alt' | 'kategori' | 'alternativer'
 type Props = { brett: Brett; startKategori?: number; onBruk: (b: Brett) => void; onLukk: () => void }
 
 const harInnhold = (b: Brett) => b.kategorier.some((k) => k.navn.trim() || k.sporsmal.some((s) => s.sporsmal.trim() || s.svar.trim()))
@@ -52,7 +53,20 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
     setFeil('')
     const alleSporsmal = brett.kategorier.flatMap((k) => k.sporsmal.map((s) => s.sporsmal.trim()).filter(Boolean))
     try {
-      if (modus === 'kategori') {
+      if (modus === 'alternativer') {
+        const mangler = brett.kategorier.flatMap((k, ki) => k.sporsmal.map((s, ri) => ({ ki, ri, s }))).filter(({ s }) => s.sporsmal.trim() && s.svar.trim() && feilAlternativer(s).length === 0)
+        const alt = await genererAlternativer(oppsett, grunn(brett), mangler.map(({ s }) => s))
+        onBruk({
+          ...brett,
+          kategorier: brett.kategorier.map((k, ki) => ({
+            ...k,
+            sporsmal: k.sporsmal.map((s, ri) => {
+              const i = mangler.findIndex((m) => m.ki === ki && m.ri === ri)
+              return i >= 0 && alt[i].length ? { ...s, alternativer: alt[i] } : s
+            }),
+          })),
+        })
+      } else if (modus === 'kategori') {
         const k = brett.kategorier[kategori]
         const andre = brett.kategorier.filter((_, i) => i !== kategori).flatMap((x) => x.sporsmal.map((s) => s.sporsmal.trim()).filter(Boolean))
         const f = await genererForslag(oppsett, { ...grunn(brett), kategorinavn: [k.navn], rader, eksisterende: andre, onsker, fagtekst })
@@ -66,7 +80,11 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
           ...brett,
           kategorier: brett.kategorier.map((k, i) => ({
             navn: k.navn.trim() || f.kategorier[i].navn,
-            sporsmal: k.sporsmal.map((s, r) => (s.sporsmal.trim() ? s : { sporsmal: f.kategorier[i].sporsmal[r].sporsmal, svar: s.svar.trim() || f.kategorier[i].sporsmal[r].svar })),
+            sporsmal: k.sporsmal.map((s, r) => {
+              if (s.sporsmal.trim()) return s
+              const ny = f.kategorier[i].sporsmal[r]
+              return s.svar.trim() ? { sporsmal: ny.sporsmal, svar: s.svar } : ny
+            }),
           })),
           finale: brett.finale.sporsmal.trim() ? brett.finale : f.finale,
         })
@@ -78,6 +96,7 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
   }
 
   const tomme = brett.kategorier.reduce((n, k) => n + k.sporsmal.filter((s) => !s.sporsmal.trim()).length, 0)
+  const utenAlternativer = brett.kategorier.reduce((n, k) => n + k.sporsmal.filter((s) => s.sporsmal.trim() && s.svar.trim() && feilAlternativer(s).length === 0).length, 0)
 
   return (
     <dialog ref={dialog} className="dialog" onCancel={(e) => (jobber ? e.preventDefault() : onLukk())} aria-labelledby="ki-tittel">
@@ -115,6 +134,10 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
               <span>Hele brettet, med nye kategorier. Erstatter alt som står der nå.</span>
             </label>
             <label className="avkryssing">
+              <input type="radio" name="modus" checked={modus === 'alternativer'} onChange={() => setModus('alternativer')} disabled={utenAlternativer === 0} />
+              <span>Bare svaralternativer til spørsmål som mangler det ({utenAlternativer}). Spørsmål og svar blir stående.</span>
+            </label>
+            <label className="avkryssing">
               <input type="radio" name="modus" checked={modus === 'kategori'} onChange={() => setModus('kategori')} />
               <span>
                 Én kategori:{' '}
@@ -129,39 +152,43 @@ export function KiDialog({ brett, startKategori, onBruk, onLukk }: Props) {
             </label>
           </fieldset>
 
-          <div className="fagtekst">
-            <div className="fagtekst-topp">
-              <strong>Fagtekst (valgfritt)</strong>
-              <span className="dempet liten">Last opp eller lim inn en tekst, så lager KI-en spørsmål ut fra den.</span>
-            </div>
-            <input ref={filfelt} type="file" accept={FILTYPER} hidden onChange={(e) => e.target.files?.[0] && velgFil(e.target.files[0]).finally(() => (e.target.value = ''))} />
-            {fil ? (
-              <div className="fagtekst-fil">
-                <span>{beskrivelse(fil)}</span>
-                <button className="lenkeknapp" onClick={() => setFil(null)} disabled={jobber}>
-                  Fjern
-                </button>
+          {modus !== 'alternativer' && (
+            <>
+              <div className="fagtekst">
+                <div className="fagtekst-topp">
+                  <strong>Fagtekst (valgfritt)</strong>
+                  <span className="dempet liten">Last opp eller lim inn en tekst, så lager KI-en spørsmål ut fra den.</span>
+                </div>
+                <input ref={filfelt} type="file" accept={FILTYPER} hidden onChange={(e) => e.target.files?.[0] && velgFil(e.target.files[0]).finally(() => (e.target.value = ''))} />
+                {fil ? (
+                  <div className="fagtekst-fil">
+                    <span>{beskrivelse(fil)}</span>
+                    <button className="lenkeknapp" onClick={() => setFil(null)} disabled={jobber}>
+                      Fjern
+                    </button>
+                  </div>
+                ) : (
+                  <div className="knapperad">
+                    <button className="knapp" onClick={() => filfelt.current?.click()} disabled={leser || jobber}>
+                      {leser ? 'Leser filen …' : 'Last opp fil (PDF, Word, tekst)'}
+                    </button>
+                    <button className="lenkeknapp" onClick={() => setVisFagtekst(!visFagtekst)} aria-expanded={visFagtekst}>
+                      {visFagtekst ? 'Skjul tekstfeltet' : 'Lim inn tekst i stedet'}
+                    </button>
+                  </div>
+                )}
+                {!fil && visFagtekst && (
+                  <textarea rows={6} value={limt} placeholder="Lim inn fagteksten her" aria-label="Fagtekst" onChange={(e) => setLimt(e.target.value)} />
+                )}
+                {fagtekst && <p className="dempet liten">Teksten sendes til {LEVERANDORER[oppsett.leverandor].navn}. Ikke bruk tekster med personopplysninger om elever.</p>}
               </div>
-            ) : (
-              <div className="knapperad">
-                <button className="knapp" onClick={() => filfelt.current?.click()} disabled={leser || jobber}>
-                  {leser ? 'Leser filen …' : 'Last opp fil (PDF, Word, tekst)'}
-                </button>
-                <button className="lenkeknapp" onClick={() => setVisFagtekst(!visFagtekst)} aria-expanded={visFagtekst}>
-                  {visFagtekst ? 'Skjul tekstfeltet' : 'Lim inn tekst i stedet'}
-                </button>
-              </div>
-            )}
-            {!fil && visFagtekst && (
-              <textarea rows={6} value={limt} placeholder="Lim inn fagteksten her" aria-label="Fagtekst" onChange={(e) => setLimt(e.target.value)} />
-            )}
-            {fagtekst && <p className="dempet liten">Teksten sendes til {LEVERANDORER[oppsett.leverandor].navn}. Ikke bruk tekster med personopplysninger om elever.</p>}
-          </div>
 
-          <label className="felt">
-            <span>Ønsker (valgfritt)</span>
-            <textarea rows={2} value={onsker} placeholder="For eksempel: Ta med spørsmål om nordlys. Unngå tall med desimaler." onChange={(e) => setOnsker(e.target.value)} />
-          </label>
+              <label className="felt">
+                <span>Ønsker (valgfritt)</span>
+                <textarea rows={2} value={onsker} placeholder="For eksempel: Ta med spørsmål om nordlys. Unngå tall med desimaler." onChange={(e) => setOnsker(e.target.value)} />
+              </label>
+            </>
+          )}
 
           {feil && (
             <p className="melding melding-feil" role="alert">

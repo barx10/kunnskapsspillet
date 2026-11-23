@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Spilltilstand } from '../types'
+import type { Spilltilstand, Sporsmal } from '../types'
 import { poengFor } from '../poeng'
+import { feilAlternativer } from '../alternativer'
 import { lyd } from '../lyd'
 import { Tidtaker } from '../komponenter/Tidtaker'
 import { Finale } from './Finale'
@@ -31,6 +32,9 @@ type Aapen = {
   fase: 'forste' | 'andre' | 'apen'
   stengt: boolean
   feil: number[]
+  /** Feil alternativer som er fjernet med hint, og lagene som kjøpte dem. */
+  fjernet: string[]
+  hint: number[]
   riktig: number | null
   visSvar: boolean
   tidUte: boolean
@@ -139,6 +143,8 @@ export function Spill({ spill, setSpill, onPause }: Props) {
       fase: forsteLag === null ? 'apen' : 'forste',
       stengt: false,
       feil: [],
+      fjernet: [],
+      hint: [],
       riktig: null,
       visSvar: false,
       tidUte: false,
@@ -174,6 +180,16 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     if (aapen.dobbel || inn.stjele === 'av') setAapen(steng(b))
     else if (aapen.fase === 'apen') setAapen(aktuelle(b, lag.length).length ? b : steng(b))
     else setAapen(videre(b, lag.length))
+  }
+
+  const hintPris = Math.max(1, Math.round(inn.hintPris * inn.poengskala))
+  /** Lag n kjøper et hint: ett tilfeldig feil alternativ fjernes. Minst ett feil alternativ blir stående. */
+  const kjopHint = (n: number) => {
+    if (!aapen) return
+    const igjen = feilAlternativer(brett.kategorier[aapen.ki].sporsmal[aapen.ri]).filter((a) => !aapen.fjernet.includes(a))
+    if (igjen.length < 2) return
+    oppdater(endrePoeng(n, -hintPris))
+    setAapen({ ...aapen, fjernet: [...aapen.fjernet, igjen[Math.floor(Math.random() * igjen.length)]], hint: [...aapen.hint, n] })
   }
 
   /** Tiden til laget med turen (eller det trukne laget) er ute. */
@@ -301,6 +317,8 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           maksInnsatsFor={maksInnsatsFor}
           verdi={verdiFor(aapen)}
           onSvar={svar}
+          hintPris={inn.hintPris > 0 ? hintPris : 0}
+          onHint={kjopHint}
           onLukk={lukk}
           onTurTidUte={turTidUte}
           onApenTidUte={apenTidUte}
@@ -347,11 +365,13 @@ type VisningProps = {
   aapen: Aapen
   setAapen: (a: Aapen) => void
   kategori: string
-  sporsmal: { sporsmal: string; svar: string }
+  sporsmal: Sporsmal
   spill: Spilltilstand
   maksInnsatsFor: (n: number | null) => number
   verdi: number
   onSvar: (n: number, riktig: boolean) => void
+  hintPris: number
+  onHint: (n: number) => void
   onLukk: () => void
   onTurTidUte: () => void
   onApenTidUte: () => void
@@ -359,10 +379,14 @@ type VisningProps = {
   medBuzzer: boolean
 }
 
-function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsatsFor, verdi, onSvar, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
+function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsatsFor, verdi, onSvar, hintPris, onHint, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
   const { innstillinger: inn, lag } = spill
   const ferdig = aapen.riktig !== null || aapen.visSvar
   const hovedknapp = useRef<HTMLButtonElement>(null)
+  const feilAlt = feilAlternativer(sporsmal)
+  const medAlternativer = inn.alternativer && feilAlt.length > 0
+  const [alternativer] = useState(() => [sporsmal.svar.trim(), ...feilAlt].sort(() => Math.random() - 0.5))
+  const kanHint = medAlternativer && hintPris > 0 && !ferdig && feilAlt.filter((a) => !aapen.fjernet.includes(a)).length >= 2
 
   const iTur = (aapen.fase === 'forste' && aapen.forsteLag !== null) || (aapen.fase === 'andre' && aapen.andreLag !== null)
   const aktuelleLag = aktuelle(aapen, lag.length)
@@ -463,6 +487,21 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
         </p>
         <p className="sporsmal-tekst">{sporsmal.sporsmal}</p>
 
+        {medAlternativer && (
+          <ol className="alternativer" aria-label="Svaralternativer">
+            {alternativer.map((a, i) => {
+              const fjernet = aapen.fjernet.includes(a)
+              const klasse = aapen.visSvar ? (a === sporsmal.svar.trim() ? 'riktig' : 'feil') : fjernet ? 'fjernet' : ''
+              return (
+                <li key={a} className={`alternativ ${klasse}`} aria-label={fjernet ? `${a}, fjernet` : undefined}>
+                  <span className="alternativ-bokstav">{'ABCD'[i]}</span>
+                  <span>{a}</span>
+                </li>
+              )
+            })}
+          </ol>
+        )}
+
         {visTidtaker && <Tidtaker key={`${aapen.fase}-${aapen.feil.length}`} sekunder={sekunder} lyd={inn.lyd} onUte={iTur ? onTurTidUte : onApenTidUte} />}
 
         <div className={aapen.visSvar ? 'svar synlig' : 'svar'} aria-live="polite">
@@ -496,6 +535,11 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
                     {plass >= 0 && <span className="buzz-plass">{plass === 0 ? 'Først' : `${plass + 1}.`}</span>}
                   </span>
                   <span className="knapperad">
+                    {kanHint && (
+                      <button className="knapp knapp-hint" onClick={() => onHint(n)} aria-label={`${l.navn} kjøper hint for ${hintPris} poeng`}>
+                        Hint −{hintPris}
+                      </button>
+                    )}
                     <button className="knapp knapp-feil" onClick={() => onSvar(n, false)}>
                       Feil
                     </button>
@@ -506,6 +550,11 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
                 </div>
               )
             })}
+            {aapen.hint.length > 0 && (
+              <p className="dempet liten">
+                Hint kjøpt: {aapen.hint.map((n) => lag[n].navn).join(', ')} (−{hintPris} per hint)
+              </p>
+            )}
             {aapen.feil.length > 0 && <p className="dempet liten">Svarte feil: {aapen.feil.map((n) => lag[n].navn).join(', ')}</p>}
             {kanSlippes && (
               <button className="lenkeknapp slipp" onClick={onSlippTilAndre}>
