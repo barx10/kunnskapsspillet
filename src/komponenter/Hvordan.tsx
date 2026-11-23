@@ -36,7 +36,7 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
   },
   {
     tittel: 'Dobbel og finale',
-    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som valgte ruten, satser selv poeng før spørsmålet vises. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
+    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som valgte ruten, satser selv poeng før spørsmålet vises, minst den laveste ruteverdien og maks egen poengsum eller den høyeste ruteverdien. Riktig svar gir innsatsen. Feil svar gir minus innsatsen hvis minuspoeng er valgt, ellers 0. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
   },
   {
     tittel: 'Del brettene',

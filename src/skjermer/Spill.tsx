@@ -69,6 +69,8 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   const gyldige = brett.kategorier.flatMap((k, ki) => k.sporsmal.map((s, ri) => (s.sporsmal.trim() ? `${ki}-${ri}` : null)).filter(Boolean)) as string[]
   const gjenstar = gyldige.filter((id) => !spill.brukt.includes(id)).length
   const hoyesteVerdi = poengFor(rader - 1, inn.poengskala)
+  /** Et lag kan satse sine egne poeng, eller opp til den høyeste ruteverdien. */
+  const maksInnsatsFor = (n: number | null) => (n === null ? hoyesteVerdi : Math.max(lag[n].poeng, hoyesteVerdi))
 
   // Spilletid
   const igjenMs = inn.spilletid > 0 ? (spill.startet ?? na) + inn.spilletid * 60_000 - na : null
@@ -121,15 +123,17 @@ export function Spill({ spill, setSpill, onPause }: Props) {
     if (dobbel) spill_lyd(lyd.dobbel)
     history.pushState({ ...history.state, sporsmal: id }, '')
     const forsteLag = dobbel ? null : inn.forstSvar === 'tur' && harTur ? tur : null
+    const verdi = poengFor(ri, inn.poengskala)
+    const dobbelLag = dobbel && harTur ? tur : null
     setAapen({
       id,
       ki,
       ri,
-      verdi: poengFor(ri, inn.poengskala),
+      verdi,
       dobbel,
       steg: dobbel ? 'dobbel-innsats' : 'sporsmal',
-      dobbelLag: dobbel && harTur ? tur : null,
-      innsats: 0,
+      dobbelLag,
+      innsats: Math.min(verdi, maksInnsatsFor(dobbelLag)),
       forsteLag,
       andreLag: null,
       fase: forsteLag === null ? 'apen' : 'forste',
@@ -164,7 +168,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
       return
     }
     spill_lyd(lyd.feil)
-    const trekk = inn.feilSvar === 'minus' || aapen.dobbel ? -verdi : 0
+    const trekk = inn.feilSvar === 'minus' ? -verdi : 0
     if (trekk) oppdater(endrePoeng(n, trekk))
     const b = { ...aapen, feil: [...aapen.feil, n], tidUte: false }
     if (aapen.dobbel || inn.stjele === 'av') setAapen(steng(b))
@@ -194,7 +198,6 @@ export function Spill({ spill, setSpill, onPause }: Props) {
   if (spill.fase === 'finale') return <Finale spill={spill} setSpill={oppdater} />
 
   const sporsmal = aapen ? brett.kategorier[aapen.ki].sporsmal[aapen.ri] : null
-  const maksInnsats = aapen?.dobbelLag != null ? Math.max(lag[aapen.dobbelLag].poeng, hoyesteVerdi) : hoyesteVerdi
   const ferdigBrett = gjenstar === 0 || tidenErUte
 
   return (
@@ -295,7 +298,7 @@ export function Spill({ spill, setSpill, onPause }: Props) {
           kategori={brett.kategorier[aapen.ki].navn}
           sporsmal={sporsmal}
           spill={spill}
-          maksInnsats={maksInnsats}
+          maksInnsatsFor={maksInnsatsFor}
           verdi={verdiFor(aapen)}
           onSvar={svar}
           onLukk={lukk}
@@ -346,7 +349,7 @@ type VisningProps = {
   kategori: string
   sporsmal: { sporsmal: string; svar: string }
   spill: Spilltilstand
-  maksInnsats: number
+  maksInnsatsFor: (n: number | null) => number
   verdi: number
   onSvar: (n: number, riktig: boolean) => void
   onLukk: () => void
@@ -356,7 +359,7 @@ type VisningProps = {
   medBuzzer: boolean
 }
 
-function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsats, verdi, onSvar, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
+function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInnsatsFor, verdi, onSvar, onLukk, onTurTidUte, onApenTidUte, onSlippTilAndre, medBuzzer }: VisningProps) {
   const { innstillinger: inn, lag } = spill
   const ferdig = aapen.riktig !== null || aapen.visSvar
   const hovedknapp = useRef<HTMLButtonElement>(null)
@@ -395,6 +398,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
 
   if (aapen.steg === 'dobbel-innsats') {
     const lagValgt = aapen.dobbelLag
+    const maksInnsats = maksInnsatsFor(lagValgt)
     return (
       <div className="sporsmal-lag" role="dialog" aria-modal="true" aria-label="Dobbel">
         <div className="sporsmal-boks dobbel">
@@ -410,7 +414,7 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
                 className={lagValgt === n ? 'lag-knapp valgt' : 'lag-knapp'}
                 style={{ '--lagfarge': l.farge } as React.CSSProperties}
                 aria-pressed={lagValgt === n}
-                onClick={() => setAapen({ ...aapen, dobbelLag: n })}
+                onClick={() => setAapen({ ...aapen, dobbelLag: n, innsats: Math.min(aapen.innsats, maksInnsatsFor(n)) })}
               >
                 {l.navn} <span className="dempet">({l.poeng})</span>
               </button>
@@ -418,8 +422,10 @@ function Sporsmalsvisning({ aapen, setAapen, kategori, sporsmal, spill, maksInns
           </div>
           {lagValgt !== null && (
             <label className="innsats">
-              <span>Innsats (maks {maksInnsats})</span>
-              <input type="range" min={0} max={maksInnsats} step={inn.poengskala === 1 ? 1 : 50} value={aapen.innsats} onChange={(e) => setAapen({ ...aapen, innsats: +e.target.value })} />
+              <span>
+                Innsats ({inn.poengskala}–{maksInnsats})
+              </span>
+              <input type="range" min={inn.poengskala} max={maksInnsats} step={inn.poengskala === 1 ? 1 : 50} value={aapen.innsats} onChange={(e) => setAapen({ ...aapen, innsats: +e.target.value })} />
               <output>{aapen.innsats}</output>
             </label>
           )}
