@@ -164,7 +164,8 @@ export function Redigering({ start, onAvbryt, onLagre, onEndret }: Props) {
                   <textarea rows={2} value={s.sporsmal} placeholder="Spørsmål" aria-label={`Spørsmål, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settSporsmal(ki, ri, 'sporsmal', e.target.value)} />
                   <input value={s.svar} placeholder="Svar" aria-label={`Svar, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settSporsmal(ki, ri, 'svar', e.target.value)} />
                   <details className="alternativ-felt">
-                    <summary>Svaralternativer ({feilAlternativer(s).length}/3)</summary>
+                    <summary>Svaralternativer ({feilAlternativer(s).length ? `riktig + ${feilAlternativer(s).length} feil` : 'ingen'})</summary>
+                    <input className="alternativ-riktig" value={s.svar} readOnly tabIndex={-1} placeholder="Riktig alternativ: skriv svaret over" aria-label={`Riktig alternativ, hentes fra svaret, kategori ${ki + 1}, nivå ${ri + 1}`} title="Det riktige alternativet er svaret. Det kommer med automatisk." />
                     {[0, 1, 2].map((n) => (
                       <input key={n} value={s.alternativer?.[n] ?? ''} placeholder={`Feil alternativ ${n + 1}`} aria-label={`Feil alternativ ${n + 1}, kategori ${ki + 1}, nivå ${ri + 1}`} onChange={(e) => settAlternativ(ki, ri, n, e.target.value)} />
                     ))}

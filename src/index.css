@@ -611,6 +611,12 @@ textarea::placeholder {
   margin-top: 0.3rem;
   width: 100%;
 }
+.alternativ-felt input.alternativ-riktig {
+  border-left: 6px solid var(--riktig);
+  background: var(--flate);
+  color: var(--tekst);
+  cursor: default;
+}
 .sporsmal-nivaa {
   font-size: 0.78em;
   font-weight: 700;
