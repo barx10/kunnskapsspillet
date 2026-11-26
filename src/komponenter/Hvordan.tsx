@@ -15,29 +15,18 @@ const STEG: { tittel: string; tekst: React.ReactNode }[] = [
     ),
   },
   {
-    tittel: 'Del klassen i lag og velg spillmodus',
-    tekst: (
-      <>
-        Velg 2–6 lag og gi dem navn. Velg så en spillmodus: <strong>Klassisk</strong> (lagene velger og svarer etter tur, bommer laget eller tiden går ut, går spørsmålet til et
-        tilfeldig lag og deretter til alle), <strong>Lynrunde</strong> (laget som rekker opp hånda først, svarer) eller <strong>Rolig</strong> (uten tidtaker og minuspoeng). Du kan justere reglene etterpå,
-        for eksempel tid, halve poeng til de andre lagene, antall dobbel-ruter og spilletid. Vil du gjøre det enklere, slår du på svaralternativer. Da kan lagene også kjøpe hint
-        som fjerner ett feil alternativ.
-      </>
-    ),
+    tittel: 'Del klassen i lag og velg regler',
+    tekst:
+      'Velg 2–6 lag og gi dem navn. Lagene velger rute etter tur, og bare laget som valgte ruten, svarer. Velg tidtaker, om feil svar gir minuspoeng, antall dobbel-ruter og spilletid. Vil du gjøre det enklere, slår du på svaralternativer. Da kan laget også kjøpe hint som fjerner ett feil alternativ.',
   },
   {
     tittel: 'Spill',
-    tekst: (
-      <>
-        Vis siden på storskjermen og trykk «Fullskjerm». Øverst står det hvilket lag som skal velge rute. Les spørsmålet høyt, og trykk «Riktig» eller «Feil» ved laget som
-        svarer. Bommer laget, eller tiden går ut, trekkes et tilfeldig lag som får prøve. Bommer også det, står det på skjermen at alle lagene kan rekke opp hånda.
-        Trykk «Vis svaret» når dere vil se fasiten, og «Tilbake til brettet» for å gå videre. Esc-tasten tar deg også tilbake når spørsmålet er avgjort.
-      </>
-    ),
+    tekst:
+      'Vis siden på storskjermen og trykk «Fullskjerm». Øverst står det hvilket lag som skal velge rute. Les spørsmålet høyt, og trykk «Riktig» eller «Feil». Svaret vises, og «Tilbake til brettet» gir turen til neste lag. Esc-tasten tar deg også tilbake når spørsmålet er avgjort.',
   },
   {
     tittel: 'Dobbel og finale',
-    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som valgte ruten, satser selv poeng før spørsmålet vises, minst den laveste ruteverdien og maks egen poengsum eller den høyeste ruteverdien. Riktig svar gir innsatsen. Feil svar gir minus innsatsen. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
+    tekst: 'Bak en eller to ruter skjuler det seg en dobbel. Laget som har turen, satser selv poeng før spørsmålet vises, minst den laveste ruteverdien og maks egen poengsum eller den høyeste ruteverdien. Riktig svar gir innsatsen. Feil svar gir minus innsatsen. Til slutt satser alle lag på finalespørsmålet og skriver svaret på et ark.',
   },
   {
     tittel: 'Del brettene',
@@ -58,7 +47,7 @@ export function Hvordan({ onLukk }: { onLukk: () => void }) {
       </ol>
       <h3 className="hvordan-tips">Greit å vite</h3>
       <ul className="hvordan-liste">
-        <li>Poengene føres automatisk når du trykker «Riktig» eller «Feil», også for dobbel, hint og når andre lag svarer. Har du trykket feil inne i et spørsmål, trykker du «Angre siste».</li>
+        <li>Poengene føres automatisk når du trykker «Riktig» eller «Feil», også for dobbel og hint. Har du trykket feil inne i et spørsmål, trykker du «Angre siste».</li>
         <li>«Angre» på brettet tar tilbake hele forrige spørsmål. «Poenglogg» viser alle poeng som er gitt, og der kan du fjerne enkeltlinjer.</li>
         <li>Trykk på et lags poengsum for å legge til eller trekke fra 50, 100 eller 200 poeng, eller gi laget turen.</li>
         <li>Under «Startpoeng» kan alle lag starte med for eksempel 500 poeng.</li>

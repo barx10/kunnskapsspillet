@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import type { Brett, Innstillinger, Lag, Poengskala, Spillmodus, Tema } from '../types'
-import { MODUSER } from '../lagring'
+import type { Brett, Innstillinger, Lag, Poengskala, Tema } from '../types'
 import { Topplinje } from '../komponenter/Topplinje'
 import { poengFor } from '../poeng'
 import { feilAlternativer } from '../alternativer'
@@ -30,23 +29,15 @@ const SKALAER: { id: Poengskala; navn: string }[] = [
 ]
 
 const TIDER = [15, 30, 45, 60, 90]
-const STJELETIDER = [0, 5, 10, 15, 20]
 const SPILLETIDER = [0, 15, 20, 30, 45]
 
-const MODUSKORT: { id: Spillmodus; navn: string; beskrivelse: string }[] = [
-  { id: 'klassisk', navn: 'Klassisk', beskrivelse: 'Lagene velger rute etter tur og svarer først. Bommer de eller tiden går ut, går spørsmålet til et tilfeldig lag, og deretter til alle.' },
-  { id: 'lynrunde', navn: 'Lynrunde', beskrivelse: 'Alle lag kan svare med en gang. Laget som rekker opp hånda først, får svare.' },
-  { id: 'rolig', navn: 'Rolig', beskrivelse: 'Ingen tidtaker og ingen minuspoeng. Lagene bytter på å velge og svare.' },
-  { id: 'egen', navn: 'Egne regler', beskrivelse: 'Sett sammen reglene selv nedenfor.' },
-]
-
-type SegmentValg<T> = { verdi: T; tekst: string; deaktivert?: boolean }
+type SegmentValg<T> = { verdi: T; tekst: string }
 
 function Segment<T extends string | number>({ valg, verdi, onEndre, etikett }: { valg: SegmentValg<T>[]; verdi: T; onEndre: (v: T) => void; etikett: string }) {
   return (
     <div className="segment" role="group" aria-label={etikett}>
       {valg.map((v) => (
-        <button key={String(v.verdi)} className={verdi === v.verdi ? 'valgt' : ''} aria-pressed={verdi === v.verdi} disabled={v.deaktivert} onClick={() => onEndre(v.verdi)}>
+        <button key={String(v.verdi)} className={verdi === v.verdi ? 'valgt' : ''} aria-pressed={verdi === v.verdi} onClick={() => onEndre(v.verdi)}>
           {v.tekst}
         </button>
       ))}
@@ -57,14 +48,7 @@ function Segment<T extends string | number>({ valg, verdi, onEndre, etikett }: {
 export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake, onStart }: Props) {
   const [i, setI] = useState(innstillinger)
   const [lag, setLag] = useState<Lag[]>(() => LAGNAVN.slice(0, 3).map((navn, n) => ({ navn, farge: LAGFARGER[n] })))
-  // Endrer du en regel, går modusen over til «Egne regler».
-  const regel = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => {
-    const ny = { ...i, [k]: v, modus: 'egen' as Spillmodus }
-    if (k === 'tur' && v === 'fri') ny.forstSvar = 'alle'
-    setI(ny)
-  }
   const sett = <K extends keyof Innstillinger>(k: K, v: Innstillinger[K]) => setI({ ...i, [k]: v })
-  const velgModus = (m: Spillmodus) => setI(m === 'egen' ? { ...i, modus: m } : { ...i, ...MODUSER[m], modus: m })
   const harFinale = !!brett.finale.sporsmal.trim()
   const rader = brett.kategorier[0]?.sporsmal.length ?? 5
   const sporsmalene = brett.kategorier.flatMap((k) => k.sporsmal).filter((s) => s.sporsmal.trim())
@@ -101,102 +85,28 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
       </section>
 
       <section className="panel">
-        <h2>Spillmodus</h2>
-        <div className="modus-valg">
-          {MODUSKORT.map((m) => (
-            <button key={m.id} className={i.modus === m.id ? 'modus-kort valgt' : 'modus-kort'} aria-pressed={i.modus === m.id} onClick={() => velgModus(m.id)}>
-              <strong>{m.navn}</strong>
-              <span className="dempet liten">{m.beskrivelse}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="panel">
         <h2>Regler</h2>
-        <h3 className="regel-gruppe">Tur og svar</h3>
-        <Rad tittel="Hvem velger rute" hjelp="Brettet viser hvilket lag som har turen.">
-          <Segment
-            etikett="Hvem velger rute"
-            verdi={i.tur}
-            onEndre={(v) => regel('tur', v)}
-            valg={[
-              { verdi: 'riktig', tekst: 'Laget som svarte riktig' },
-              { verdi: 'rekke', tekst: 'Etter tur' },
-              { verdi: 'fri', tekst: 'Fritt' },
-            ]}
-          />
-        </Rad>
-        <Rad tittel="Hvem svarer først" hjelp={i.tur === 'fri' ? 'Når ingen har turen, svarer laget som rekker opp hånda først.' : undefined}>
-          <Segment
-            etikett="Hvem svarer først"
-            verdi={i.forstSvar}
-            onEndre={(v) => regel('forstSvar', v)}
-            valg={[
-              { verdi: 'tur', tekst: 'Laget som valgte ruten', deaktivert: i.tur === 'fri' },
-              { verdi: 'alle', tekst: 'Raskeste hånd' },
-            ]}
-          />
-        </Rad>
+        <p className="dempet liten">Lagene velger rute etter tur. Bare laget som valgte ruten, svarer. Deretter går turen videre til neste lag.</p>
         <Rad tittel="Tidtaker" hjelp="Tiden laget har til å svare. Starter når spørsmålet vises.">
           <Segment
             etikett="Tidtaker"
             verdi={i.tidtaker ? i.sekunder : 0}
-            onEndre={(v) => (v === 0 ? regel('tidtaker', false) : setI({ ...i, tidtaker: true, sekunder: v, modus: 'egen' }))}
+            onEndre={(v) => setI(v === 0 ? { ...i, tidtaker: false } : { ...i, tidtaker: true, sekunder: v })}
             valg={[{ verdi: 0, tekst: 'Av' }, ...TIDER.map((t) => ({ verdi: t, tekst: `${t} s` }))]}
           />
           {i.tidtaker && (
             <label className="egen-tid">
               Egen tid
-              <input type="number" min={5} max={300} value={i.sekunder} onChange={(e) => regel('sekunder', Math.min(300, Math.max(5, +e.target.value || 30)))} />
+              <input type="number" min={5} max={300} value={i.sekunder} onChange={(e) => sett('sekunder', Math.min(300, Math.max(5, +e.target.value || 30)))} />
               sekunder
             </label>
           )}
         </Rad>
-
-        <h3 className="regel-gruppe">Når et lag ikke klarer det</h3>
-        <Rad tittel="Andre lag kan svare" hjelp={i.forstSvar === 'alle' ? 'Svarer laget som rakk opp hånda feil, kan de andre prøve.' : 'Først får et tilfeldig lag prøve. Bommer også det, kan alle de andre svare.'}>
-          <Segment
-            etikett="Andre lag kan svare"
-            verdi={i.stjele}
-            onEndre={(v) => regel('stjele', v)}
-            valg={[
-              { verdi: 'feilOgTid', tekst: 'Etter feil svar eller når tiden går ut', deaktivert: !i.tidtaker || i.forstSvar === 'alle' },
-              { verdi: 'feil', tekst: 'Etter feil svar' },
-              { verdi: 'av', tekst: 'Nei' },
-            ]}
-          />
-        </Rad>
-        {i.stjele !== 'av' && (
-          <>
-            <Rad tittel="Tid for de andre lagene">
-              <Segment
-                etikett="Tid for de andre lagene"
-                verdi={i.stjeleSekunder}
-                onEndre={(v) => regel('stjeleSekunder', v)}
-                valg={STJELETIDER.map((t) => ({ verdi: t, tekst: t === 0 ? 'Ingen' : `${t} s` }))}
-              />
-            </Rad>
-            {i.forstSvar === 'tur' && (
-              <Rad tittel="Poeng til de andre lagene" hjelp="Når et annet lag svarer riktig.">
-                <Segment
-                  etikett="Poeng til de andre lagene"
-                  verdi={i.stjelePoeng}
-                  onEndre={(v) => regel('stjelePoeng', v)}
-                  valg={[
-                    { verdi: 'full', tekst: 'Hele verdien' },
-                    { verdi: 'halv', tekst: 'Halve verdien' },
-                  ]}
-                />
-              </Rad>
-            )}
-          </>
-        )}
         <Rad tittel="Feil svar" hjelp="Med minuspoeng mister laget like mye som det kunne vunnet.">
           <Segment
             etikett="Feil svar"
             verdi={i.feilSvar}
-            onEndre={(v) => regel('feilSvar', v)}
+            onEndre={(v) => sett('feilSvar', v)}
             valg={[
               { verdi: 'minus', tekst: 'Minuspoeng' },
               { verdi: 'null', tekst: '0 poeng' },
@@ -213,7 +123,7 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
           onEndre={(v) => sett('alternativer', v)}
         />
         {i.alternativer && medAlt > 0 && (
-          <Rad tittel="Hint" hjelp={`Et lag kan kjøpe hint. Hvert hint fjerner ett feil alternativ og koster poeng. Minst ett feil alternativ blir stående. ${medHint} spørsmål har nok alternativer til hint.`}>
+          <Rad tittel="Hint" hjelp={`Laget som svarer, kan kjøpe hint. Hvert hint fjerner ett feil alternativ og koster poeng. Minst ett feil alternativ blir stående. ${medHint} spørsmål har nok alternativer til hint.`}>
             <Segment etikett="Pris for hint" verdi={i.hintPris} onEndre={(v) => sett('hintPris', v)} valg={hintPriser.map((f) => ({ verdi: f, tekst: f === 0 ? 'Av' : `${Math.max(1, Math.round(f * i.poengskala))} poeng` }))} />
           </Rad>
         )}
@@ -227,8 +137,8 @@ export function SpillOppsett({ brett, innstillinger, setInnstillinger, onTilbake
             poeng
           </label>
         </Rad>
-        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen. Andre lag kan ikke svare.">
-          <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => regel('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
+        <Rad tittel="Dobbel-ruter" hjelp="Skjulte ruter der laget som valgte, satser poeng selv. Riktig svar gir innsatsen, feil svar gir minus innsatsen.">
+          <Segment etikett="Antall dobbel-ruter" verdi={i.antallDobbel} onEndre={(v) => sett('antallDobbel', v)} valg={[0, 1, 2, 3].map((n) => ({ verdi: n, tekst: n === 0 ? 'Ingen' : String(n) }))} />
         </Rad>
         <Rad tittel="Spilletid" hjelp="Brettet viser hvor lang tid som er igjen. Når tiden er ute, går dere til finalen eller resultatet.">
           <Segment etikett="Spilletid" verdi={i.spilletid} onEndre={(v) => sett('spilletid', v)} valg={SPILLETIDER.map((t) => ({ verdi: t, tekst: t === 0 ? 'Til brettet er tomt' : `${t} min` }))} />

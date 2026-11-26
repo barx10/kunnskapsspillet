@@ -8,6 +8,7 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 - **Brett:** 5–6 kategorier × 5 spørsmål (100–500 poeng). Ruter som er brukt, blir grå.
 - **Lag:** 2–6 lag med navn og farge. Poengtavle synlig hele tiden.
 - **Lærerstyrt:** læreren åpner ruter, viser svaret og gir poeng (riktig: +, feil: − eller 0).
+- **Tur:** lagene velger rute etter tur, og bare laget med turen svarer. Ingen stjeling.
 - **Spesialruter:** «Dobbel» (laget satser selv) og en finalerunde der alle lag satser.
 
 ## Faser
@@ -45,7 +46,6 @@ Læreren lager brett knyttet til fag, tema og kompetansemål.
 ## Spillinnstillinger (per spill)
 - Feil svar: minuspoeng eller 0.
 - Tidtaker: av/på og antall sekunder (f.eks. 15/30/45/60/egendefinert).
-- Om andre lag kan prøve («stjele») hvis et lag svarer feil.
 - Dobbel-ruter og finalerunde: av/på.
 - Lyd: av/på.
 

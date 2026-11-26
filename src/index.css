@@ -611,6 +611,12 @@ textarea::placeholder {
   margin-top: 0.3rem;
   width: 100%;
 }
+.alternativ-felt input.alternativ-riktig {
+  border-left: 6px solid var(--riktig);
+  background: var(--flate);
+  color: var(--tekst);
+  cursor: default;
+}
 .sporsmal-nivaa {
   font-size: 0.78em;
   font-weight: 700;
@@ -1080,9 +1086,6 @@ textarea::placeholder {
   background: var(--flate);
   border-left: 8px solid var(--lagfarge);
 }
-.svar-rad.ute {
-  opacity: 0.5;
-}
 .svar-rad input {
   width: 8em;
 }
@@ -1090,14 +1093,23 @@ textarea::placeholder {
   font-weight: 700;
   font-size: 1.1em;
 }
-.riktig-melding {
+.resultat-melding {
   padding: 0.8rem 1rem;
   border-radius: var(--r);
-  background: var(--lagfarge);
-  color: #fff;
+  background: var(--flate);
+  border-left: 8px solid var(--lagfarge);
   font-weight: 750;
   font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+}
+.resultat-melding.riktig,
+.lag-merke {
+  background: var(--lagfarge);
+  color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.lag-merke {
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
 }
 
 .tidtaker {
@@ -1145,27 +1157,6 @@ textarea::placeholder {
     transform: scale(0.4) rotate(-8deg);
     opacity: 0;
   }
-}
-.lag-velger {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.lag-knapp {
-  padding: 0.6em 1em;
-  border: 2px solid var(--kant);
-  border-left: 8px solid var(--lagfarge);
-  border-radius: var(--r);
-  background: var(--flate);
-  font-weight: 700;
-}
-.lag-knapp.valgt {
-  border-color: var(--lagfarge);
-  background: var(--lagfarge);
-  color: #fff;
-}
-.lag-knapp.valgt .dempet {
-  color: inherit;
 }
 .innsats {
   display: flex;
@@ -1507,29 +1498,6 @@ code {
   overflow-wrap: anywhere;
 }
 
-/* Spillmodus */
-.modus-valg {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  gap: 0.6rem;
-}
-.modus-kort {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.9rem 1rem;
-  border: 2px solid var(--kant);
-  border-radius: var(--r);
-  background: var(--bg);
-  text-align: left;
-}
-.modus-kort strong {
-  font-size: 1.05em;
-}
-.modus-kort.valgt {
-  border-color: var(--aksent);
-  box-shadow: 0 0 0 2px var(--aksent);
-}
 .regel-gruppe {
   margin: 1.5rem 0 0.25rem;
   font-size: 0.95rem;
@@ -1577,9 +1545,6 @@ code {
   font-weight: 750;
   font-size: clamp(1.05rem, 1.8vw, 1.5rem);
 }
-.slipp {
-  align-self: flex-start;
-}
 .tidtaker-etikett {
   font-weight: 700;
   color: var(--dempet);
@@ -1596,22 +1561,6 @@ code {
   .spill-topp {
     flex-wrap: wrap;
   }
-}
-
-/* Poeng på et åpent spørsmål */
-.rute-poeng {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem 0.6rem;
-}
-.rute-poeng-lag {
-  padding: 0.15em 0.6em;
-  border-radius: var(--r);
-  background: var(--flate);
-  border-left: 6px solid var(--lagfarge);
-  font-weight: 750;
-  font-variant-numeric: tabular-nums;
 }
 
 /* Poenglogg */
