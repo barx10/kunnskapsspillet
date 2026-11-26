@@ -13,15 +13,11 @@ function les<T>(nokkel: string, standard: T): T {
 }
 const skriv = (nokkel: string, verdi: unknown) => localStorage.setItem(nokkel, JSON.stringify(verdi))
 
-export const MODUSER: Record<Exclude<Innstillinger['modus'], 'egen'>, Pick<Innstillinger, 'forstSvar' | 'tur' | 'feilSvar' | 'tidtaker' | 'sekunder' | 'stjele' | 'stjeleSekunder' | 'stjelePoeng' | 'antallDobbel'>> = {
-  klassisk: { forstSvar: 'tur', tur: 'riktig', feilSvar: 'minus', tidtaker: true, sekunder: 30, stjele: 'feilOgTid', stjeleSekunder: 10, stjelePoeng: 'full', antallDobbel: 1 },
-  lynrunde: { forstSvar: 'alle', tur: 'rekke', feilSvar: 'minus', tidtaker: true, sekunder: 20, stjele: 'feil', stjeleSekunder: 10, stjelePoeng: 'full', antallDobbel: 0 },
-  rolig: { forstSvar: 'tur', tur: 'rekke', feilSvar: 'null', tidtaker: false, sekunder: 30, stjele: 'feil', stjeleSekunder: 0, stjelePoeng: 'full', antallDobbel: 1 },
-}
-
 export const standardInnstillinger: Innstillinger = {
-  modus: 'klassisk',
-  ...MODUSER.klassisk,
+  feilSvar: 'minus',
+  tidtaker: true,
+  sekunder: 30,
+  antallDobbel: 1,
   startpoeng: 0,
   alternativer: false,
   hintPris: 0,
@@ -48,23 +44,20 @@ function medEksempelAlternativer(b: Brett): Brett {
 }
 export const lagreBrett = (brett: Brett[]) => skriv(NOKLER.brett, brett)
 
+/** Felt fra eldre versjoner som ikke brukes lenger. */
+const UTGATTE = ['dobbel', 'melding', 'modus', 'forstSvar', 'tur', 'stjele', 'stjeleSekunder', 'stjelePoeng']
+
 /** Fyller inn manglende felt og gjør om innstillinger fra eldre versjoner. */
 export function normaliserInnstillinger(raw: unknown): Innstillinger {
   const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
-  const i = { ...standardInnstillinger, ...r } as Innstillinger & { dobbel?: unknown }
-  if (typeof r.stjele === 'boolean') i.stjele = r.stjele ? 'feil' : 'av'
+  const i = { ...standardInnstillinger, ...r } as Innstillinger
   if (typeof r.dobbel === 'boolean' && r.antallDobbel === undefined) i.antallDobbel = r.dobbel ? 1 : 0
-  if (r.modus === undefined && (typeof r.stjele === 'boolean' || typeof r.dobbel === 'boolean')) i.modus = 'egen'
-  if (!['tur', 'alle'].includes(i.forstSvar)) i.forstSvar = 'tur'
-  if (!['riktig', 'rekke', 'fri'].includes(i.tur)) i.tur = 'riktig'
-  if (i.tur === 'fri') i.forstSvar = 'alle'
-  if (!['feilOgTid', 'feil', 'av'].includes(i.stjele)) i.stjele = 'feil'
+  if (!['minus', 'null'].includes(i.feilSvar)) i.feilSvar = 'minus'
   i.startpoeng = Math.min(10_000, Math.max(0, Math.round(Number(i.startpoeng) || 0)))
   i.antallDobbel = Math.min(3, Math.max(0, Number(i.antallDobbel) || 0))
   i.alternativer = i.alternativer === true
   if (![0, 0.5, 1, 2].includes(i.hintPris)) i.hintPris = 0
-  delete i.dobbel
-  delete (i as { melding?: unknown }).melding
+  for (const k of UTGATTE) delete (i as Record<string, unknown>)[k]
   return i
 }
 

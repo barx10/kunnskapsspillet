@@ -9,8 +9,9 @@ kategorier og poeng. Klassen deles i lag, og spillet vises på storskjermen.
 - Kompetansemål fra LK20 for ti fag, hentet fra Udirs åpne data (`src/data/kompetansemaal.json`).
 - Redigering av brett med 3–6 kategorier og 3–5 spørsmål per kategori, pluss finalespørsmål.
 - 2–6 lag, poengtavle, angreknapp og manuell justering av poeng.
-- Innstillinger: minuspoeng eller 0 ved feil svar, tidtaker (15–90 s eller egen tid), andre lag kan
-  svare, dobbel-ruter, finalerunde, lyd, fire visuelle temaer, poengskala og stor tekst.
+- Lagene velger og svarer etter tur. Bare laget med turen svarer, også på dobbel-ruter.
+- Innstillinger: minuspoeng eller 0 ved feil svar, tidtaker (15–90 s eller egen tid), svaralternativer
+  og hint, dobbel-ruter, startpoeng, spilletid, finalerunde, lyd, fire visuelle temaer, poengskala og stor tekst.
 - «Foreslå spørsmål med KI» med egen API-nøkkel (Gemini eller Claude). Fyller tomme ruter, én
   kategori eller hele brettet, og kan angres. Kan lage spørsmål ut fra en opplastet fagtekst
   (PDF, Word eller tekst). Nøkkelen sendes bare direkte til leverandøren.
